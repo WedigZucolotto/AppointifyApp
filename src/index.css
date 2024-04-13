@@ -1,0 +1,14 @@
+* {
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+button,
+a {
+  cursor: pointer;
+}
+
+:root {
+  --blue: #252b42;
+}
