@@ -1,6 +1,19 @@
 import styled from 'styled-components'
 
 export const Schedule = styled.div`
+  padding-bottom: 30px;
+
+  div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
   h2 {
     padding: 20px;
     color: var(--blue);

@@ -34,7 +34,7 @@ export const ScheduleBtn = styled.button`
   color: #ffffff;
   background-color: #23a6f0;
   font-weight: 600;
-  transition: color 1s ease-in-out;
+  transition: background-color 0.2s ease;
 
   &:hover {
     background-color: #0072b1;

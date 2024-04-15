@@ -8,8 +8,8 @@ interface TextProps {
 export const TextInput = ({ label, placeholder }: TextProps) => {
   return (
     <S.TextInput>
-      <label>{label}</label>
-      <input type="text" placeholder={placeholder} />
+        <label>{label}</label>
+        <input type="text" placeholder={placeholder} />
     </S.TextInput>
   )
 }
