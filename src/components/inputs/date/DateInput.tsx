@@ -1,24 +1,32 @@
 import { DatePicker } from '@mui/x-date-pickers'
-import dayjs from 'dayjs'
+import dayjs, { Dayjs } from 'dayjs'
 import * as S from './style'
 
 interface DateInputProps {
   text: string
+  minDate: string
+  maxDate: string
+  unavailableDates: string[]
 }
 
-export const DateInput = ({ text }: DateInputProps) => {
+export const DateInput = ({
+  text,
+  minDate,
+  maxDate,
+  unavailableDates
+}: DateInputProps) => {
   return (
     <S.DateInput>
       <label>{text}</label>
-        <DatePicker
-          sx={S.DatePickerSx}
-          slotProps={{ textField: { placeholder: 'Selecione' } }}
-          minDate={dayjs('2024-04-12T00:00:00-03:00')}
-          maxDate={dayjs('2024-05-12T00:00:00-03:00')}
-          shouldDisableDate={(date) =>
-            date.isSame(dayjs('2024-05-05T00:00:00-03:00'))
-          }
-        />
+      <DatePicker
+        sx={S.DatePickerSx}
+        slotProps={{ textField: { placeholder: 'Selecione' } }}
+        minDate={dayjs(minDate)}
+        maxDate={dayjs(maxDate)}
+        shouldDisableDate={(date) =>
+          unavailableDates.some(d => date.isSame(d))
+        }
+      />
     </S.DateInput>
   )
 }
