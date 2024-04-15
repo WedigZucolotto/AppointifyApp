@@ -1,10 +1,16 @@
 import * as S from './style'
 
-interface SelectProps {
-  label: string
+interface Option {
+  name: string
+  value: string
 }
 
-export const SelectInput = ({ label }: SelectProps) => {
+interface SelectProps {
+  label: string
+  options: Option[]
+}
+
+export const SelectInput = ({ label, options }: SelectProps) => {
   return (
     <S.SelectInput>
       <label>{label}</label>
@@ -12,9 +18,9 @@ export const SelectInput = ({ label }: SelectProps) => {
         <option value="" selected disabled>
           Selecione
         </option>
-        <option value="valor1">Valor 1</option>
-        <option value="valor2">Valor 2</option>
-        <option value="valor3">Valor 3</option>
+        {options.map((o) => (
+          <option value={o.value}>{o.name}</option> 
+        ))}
       </select>
     </S.SelectInput>
   )
