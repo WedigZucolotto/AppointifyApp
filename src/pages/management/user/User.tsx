@@ -1,10 +1,10 @@
-import { ManageLayout } from '..'
+import { ManagementLayout } from '..'
 
 export const User = () => {
   // uma tabela com tudo e a primeira linha cria um novo
   return (
-    <ManageLayout>
+    <ManagementLayout>
       <h2>Usuários</h2>
-    </ManageLayout>
+    </ManagementLayout>
   )
 }

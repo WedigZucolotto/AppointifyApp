@@ -24,13 +24,22 @@ root.render(
     <GlobalContextProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Navigate to="/week" />} />
-          <Route path="/manage" element={<Navigate to="/manage/companies" />} />
-          <Route path="/manage/companies" element={<Company />} />
-          <Route path="/manage/events" element={<Event />} />
-          <Route path="/manage/plans" element={<Plan />} />
-          <Route path="/manage/services" element={<Service />} />
-          <Route path="/manage/users" element={<User />} />
+          <Route path="/" element={<Navigate to="/schedule" />} />
+          <Route
+            path="/management"
+            element={<Navigate to="/management/companies" />}
+          />
+          <Route path="/management/companies" element={<Company />} />
+          <Route path="/management/companies/:id/users" element={<User />} />
+          <Route
+            path="/management/companies/:id/services"
+            element={<Service />}
+          />
+          <Route path="/management/companies/:id/events" element={<Event />} />
+          <Route path="/management/events" element={<Event />} />
+          <Route path="/management/plans" element={<Plan />} />
+          <Route path="/management/services" element={<Service />} />
+          <Route path="/management/users" element={<User />} />
           <Route path="/login" element={<p>Login</p>} />
           <Route path="/schedule" element={<Schedule />} />
           <Route path="/day" element={<Day />} />
