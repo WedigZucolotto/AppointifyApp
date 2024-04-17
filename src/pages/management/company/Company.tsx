@@ -1,6 +1,11 @@
 import { useEffect, useState } from 'react'
 import { ManagementLayout } from '..'
-import { ManagementModal, TableItem, Visible } from '../../../components'
+import {
+  ConfirmationModal,
+  ManagementModal,
+  TableItem,
+  Visible
+} from '../../../components'
 import {
   CompaniesData,
   Option,
@@ -9,39 +14,46 @@ import {
   useTryCatch
 } from '../../../hooks'
 import { useNavigate } from 'react-router-dom'
-import { header, timeOptions } from './util'
+import { ModalData, ModalTypes, header, timeOptions } from '../util'
 
-type ModalTypes = 'edit' | 'delete' | 'closed'
-type PageTypes = 'users' | 'services' | 'events'
+type Pages = 'users' | 'services' | 'events'
 
 export const Company = () => {
   const [plans, setPlans] = useState<Option[]>([])
   const [companies, setCompanies] = useState<CompaniesData[]>([])
-  const [openModal, setOpenModal] = useState<ModalTypes>('closed')
+  const [modal, setModal] = useState<ModalData>({ id: '', type: 'closed' })
 
-  const { fetchAndSet } = useTryCatch()
-  const { createCompany, getAllCompanies } = useCompanies()
+  const { getAndSet, sendAndGet } = useTryCatch()
+  const { getAllCompanies, deleteCompany } = useCompanies()
   const { getPlanOptions } = usePlans()
+
   const navigate = useNavigate()
 
   useEffect(() => {
-    fetchAndSet(getPlanOptions(), setPlans)
-    fetchAndSet(getAllCompanies(), setCompanies)
+    getAndSet(getPlanOptions(), setPlans)
+    getAndSet(getAllCompanies(), setCompanies)
   }, [])
 
-  const handleNavigate = (id: string, page: PageTypes) =>
+  const handleNavigate = (id: string, page: Pages) =>
     navigate(`/management/companies/${id}/${page}`)
+
+  const handleDelete = () => {
+    sendAndGet(deleteCompany(modal.id), getAllCompanies(), setCompanies)
+    changeModal('closed')
+  }
+
+  const changeModal = (type: ModalTypes, id = '') => setModal({ id, type })
 
   return (
     <ManagementLayout>
       <h2>Empresas</h2>
-      <button style={{ margin: '20px 0' }} onClick={() => setOpenModal('edit')}>
+      <button style={{ margin: '20px 0' }} onClick={() => changeModal('edit')}>
         Nova empresa
       </button>
-      {[header, ...companies].map((company, index) => (
+      {[header.companies, ...companies].map((company, index) => (
         <TableItem
-          handleEdit={() => setOpenModal('edit')}
-          handleDelete={() => setOpenModal('delete')}
+          handleEdit={() => changeModal('edit', company.id)}
+          handleDelete={() => changeModal('delete', company.id)}
           isLastItem={index === companies.length}
           showBtns={index !== 0}
         >
@@ -62,7 +74,7 @@ export const Company = () => {
           </Visible>
         </TableItem>
       ))}
-      <ManagementModal open={openModal === 'edit'}>
+      <ManagementModal open={modal.type === 'edit'}>
         <label>Nome</label>
         <input type="text" placeholder="Nome" />
         <label>Abre</label>
@@ -84,16 +96,15 @@ export const Company = () => {
           ))}
         </select>
         <div className="btns">
-          <button onClick={() => setOpenModal('closed')}>Cancelar</button>
+          <button onClick={() => changeModal('closed')}>Cancelar</button>
           <button>Enviar</button>
         </div>
       </ManagementModal>
-      <ManagementModal open={openModal === 'delete'}>
-        <span>Você tem certeza?</span>
-        <div className="btns">
-          <button onClick={() => setOpenModal('closed')}>Sim</button>
-          <button onClick={() => setOpenModal('closed')}>Não</button>
-        </div>
+      <ManagementModal open={modal.type === 'delete'}>
+        <ConfirmationModal
+          handleYes={handleDelete}
+          handleNot={() => changeModal('closed')}
+        />
       </ManagementModal>
     </ManagementLayout>
   )

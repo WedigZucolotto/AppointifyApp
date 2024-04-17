@@ -12,17 +12,26 @@ interface Response<T> {
 }
 
 export const useTryCatch = () => {
-  const fetchAndSet = async <T>(
-    promise: Promise<T>,
-    set: (prop: T) => void
-  ) => {
-    const { data, success } = await fetchData(promise)
+  const getAndSet = async <T>(get: Promise<T>, set: (prop: T) => void) => {
+    const { data, success } = await callApi(get)
     if (data && success) {
       set(data)
     }
   }
 
-  const fetchData = async <T>(promise: Promise<T>): Promise<Response<T>> => {
+  const sendAndGet = async <T, U>(
+    send: Promise<T>,
+    get: Promise<U>,
+    set: (prop: U) => void
+  ) => {
+    const { success } = await callApi(send)
+
+    if (success) {
+      getAndSet(get, set)
+    }
+  }
+
+  const callApi = async <T>(promise: Promise<T>): Promise<Response<T>> => {
     try {
       const data = await promise
       return { data, success: true }
@@ -35,7 +44,8 @@ export const useTryCatch = () => {
   }
 
   return {
-    fetchData,
-    fetchAndSet
+    callApi,
+    getAndSet,
+    sendAndGet
   }
 }

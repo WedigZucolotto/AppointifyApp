@@ -6,7 +6,7 @@ import {
 } from '..'
 
 export const useCompanies = () => {
-  const { get, post } = useRequest('companies')
+  const { get, post, del } = useRequest('companies')
 
   const getCompanyById = async (id: string): Promise<CompanyData> => {
     const { data } = await get(id)
@@ -24,5 +24,9 @@ export const useCompanies = () => {
     await post('', request)
   }
 
-  return { getCompanyById, getAllCompanies, createCompany }
+  const deleteCompany = async (id: string): Promise<void> => {
+    await del(id)
+  }
+
+  return { getCompanyById, getAllCompanies, createCompany, deleteCompany }
 }

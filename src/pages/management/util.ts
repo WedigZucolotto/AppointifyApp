@@ -1,9 +1,23 @@
+export interface ModalData {
+  id: string
+  type: ModalTypes
+}
+
+export type ModalTypes = 'new' | 'edit' | 'delete' | 'closed'
+
 export const header = {
-  id: '',
-  name: 'Nome',
-  planName: 'Plano',
-  open: 'Abre',
-  close: 'Fecha'
+  companies: {
+    id: '',
+    name: 'Nome',
+    planName: 'Plano',
+    open: 'Abre',
+    close: 'Fecha'
+  },
+  services: {
+    id: '',
+    name: 'Nome',
+    interval: 'Intervalo'
+  }
 }
 
 export const timeOptions = [
