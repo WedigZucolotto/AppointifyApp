@@ -2,6 +2,7 @@ import styled from 'styled-components'
 
 export const TextInput = styled.div`
   display: flex;
+  flex-direction: column;
   justify-content: center;
   margin-bottom: 25px;
 
@@ -25,5 +26,11 @@ export const TextInput = styled.div`
 
   input:focus {
     outline: none;
+  }
+
+  .error {
+    border: 1px solid red;
+    margin-bottom: 0;
+    border-radius: 8px;
   }
 `

@@ -11,14 +11,18 @@
   },
   "dependencies": {
     "@emotion/styled": "^11.11.5",
+    "@hookform/resolvers": "^3.3.4",
     "@mui/icons-material": "^5.15.15",
     "@mui/x-date-pickers": "^7.2.0",
     "axios": "^1.6.8",
     "dayjs": "^1.11.10",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "react-form-hook": "^0.0.1",
+    "react-hook-form": "^7.51.3",
     "react-router-dom": "^6.22.3",
-    "styled-components": "^6.1.8"
+    "styled-components": "^6.1.8",
+    "yup": "^1.4.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

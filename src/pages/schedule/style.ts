@@ -1,15 +1,11 @@
 import styled from 'styled-components'
 
-export const Schedule = styled.div`
+export const Schedule = styled.form`
   padding-bottom: 30px;
-
-  div {
-    display: flex;
-    flex-direction: column;
-  }
 
   .container {
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
   }
