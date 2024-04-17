@@ -1,4 +1,4 @@
-export * from './layout/ManageLayout'
+export * from './layout/ManagementLayout'
 export * from './company/Company'
 export * from './event/Event'
 export * from './plan/Plan'
