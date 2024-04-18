@@ -1,17 +1,17 @@
 import { Option } from '..'
 
-export interface CompanyData {
-  minDate: string
-  maxDate: string
-  unavailableDates: string[]
-  showExtraFields: boolean
-  services: Option[]
-}
-
 export interface CompaniesData {
   id: string
   name: string
   planName: string
+  open: string
+  close: string
+}
+
+export interface CompanyData {
+  id: string
+  name: string
+  planId: string
   open: string
   close: string
 }
@@ -21,4 +21,19 @@ export interface CreateCompanyRequest {
   open: string
   close: string
   planId: string
+}
+
+export interface UpdateCompanyRequest {
+  name?: string
+  open?: string
+  close?: string
+  planId?: string
+}
+
+export interface CompanyScheduleData {
+  minDate: string
+  maxDate: string
+  unavailableDates: string[]
+  showExtraFields: boolean
+  services: Option[]
 }

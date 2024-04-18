@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 import { Button, DateInput, SelectInput, TextInput } from '../../components'
 import * as S from './style'
-import { CompanyData, useCompanies, useTryCatch } from '../../hooks'
+import { CompanyScheduleData, useCompanies, useTryCatch } from '../../hooks'
 import { FieldValues, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 
 export const Schedule = () => {
-  const [company, setCompany] = useState<CompanyData>()
-  const { getCompanyById } = useCompanies()
+  const [company, setCompany] = useState<CompanyScheduleData>()
+  const { getCompanySchedule } = useCompanies()
   const { getAndSet } = useTryCatch()
 
   const schema = yup
@@ -19,7 +19,7 @@ export const Schedule = () => {
 
   useEffect(() => {
     getAndSet(
-      getCompanyById('0f68d313-d08f-4c76-8afb-1244c9145ea6'),
+      getCompanySchedule('0f68d313-d08f-4c76-8afb-1244c9145ea6'),
       setCompany
     )
   }, [])

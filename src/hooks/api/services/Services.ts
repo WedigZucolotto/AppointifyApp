@@ -3,3 +3,19 @@ export interface ServicesData {
   name: string
   interval: string
 }
+
+export interface ServiceData {
+  id: string
+  name: string
+  interval: string
+}
+
+export interface CreateServiceRequest {
+  name: string
+  interval: string
+}
+
+export interface UpdateServiceRequest {
+  name?: string
+  interval?: string
+}

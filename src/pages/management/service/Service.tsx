@@ -1,11 +1,7 @@
 import { useEffect, useState } from 'react'
 import { ManagementLayout } from '..'
-import { ModalData, ModalTypes, header, timeOptions } from '../util'
-import {
-  ConfirmationModal,
-  ManagementModal,
-  TableItem
-} from '../../../components'
+import { ModalData, ModalTypes, header } from '../util'
+import { ConfirmationModal, ServiceModal, TableItem } from '../../../components'
 import { ServicesData, useServices, useTryCatch } from '../../../hooks'
 import { useParams } from 'react-router-dom'
 
@@ -15,19 +11,27 @@ export const Service = () => {
 
   const { id } = useParams()
 
-  const { getAndSet } = useTryCatch()
-  const { getAllServices } = useServices()
+  const { getAndSet, fetchWithMessage } = useTryCatch()
+  const { getAllServices, deleteService } = useServices()
 
   useEffect(() => {
-    getAndSet(getAllServices(id ?? ''), setServices)
+    fetchServices()
   }, [])
 
+  const fetchServices = () => getAndSet(getAllServices(id ?? ''), setServices)
+
   const changeModal = (type: ModalTypes, id = '') => setModal({ id, type })
+
+  const handleDelete = async () => {
+    await fetchWithMessage(deleteService(modal.id), 'Deletado com sucesso!')
+    fetchServices()
+    changeModal('closed')
+  }
 
   return (
     <ManagementLayout>
       <h2>Serviços</h2>
-      <button style={{ margin: '20px 0' }} onClick={() => changeModal('new')}>
+      <button style={{ margin: '20px 0' }} onClick={() => changeModal('edit')}>
         Novo serviço
       </button>
       {[header.services, ...services].map((service, index) => (
@@ -41,26 +45,17 @@ export const Service = () => {
           <span style={{ width: '100px' }}>{service.interval}</span>
         </TableItem>
       ))}
-      <ManagementModal open={modal.type === 'edit'}>
-        <label>Nome</label>
-        <input type="text" placeholder="Nome" />
-        <label>Intervalo</label>
-        <select>
-          {timeOptions.map((time) => (
-            <option value={time}>{time}</option>
-          ))}
-        </select>
-        <div className="btns">
-          <button onClick={() => changeModal('closed')}>Cancelar</button>
-          <button>Enviar</button>
-        </div>
-      </ManagementModal>
-      <ManagementModal open={modal.type === 'delete'}>
-        <ConfirmationModal
-          handleYes={() => changeModal('closed')}
-          handleNot={() => changeModal('closed')}
-        />
-      </ManagementModal>
+      <ServiceModal
+        open={modal.type === 'edit'}
+        fetchServices={fetchServices}
+        changeModal={changeModal}
+        id={modal.id}
+      />
+      <ConfirmationModal
+        open={modal.type === 'delete'}
+        handleYes={handleDelete}
+        handleNot={() => changeModal('closed')}
+      />
     </ManagementLayout>
   )
 }

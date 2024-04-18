@@ -2,43 +2,37 @@ import { useEffect, useState } from 'react'
 import { ManagementLayout } from '..'
 import {
   ConfirmationModal,
-  ManagementModal,
   TableItem,
-  Visible
+  Visible,
+  CompanyModal
 } from '../../../components'
-import {
-  CompaniesData,
-  Option,
-  useCompanies,
-  usePlans,
-  useTryCatch
-} from '../../../hooks'
+import { CompaniesData, useCompanies, useTryCatch } from '../../../hooks'
 import { useNavigate } from 'react-router-dom'
-import { ModalData, ModalTypes, header, timeOptions } from '../util'
+import { ModalData, ModalTypes, header } from '../util'
 
 type Pages = 'users' | 'services' | 'events'
 
 export const Company = () => {
-  const [plans, setPlans] = useState<Option[]>([])
-  const [companies, setCompanies] = useState<CompaniesData[]>([])
   const [modal, setModal] = useState<ModalData>({ id: '', type: 'closed' })
+  const [companies, setCompanies] = useState<CompaniesData[]>([])
 
-  const { getAndSet, sendAndGet } = useTryCatch()
+  const { getAndSet, fetchWithMessage } = useTryCatch()
   const { getAllCompanies, deleteCompany } = useCompanies()
-  const { getPlanOptions } = usePlans()
 
   const navigate = useNavigate()
 
   useEffect(() => {
-    getAndSet(getPlanOptions(), setPlans)
-    getAndSet(getAllCompanies(), setCompanies)
+    fetchCompanies()
   }, [])
+
+  const fetchCompanies = () => getAndSet(getAllCompanies(), setCompanies)
 
   const handleNavigate = (id: string, page: Pages) =>
     navigate(`/management/companies/${id}/${page}`)
 
-  const handleDelete = () => {
-    sendAndGet(deleteCompany(modal.id), getAllCompanies(), setCompanies)
+  const handleDelete = async () => {
+    await fetchWithMessage(deleteCompany(modal.id), 'Deletado com sucesso!')
+    fetchCompanies()
     changeModal('closed')
   }
 
@@ -74,38 +68,17 @@ export const Company = () => {
           </Visible>
         </TableItem>
       ))}
-      <ManagementModal open={modal.type === 'edit'}>
-        <label>Nome</label>
-        <input type="text" placeholder="Nome" />
-        <label>Abre</label>
-        <select>
-          {timeOptions.map((time) => (
-            <option value={time}>{time}</option>
-          ))}
-        </select>
-        <label>Fecha</label>
-        <select>
-          {timeOptions.map((time) => (
-            <option value={time}>{time}</option>
-          ))}
-        </select>
-        <label>Plano</label>
-        <select>
-          {plans.map((p) => (
-            <option value={p.value}>{p.name}</option>
-          ))}
-        </select>
-        <div className="btns">
-          <button onClick={() => changeModal('closed')}>Cancelar</button>
-          <button>Enviar</button>
-        </div>
-      </ManagementModal>
-      <ManagementModal open={modal.type === 'delete'}>
-        <ConfirmationModal
-          handleYes={handleDelete}
-          handleNot={() => changeModal('closed')}
-        />
-      </ManagementModal>
+      <CompanyModal
+        open={modal.type === 'edit'}
+        fetchCompanies={fetchCompanies}
+        changeModal={changeModal}
+        id={modal.id}
+      />
+      <ConfirmationModal
+        open={modal.type === 'delete'}
+        handleYes={handleDelete}
+        handleNot={() => changeModal('closed')}
+      />
     </ManagementLayout>
   )
 }
