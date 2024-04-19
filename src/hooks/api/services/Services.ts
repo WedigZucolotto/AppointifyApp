@@ -13,6 +13,7 @@ export interface ServiceData {
 export interface CreateServiceRequest {
   name: string
   interval: string
+  companyId: string
 }
 
 export interface UpdateServiceRequest {

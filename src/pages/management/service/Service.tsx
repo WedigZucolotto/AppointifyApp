@@ -9,7 +9,7 @@ export const Service = () => {
   const [modal, setModal] = useState<ModalData>({ id: '', type: 'closed' })
   const [services, setServices] = useState<ServicesData[]>([])
 
-  const { id } = useParams()
+  const { companyId } = useParams()
 
   const { getAndSet, fetchWithMessage } = useTryCatch()
   const { getAllServices, deleteService } = useServices()
@@ -18,7 +18,8 @@ export const Service = () => {
     fetchServices()
   }, [])
 
-  const fetchServices = () => getAndSet(getAllServices(id ?? ''), setServices)
+  const fetchServices = () =>
+    getAndSet(getAllServices(companyId ?? ''), setServices)
 
   const changeModal = (type: ModalTypes, id = '') => setModal({ id, type })
 
@@ -50,6 +51,7 @@ export const Service = () => {
         fetchServices={fetchServices}
         changeModal={changeModal}
         id={modal.id}
+        companyId={companyId ?? ''}
       />
       <ConfirmationModal
         open={modal.type === 'delete'}

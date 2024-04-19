@@ -34,7 +34,7 @@ root.render(
             <Route path="/management/companies" element={<Company />} />
             <Route path="/management/companies/:id/users" element={<User />} />
             <Route
-              path="/management/companies/:id/services"
+              path="/management/companies/:companyId/services"
               element={<Service />}
             />
             <Route

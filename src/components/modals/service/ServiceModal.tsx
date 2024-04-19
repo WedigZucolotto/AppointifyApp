@@ -14,6 +14,7 @@ import { getDefaultValues, getSchema } from './schemas'
 
 interface ServiceModalProps {
   open: boolean
+  companyId: string
   fetchServices: () => Promise<void>
   changeModal: (type: ModalTypes) => void
   id?: string
@@ -26,6 +27,7 @@ interface FormData {
 
 export const ServiceModal = ({
   open,
+  companyId,
   fetchServices,
   changeModal,
   id = ''
@@ -53,7 +55,7 @@ export const ServiceModal = ({
 
   const handleNewService = async (values: FieldValues) => {
     await fetchWithMessage(
-      createService(values as CreateServiceRequest),
+      createService({ ...values, companyId } as CreateServiceRequest),
       'Criado com sucesso!'
     )
     fetchServices()
