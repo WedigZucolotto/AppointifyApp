@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-export const ManagementModal = styled.form`
+export const ManagementModal = styled.div`
   width: 20%;
   background-color: gray;
   height: max-content;

@@ -2,11 +2,13 @@ import {
   useRequest,
   CompanyData,
   CreateCompanyRequest,
-  CompaniesData
+  CompaniesData,
+  UpdateCompanyRequest,
+  CompanyScheduleData
 } from '..'
 
 export const useCompanies = () => {
-  const { get, post, del } = useRequest('companies')
+  const { get, post, put, del } = useRequest('companies')
 
   const getCompanyById = async (id: string): Promise<CompanyData> => {
     const { data } = await get(id)
@@ -24,9 +26,30 @@ export const useCompanies = () => {
     await post('', request)
   }
 
+  const updateCompany = async (
+    id: string,
+    request: UpdateCompanyRequest
+  ): Promise<void> => {
+    await put(id, request)
+  }
+
   const deleteCompany = async (id: string): Promise<void> => {
     await del(id)
   }
 
-  return { getCompanyById, getAllCompanies, createCompany, deleteCompany }
+  const getCompanySchedule = async (
+    id: string
+  ): Promise<CompanyScheduleData> => {
+    const { data } = await get(`${id}/schedule`)
+    return data
+  }
+
+  return {
+    getCompanyById,
+    getCompanySchedule,
+    getAllCompanies,
+    createCompany,
+    deleteCompany,
+    updateCompany
+  }
 }

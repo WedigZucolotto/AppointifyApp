@@ -3,7 +3,7 @@ export interface ModalData {
   type: ModalTypes
 }
 
-export type ModalTypes = 'new' | 'edit' | 'delete' | 'closed'
+export type ModalTypes = 'edit' | 'delete' | 'closed'
 
 export const header = {
   companies: {
