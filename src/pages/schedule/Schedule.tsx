@@ -18,8 +18,8 @@ interface FormData {
 }
 
 export const Schedule = () => {
-  const [company, setCompany] = useState<CompanyData>()
-  const { getCompanyById } = useCompanies()
+  const [company, setCompany] = useState<CompanyScheduleData>()
+  const { getCompanySchedule } = useCompanies()
   const { getAndSet } = useTryCatch()
 
   const stringRequired = yup.string().required('Campo obrigatório')
@@ -52,7 +52,7 @@ export const Schedule = () => {
 
   useEffect(() => {
     getAndSet(
-      getCompanyById('0f68d313-d08f-4c76-8afb-1244c9145ea6'),
+      getCompanySchedule('0f68d313-d08f-4c76-8afb-1244c9145ea6'),
       setCompany
     )
   }, [])
