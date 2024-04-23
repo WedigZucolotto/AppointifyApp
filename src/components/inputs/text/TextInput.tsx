@@ -2,6 +2,7 @@ import { Control, FieldValues, Path, useController } from 'react-hook-form'
 import * as S from './style'
 import { ChangeEvent } from 'react'
 import { InputError } from '../error/InputError'
+import InputMask from 'react-input-mask'
 
 interface TextProps<TFieldValues extends FieldValues> {
   label: string
@@ -9,6 +10,7 @@ interface TextProps<TFieldValues extends FieldValues> {
   name: Path<TFieldValues>
   control: Control<TFieldValues>
   onChange?: (value: string) => void
+  mask?: string
 }
 
 export function TextInput<TFieldValues extends FieldValues = FieldValues>({
@@ -16,7 +18,8 @@ export function TextInput<TFieldValues extends FieldValues = FieldValues>({
   placeholder,
   name,
   control,
-  onChange
+  onChange,
+  mask
 }: TextProps<TFieldValues>) {
   const { fieldState, field } = useController({ name, control })
 
@@ -31,13 +34,15 @@ export function TextInput<TFieldValues extends FieldValues = FieldValues>({
   return (
     <S.TextInput>
       <label>{label}</label>
-      <input
-        className={fieldState.error ? 'error' : ''}
-        {...field}
-        type="text"
-        placeholder={placeholder}
-        onChange={changeEventHandler}
-      />
+      <InputMask
+          mask={mask ?? ''}
+          placeholder={placeholder}
+          name={field.name}
+          value={field.value}
+          className={fieldState.error ? 'error' : ''}
+          type="text"
+          onChange={changeEventHandler}
+        />
       <InputError message={fieldState.error?.message} />
     </S.TextInput>
   )

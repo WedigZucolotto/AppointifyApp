@@ -1,24 +1,46 @@
 import { DatePicker } from '@mui/x-date-pickers'
-import dayjs, { Dayjs } from 'dayjs'
+import dayjs from 'dayjs'
 import * as S from './style'
+import { Control, FieldValues, Path, useController } from 'react-hook-form'
+import { InputError } from '../error/InputError'
 
-interface DateInputProps {
-  text: string
+interface DateInputProps<TFieldValues extends FieldValues> {
+  name: Path<TFieldValues>
+  control: Control<TFieldValues>
+  label: string
   minDate: string
   maxDate: string
   unavailableDates: string[]
+  onChange?: (value: string) => void
 }
 
-export const DateInput = ({
-  text,
+export function DateInput<TFieldValues extends FieldValues = FieldValues> ({
+  name,
+  control,
+  label,
   minDate,
   maxDate,
-  unavailableDates
-}: DateInputProps) => {
+  unavailableDates,
+  onChange
+}: DateInputProps<TFieldValues>) {
+  const { fieldState, field } = useController({name, control})
+
+  const changeEventHandler = (date: dayjs.Dayjs | null) => {
+    if (date) {
+      const dateString = date.format('DD/MM/YYYY')
+      field.onChange(dateString)
+      onChange?.(dateString)
+    }
+  }
+
   return (
     <S.DateInput>
-      <label>{text}</label>
+      <label>{label}</label>
       <DatePicker
+        {...field}
+        className={fieldState.error ? 'error' : ''}
+        value={field.value ? dayjs(field.value, 'DD/MM/YYYY') : null}
+        onChange={changeEventHandler}
         sx={S.DatePickerSx}
         slotProps={{ textField: { placeholder: 'Selecione' } }}
         minDate={dayjs(minDate)}
@@ -27,6 +49,7 @@ export const DateInput = ({
           unavailableDates.some(d => date.isSame(d))
         }
       />
+      <InputError message={fieldState.error?.message} />
     </S.DateInput>
   )
 }
