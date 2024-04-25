@@ -1,6 +1,6 @@
 import * as S from './style'
 
-type ButtonType = 'today' | 'newEvent' | 'schedule'
+type ButtonType = 'today' | 'newEvent' | 'schedule' | 'login'
 
 interface ButtonProps {
   type?: ButtonType
@@ -16,5 +16,7 @@ export const Button = ({ type = 'today', children, onClick }: ButtonProps) => {
       return <S.NewEventBtn onClick={onClick}>{children}</S.NewEventBtn>
     case 'schedule':
       return <S.ScheduleBtn onClick={onClick}>{children}</S.ScheduleBtn>
+    case 'login':
+      return <S.loginBtn onClick={onClick}>{children}</S.loginBtn>
   }
 }

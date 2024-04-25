@@ -40,3 +40,19 @@ export const ScheduleBtn = styled.button`
     background-color: #0072b1;
   }
 `
+
+export const loginBtn = styled.button`
+  padding: 14px;
+  width: 270px;
+  height: 54px;
+  border: none;
+  border-radius: 25px;
+  color: #ffffff;
+  background-color: #0575E6;
+  font-weight: 600;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #0072b1;
+  }
+`

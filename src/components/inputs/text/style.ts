@@ -1,8 +1,8 @@
 import styled from 'styled-components'
 
-export const TextInput = styled.div`
+export const ScheduleInput = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   justify-content: center;
   margin-bottom: 25px;
 
@@ -32,5 +32,31 @@ export const TextInput = styled.div`
     border: 1px solid red;
     margin-bottom: 0;
     border-radius: 8px;
+  }
+`
+
+export const LoginInput = styled.div`
+  div {
+    display: flex;
+    padding: 14px;
+    width: 270px;
+    border: 1px solid lightgray;
+    border-radius: 25px;
+  }
+
+  svg {
+    color: lightgray;
+  }
+
+  input {
+    border: none;
+  }
+
+  input::placeholder {
+    color: gray;
+  }
+
+  input:focus {
+    outline: 0;
   }
 `
