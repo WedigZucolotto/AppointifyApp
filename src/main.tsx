@@ -16,6 +16,7 @@ import {
   Event,
   Schedule
 } from './pages'
+import { Login } from './pages/login/Login'
 
 const element = document.getElementById('root') as HTMLElement
 const root = ReactDOM.createRoot(element)
@@ -45,7 +46,7 @@ root.render(
             <Route path="/management/plans" element={<Plan />} />
             <Route path="/management/services" element={<Service />} />
             <Route path="/management/users" element={<User />} />
-            <Route path="/login" element={<p>Login</p>} />
+            <Route path="/login" element={<Login />} />
             <Route path="/schedule" element={<Schedule />} />
             <Route path="/day" element={<Day />} />
             <Route path="/week" element={<Week />} />

@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
 import { Button, DateInput, SelectInput, TextInput } from '../../components'
 import * as S from './style'
-import { CompanyData, useCompanies, useTryCatch } from '../../hooks'
-import { FieldValues, get, useForm } from 'react-hook-form'
+import { CompanyScheduleData, useCompanies, useTryCatch } from '../../hooks'
+import { FieldValues, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 
