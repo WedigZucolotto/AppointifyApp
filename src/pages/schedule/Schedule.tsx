@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
 import { Button, DateInput, SelectInput, TextInput } from '../../components'
-import * as S from './style'
 import { CompanyScheduleData, useCompanies, useTryCatch } from '../../hooks'
 import { FieldValues, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import * as yup from 'yup'
+import { useNavigate, useParams } from 'react-router-dom'
+import { getScheduleSchema } from './schema'
+import * as S from './style'
 
 interface FormData {
   name: string
@@ -19,42 +20,22 @@ interface FormData {
 
 export const Schedule = () => {
   const [company, setCompany] = useState<CompanyScheduleData>()
+
   const { getCompanySchedule } = useCompanies()
   const { getAndSet } = useTryCatch()
 
-  const stringRequired = yup.string().required('Campo obrigatório')
-  const phoneRegExp = /^\(\d{2}\) \d{5}-\d{4}$/
-
-  const schema = {
-    name: stringRequired,
-    lastname: stringRequired,
-    contact: yup
-      .string()
-      .matches(phoneRegExp, 'Número de telefone inválido')
-      .required('Campo obrigatório'),
-    service: stringRequired,
-    date: stringRequired,
-    // hour: stringRequired
-  }
-
-  const extraSchema = {
-    ...schema,
-    local: stringRequired,
-    employee: stringRequired
-  }
-
-  const getSchema = () =>
-    yup.object().shape(company?.showExtraFields ? extraSchema : schema)
-
   const { control, handleSubmit } = useForm<FormData>({
-    resolver: yupResolver(getSchema())
+    resolver: yupResolver(getScheduleSchema(company?.showExtraFields))
   })
 
+  const { id } = useParams()
+  const navigate = useNavigate()
+
   useEffect(() => {
-    getAndSet(
-      getCompanySchedule('0f68d313-d08f-4c76-8afb-1244c9145ea6'),
-      setCompany
-    )
+    // if (!id) {
+    //   navigate('/not-found')
+    // } TODO: ver como fazer
+    getAndSet(getCompanySchedule(id ?? ''), setCompany)
   }, [])
 
   const handleFormSubmit = (values: FieldValues) => {

@@ -10,13 +10,13 @@ import {
 export const useCompanies = () => {
   const { get, post, put, del } = useRequest('companies')
 
-  const getCompanyById = async (id: string): Promise<CompanyData> => {
-    const { data } = await get(id)
+  const getAllCompanies = async (): Promise<CompaniesData[]> => {
+    const { data } = await get()
     return data
   }
 
-  const getAllCompanies = async (): Promise<CompaniesData[]> => {
-    const { data } = await get()
+  const getCompanyById = async (id: string): Promise<CompanyData> => {
+    const { data } = await get(id)
     return data
   }
 
@@ -37,10 +37,12 @@ export const useCompanies = () => {
     await del(id)
   }
 
+  //TODO: availableTimes
+
   const getCompanySchedule = async (
     id: string
   ): Promise<CompanyScheduleData> => {
-    const { data } = await get(`${id}/schedule`)
+    const { data } = await get(`${id}/to-schedule`)
     return data
   }
 
