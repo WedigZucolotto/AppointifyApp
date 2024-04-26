@@ -2,7 +2,7 @@ import styled from 'styled-components'
 
 export const ScheduleInput = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: center;
   margin-bottom: 25px;
 
