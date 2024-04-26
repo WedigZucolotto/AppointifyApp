@@ -18,7 +18,8 @@ import {
   Week,
   Event,
   Schedule,
-  Login
+  Login,
+  NoPage
 } from './pages'
 
 const element = document.getElementById('root') as HTMLElement
