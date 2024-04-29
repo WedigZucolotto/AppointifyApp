@@ -57,4 +57,10 @@ export const Login = styled.div`
   .txtinput{
     margin-bottom: 18px;
   }
+
+  .error {
+    border: 1px solid red;
+    margin-bottom: 0;
+    border-radius: 8px;
+  }
 `

@@ -57,9 +57,9 @@ export function TextInput<TFieldValues extends FieldValues = FieldValues>({
     case 'userName':
       return (
         <S.LoginInput>
-          <div>
-            <Person />
-            <input {...props} />
+          <div className={fieldState.error ? 'error' : 'box'}>
+            <Person className='icon'/>
+            <input {...props} className="" />
           </div>
           <InputError message={fieldState.error?.message} />
         </S.LoginInput>
@@ -67,9 +67,9 @@ export function TextInput<TFieldValues extends FieldValues = FieldValues>({
     case 'password':
       return (
         <S.LoginInput>
-          <div>
-            <Lock />
-            <input {...props} type='password' />
+          <div className={fieldState.error ? 'error' : 'box'}>
+            <Lock className='icon'/>
+            <input {...props} type="password" className="" />
           </div>
           <InputError message={fieldState.error?.message} />
         </S.LoginInput>

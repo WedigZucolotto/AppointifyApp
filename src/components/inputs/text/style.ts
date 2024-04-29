@@ -36,16 +36,12 @@ export const ScheduleInput = styled.div`
 `
 
 export const LoginInput = styled.div`
-  div {
+  .box {
     display: flex;
     padding: 14px;
     width: 270px;
     border: 1px solid lightgray;
     border-radius: 25px;
-  }
-
-  svg {
-    color: lightgray;
   }
 
   input {
@@ -58,5 +54,15 @@ export const LoginInput = styled.div`
 
   input:focus {
     outline: 0;
+  }
+
+  .error {
+    border: 1px solid red;
+    margin-bottom: 0;
+    border-radius: 25px;
+  }
+
+  .icon {
+    color: lightgray;
   }
 `
