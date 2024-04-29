@@ -59,7 +59,6 @@ export const LoginInput = styled.div`
   .error {
     border: 1px solid red;
     margin-bottom: 0;
-    border-radius: 25px;
   }
 
   .icon {
