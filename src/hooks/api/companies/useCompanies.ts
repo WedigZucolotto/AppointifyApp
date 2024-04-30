@@ -20,13 +20,10 @@ export const useCompanies = () => {
     id: string,
     date: string,
     serviceId: string,
-    userId?: string
+    userId = ''
   ): Promise<AvailableTime[]> => {
-    const partes = date.split('/')
-    const dateFormated = partes[0] + '%2F' + partes[1] + '%2F' + partes[2]
-    console.log(dateFormated)
     const { data } = await get(
-      `${id}/available-times?Date=${dateFormated}&ServiceId=${serviceId}`
+      `${id}/available-times?Date=${date}&ServiceId=${serviceId}&UserId=${userId}`
     )
     return data
   }
@@ -52,8 +49,6 @@ export const useCompanies = () => {
   const deleteCompany = async (id: string): Promise<void> => {
     await del(id)
   }
-
-  //TODO: availableTimes
 
   const getCompanySchedule = async (
     id: string

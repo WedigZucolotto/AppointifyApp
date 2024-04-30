@@ -16,8 +16,8 @@ const schema = {
 
 const extraSchema = {
   ...schema,
-  local: yup.string().required('Campo obrigatório'),
-  employee: yup.string().required('Campo obrigatório')
+  local: yup.string(),
+  employee: yup.string()
 }
 
 export const getScheduleSchema = (showExtraFields?: boolean) =>
