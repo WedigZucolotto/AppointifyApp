@@ -37,3 +37,8 @@ export interface CompanyScheduleData {
   showExtraFields: boolean
   services: Option[]
 }
+
+export interface AvailableTime {
+  time: string
+  userId: string
+}

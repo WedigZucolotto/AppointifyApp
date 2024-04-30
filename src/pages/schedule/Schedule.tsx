@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react'
 import { Button, DateInput, SelectInput, TextInput } from '../../components'
-import { CompanyScheduleData, useCompanies, useTryCatch } from '../../hooks'
+import { AvailableTime, CompanyScheduleData, useCompanies, useTryCatch } from '../../hooks'
 import { FieldValues, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { getScheduleSchema } from './schema'
 import * as S from './style'
 
@@ -15,21 +15,24 @@ interface FormData {
   date: string
   local?: string
   employee?: string
-  // hour: string
+  hour: string
 }
 
 export const Schedule = () => {
   const [company, setCompany] = useState<CompanyScheduleData>()
+  const [ timeOptions, setTimeOptions] = useState<AvailableTime[]>()
 
-  const { getCompanySchedule } = useCompanies()
+  const { getCompanySchedule, getAvailableTimes } = useCompanies()
   const { getAndSet } = useTryCatch()
 
-  const { control, handleSubmit } = useForm<FormData>({
+  const { control, handleSubmit, watch } = useForm<FormData>({
     resolver: yupResolver(getScheduleSchema(company?.showExtraFields))
   })
 
+  const dateField = watch('date')
+  const serviceField = watch('service')
   const { id } = useParams()
-  const navigate = useNavigate()
+  // const navigate = useNavigate()
 
   useEffect(() => {
     // if (!id) {
@@ -37,6 +40,12 @@ export const Schedule = () => {
     // } TODO: ver como fazer
     getAndSet(getCompanySchedule(id ?? ''), setCompany)
   }, [])
+
+  useEffect(() => {
+    if (dateField && id){
+      getAndSet(getAvailableTimes(id, dateField, serviceField), setTimeOptions)
+    }
+  }, [dateField])
 
   const handleFormSubmit = (values: FieldValues) => {
     console.log(values)
@@ -99,12 +108,13 @@ export const Schedule = () => {
           maxDate={company?.maxDate ?? ''}
           unavailableDates={company?.unavailableDates ?? []}
         />
-        {/* <SelectInput
+        <SelectInput
           label="Horário *"
           options={[]}
           name="hour"
           control={control}
-        /> */}
+          disabled={!dateField}
+        />
         <Button type="schedule" onClick={() => console.log()}>
           Agendar
         </Button>

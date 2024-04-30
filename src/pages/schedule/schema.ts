@@ -10,8 +10,8 @@ const schema = {
     .matches(phoneRegex, 'Número de telefone inválido')
     .required('Campo obrigatório'),
   service: yup.string().required('Campo obrigatório'),
-  date: yup.string().required('Campo obrigatório')
-  // hour: yup.string().required('Campo obrigatório')
+  date: yup.string().required('Campo obrigatório'),
+  hour: yup.string().required('Campo obrigatório')
 }
 
 const extraSchema = {
