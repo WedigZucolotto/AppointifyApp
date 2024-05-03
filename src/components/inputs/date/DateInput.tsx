@@ -43,6 +43,7 @@ export function DateInput<TFieldValues extends FieldValues = FieldValues> ({
         className={fieldState.error ? 'error' : ''}
         disabled={disabled}
         value={field.value ? dayjs(field.value, 'DD/MM/YYYY') : null}
+        format={field.value}
         onChange={changeEventHandler}
         sx={S.DatePickerSx}
         slotProps={{ textField: { placeholder: 'Selecione' } }}

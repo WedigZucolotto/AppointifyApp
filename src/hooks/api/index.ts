@@ -8,4 +8,6 @@ export * from './services/Services'
 export * from './plans/usePlans'
 export * from './users/Users'
 export * from './users/useUsers'
+export * from './events/events'
+export * from './events/useEvents'
 

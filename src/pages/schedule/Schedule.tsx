@@ -3,7 +3,9 @@ import { Button, DateInput, SelectInput, TextInput } from '../../components'
 import {
   AvailableTime,
   CompanyScheduleData,
+  CreateEventRequest,
   useCompanies,
+  useEvents,
   useTryCatch
 } from '../../hooks'
 import { FieldValues, useForm } from 'react-hook-form'
@@ -26,6 +28,8 @@ interface FormData {
 export const Schedule = () => {
   const [company, setCompany] = useState<CompanyScheduleData>()
   const [timeOptions, setTimeOptions] = useState<AvailableTime[]>()
+
+  const { createEvents } = useEvents()
 
   const { getCompanySchedule, getAvailableTimes } = useCompanies()
   const { callApi, getAndSet, fetchWithMessage } = useTryCatch()
@@ -60,17 +64,21 @@ export const Schedule = () => {
     navigate('/not-found')
   }
 
-  const handleFormSubmit = (values: FieldValues) => {
-    console.log(values)
-    // TODO:
-    // name -> string
-    // contact -> string
-    // date -> string (formato: dd/mm/aaaa hh:mm) concatenar os campos do form
-    // serviceId -> string
-    // userId -> string
-    // ------
-    // fazer hook personalizado useEvents() e criar o post lá (fazer com base no useCompanies)
-    // chamar a api usando o fetchWithMessage -> evento criado com sucesso
+  const handleFormSubmit = async (values: FieldValues) => {
+    const { name, contact, date, service, hour } = values
+    const dateTime = `${date} ${hour}`
+
+    const userId = timeOptions?.find((t) => t.time === hour)?.userId ?? ''
+
+    const eventData: CreateEventRequest = {
+      name,
+      contact,
+      date: dateTime,
+      serviceId: service,
+      userId: userId
+    }
+
+    await fetchWithMessage(createEvents(eventData), 'Evento criado com sucesso')
   }
 
   return (
@@ -140,7 +148,7 @@ export const Schedule = () => {
           control={control}
           disabled={!dateField}
         />
-        <Button type="schedule" onClick={() => console.log()}>
+        <Button type="schedule" onClick={handleSubmit(handleFormSubmit)}>
           Agendar
         </Button>
       </div>
