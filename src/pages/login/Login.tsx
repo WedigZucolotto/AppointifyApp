@@ -1,12 +1,21 @@
 import * as S from './style'
+import * as yup from 'yup'
 import line from '../../img/lines-vector.svg'
 import { Button, TextInput } from '../../components'
-import { FieldValues, useForm } from 'react-hook-form'
+import { FieldValues,  useForm } from 'react-hook-form'
 import { LoginRequest, useTryCatch, useUsers } from '../../hooks'
 import { useNavigate } from 'react-router-dom'
+import { yupResolver } from '@hookform/resolvers/yup'
 
 export const Login = () => {
-  const { control, handleSubmit } = useForm()
+  const schema = yup.object().shape({
+    name: yup.string().required(),
+    password: yup.string().required()
+  })
+
+  const { control, handleSubmit } = useForm({
+    resolver: yupResolver(schema)
+  })
 
   const { callApi } = useTryCatch()
   const { login } = useUsers()

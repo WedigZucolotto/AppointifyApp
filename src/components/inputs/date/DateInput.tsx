@@ -12,6 +12,7 @@ interface DateInputProps<TFieldValues extends FieldValues> {
   maxDate: string
   unavailableDates: string[]
   onChange?: (value: string) => void
+  disabled?: boolean
 }
 
 export function DateInput<TFieldValues extends FieldValues = FieldValues> ({
@@ -21,7 +22,8 @@ export function DateInput<TFieldValues extends FieldValues = FieldValues> ({
   minDate,
   maxDate,
   unavailableDates,
-  onChange
+  onChange,
+  disabled
 }: DateInputProps<TFieldValues>) {
   const { fieldState, field } = useController({name, control})
 
@@ -39,7 +41,9 @@ export function DateInput<TFieldValues extends FieldValues = FieldValues> ({
       <DatePicker
         {...field}
         className={fieldState.error ? 'error' : ''}
+        disabled={disabled}
         value={field.value ? dayjs(field.value, 'DD/MM/YYYY') : null}
+        format={field.value}
         onChange={changeEventHandler}
         sx={S.DatePickerSx}
         slotProps={{ textField: { placeholder: 'Selecione' } }}

@@ -14,6 +14,7 @@ interface SelectProps<TFieldValues extends FieldValues> {
   label: string
   options: Option[]
   onChange?: (value: string) => void
+  disabled?: boolean
 }
 
 export function SelectInput<TFieldValues extends FieldValues>({
@@ -21,7 +22,8 @@ export function SelectInput<TFieldValues extends FieldValues>({
   control,
   label,
   options,
-  onChange
+  onChange,
+  disabled
 }: SelectProps<TFieldValues>) {
   const { fieldState, field } = useController({ name, control })
 
@@ -40,6 +42,7 @@ export function SelectInput<TFieldValues extends FieldValues>({
         className={fieldState.error ? 'error' : ''}
         value={field.value ?? ''}
         onChange={changeEventHandler}
+        disabled={disabled}
       >
         <option value="" selected disabled>
           Selecione

@@ -4,7 +4,8 @@ import {
   CreateCompanyRequest,
   CompaniesData,
   UpdateCompanyRequest,
-  CompanyScheduleData
+  CompanyScheduleData,
+  AvailableTime
 } from '..'
 
 export const useCompanies = () => {
@@ -12,6 +13,18 @@ export const useCompanies = () => {
 
   const getAllCompanies = async (): Promise<CompaniesData[]> => {
     const { data } = await get()
+    return data
+  }
+
+  const getAvailableTimes = async (
+    id: string,
+    date: string,
+    serviceId: string,
+    userId = ''
+  ): Promise<AvailableTime[]> => {
+    const { data } = await get(
+      `${id}/available-times?Date=${date}&ServiceId=${serviceId}&UserId=${userId}`
+    )
     return data
   }
 
@@ -37,8 +50,6 @@ export const useCompanies = () => {
     await del(id)
   }
 
-  //TODO: availableTimes
-
   const getCompanySchedule = async (
     id: string
   ): Promise<CompanyScheduleData> => {
@@ -52,6 +63,7 @@ export const useCompanies = () => {
     getAllCompanies,
     createCompany,
     deleteCompany,
-    updateCompany
+    updateCompany,
+    getAvailableTimes
   }
 }

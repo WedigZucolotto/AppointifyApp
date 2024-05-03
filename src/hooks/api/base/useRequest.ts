@@ -1,11 +1,14 @@
 import axios, { AxiosResponse } from 'axios'
+import useAuthHeader from 'react-auth-kit/hooks/useAuthHeader'
 
 export const useRequest = (baseURL: string) => {
+  const authHeader = useAuthHeader()
+
   const instance = axios.create({
-    baseURL: 'https://appointifyapi.onrender.com/api/' // TODO: variável de ambiente
-    // headers: {
-    //   Authorization: authHeader
-    // }
+    baseURL: 'https://appointifyapi.onrender.com/api/', // TODO: variável de ambiente
+    headers: {
+      Authorization: authHeader
+    }
   })
 
   const buildUrl = (url: string) => `${baseURL}/${url}`

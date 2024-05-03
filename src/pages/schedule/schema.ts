@@ -10,14 +10,14 @@ const schema = {
     .matches(phoneRegex, 'Número de telefone inválido')
     .required('Campo obrigatório'),
   service: yup.string().required('Campo obrigatório'),
-  date: yup.string().required('Campo obrigatório')
-  // hour: yup.string().required('Campo obrigatório')
+  date: yup.string().required('Campo obrigatório'),
+  hour: yup.string().required('Campo obrigatório')
 }
 
 const extraSchema = {
   ...schema,
-  local: yup.string().required('Campo obrigatório'),
-  employee: yup.string().required('Campo obrigatório')
+  local: yup.string(),
+  employee: yup.string()
 }
 
 export const getScheduleSchema = (showExtraFields?: boolean) =>

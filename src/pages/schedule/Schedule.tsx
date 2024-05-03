@@ -1,6 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Button, DateInput, SelectInput, TextInput } from '../../components'
-import { CompanyScheduleData, useCompanies, useTryCatch } from '../../hooks'
+import {
+  AvailableTime,
+  CompanyScheduleData,
+  CreateEventRequest,
+  useCompanies,
+  useEvents,
+  useTryCatch
+} from '../../hooks'
 import { FieldValues, useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useNavigate, useParams } from 'react-router-dom'
@@ -15,31 +22,63 @@ interface FormData {
   date: string
   local?: string
   employee?: string
-  // hour: string
+  hour: string
 }
 
 export const Schedule = () => {
   const [company, setCompany] = useState<CompanyScheduleData>()
+  const [timeOptions, setTimeOptions] = useState<AvailableTime[]>()
 
-  const { getCompanySchedule } = useCompanies()
-  const { getAndSet } = useTryCatch()
+  const { createEvents } = useEvents()
 
-  const { control, handleSubmit } = useForm<FormData>({
+  const { getCompanySchedule, getAvailableTimes } = useCompanies()
+  const { callApi, getAndSet, fetchWithMessage } = useTryCatch()
+
+  const { control, handleSubmit, watch } = useForm<FormData>({
     resolver: yupResolver(getScheduleSchema(company?.showExtraFields))
   })
+
+  const dateField = watch('date')
+  const serviceField = watch('service')
 
   const { id } = useParams()
   const navigate = useNavigate()
 
   useEffect(() => {
-    // if (!id) {
-    //   navigate('/not-found')
-    // } TODO: ver como fazer
-    getAndSet(getCompanySchedule(id ?? ''), setCompany)
+    fetchCompanies()
   }, [])
 
-  const handleFormSubmit = (values: FieldValues) => {
-    console.log(values)
+  useEffect(() => {
+    if (dateField && id) {
+      getAndSet(getAvailableTimes(id, dateField, serviceField), setTimeOptions)
+    }
+  }, [dateField])
+
+  const fetchCompanies = async () => {
+    const { data, success } = await callApi(getCompanySchedule(id ?? ''))
+
+    if (data && success) {
+      setCompany(data)
+      return
+    }
+    navigate('/not-found')
+  }
+
+  const handleFormSubmit = async (values: FieldValues) => {
+    const { name, contact, date, service, hour } = values
+    const dateTime = `${date} ${hour}`
+
+    const userId = timeOptions?.find((t) => t.time === hour)?.userId ?? ''
+
+    const eventData: CreateEventRequest = {
+      name,
+      contact,
+      date: dateTime,
+      serviceId: service,
+      userId: userId
+    }
+
+    await fetchWithMessage(createEvents(eventData), 'Evento criado com sucesso')
   }
 
   return (
@@ -69,12 +108,6 @@ export const Schedule = () => {
           control={control}
           mask="(99) 99999-9999"
         />
-        <SelectInput
-          label="Serviço *"
-          options={company?.services ?? []}
-          name="service"
-          control={control}
-        />
         {company?.showExtraFields && (
           <SelectInput
             label="Local *"
@@ -91,6 +124,12 @@ export const Schedule = () => {
             control={control}
           />
         )}
+        <SelectInput
+          label="Serviço *"
+          options={company?.services ?? []}
+          name="service"
+          control={control}
+        />
         <DateInput
           name="date"
           control={control}
@@ -98,14 +137,18 @@ export const Schedule = () => {
           minDate={company?.minDate ?? ''}
           maxDate={company?.maxDate ?? ''}
           unavailableDates={company?.unavailableDates ?? []}
+          disabled={!serviceField}
         />
-        {/* <SelectInput
+        <SelectInput
           label="Horário *"
-          options={[]}
+          options={
+            timeOptions?.map((o) => ({ name: o.time, value: o.time })) ?? []
+          }
           name="hour"
           control={control}
-        /> */}
-        <Button type="schedule" onClick={() => console.log()}>
+          disabled={!dateField}
+        />
+        <Button type="schedule" onClick={handleSubmit(handleFormSubmit)}>
           Agendar
         </Button>
       </div>

@@ -40,7 +40,7 @@ export const Login = styled.div`
     margin: auto;
   }
 
-  .title{
+  .title {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -54,7 +54,7 @@ export const Login = styled.div`
     margin-bottom: 10px;
   }
 
-  .txtinput{
+  .txtinput {
     margin-bottom: 18px;
   }
 `
