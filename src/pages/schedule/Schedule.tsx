@@ -78,7 +78,15 @@ export const Schedule = () => {
       userId: userId
     }
 
-    await fetchWithMessage(createEvents(eventData), 'Evento criado com sucesso')
+    try {
+      await fetchWithMessage(
+        createEvents(eventData),
+        'Evento criado com sucesso'
+      )
+      navigate('/success')
+    } catch (error) {
+      console.error(error)
+    }
   }
 
   return (
