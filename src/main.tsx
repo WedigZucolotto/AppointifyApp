@@ -21,6 +21,7 @@ import {
   Login,
   NoPage
 } from './pages'
+import { Success } from './pages/success/Success'
 
 const element = document.getElementById('root') as HTMLElement
 const root = ReactDOM.createRoot(element)
@@ -43,6 +44,7 @@ root.render(
               <Route path="/" element={<Navigate to="/login" />} />
               <Route path="/login" element={<Login />} />
               <Route path="/:id/schedule" element={<Schedule />} />
+              <Route path="/success" element={<Success />} />
 
               {/* Rotas privadas */}
               <Route element={<AuthOutlet fallbackPath="/login" />}>
