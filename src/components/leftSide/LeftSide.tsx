@@ -3,18 +3,18 @@ import { DateCalendar } from '@mui/x-date-pickers/DateCalendar'
 import { Button } from '..'
 import * as S from './style'
 import dayjs, { Dayjs } from 'dayjs'
-import { useGlobalContext } from '../../hooks'
+import { useCalendarContext } from '../../hooks'
 
 export const LeftSide = () => {
-  const { date } = useGlobalContext()
+  const { date, setDate} = useCalendarContext()
 
   const handleMonthChange = (value: Dayjs) => {
-    const newDate = new Date(date.current)
+    const newDate = new Date(date)
     newDate.setMonth(value.month())
-    date.set(newDate)
+    setDate(newDate)
   }
 
-  const handleChange = (value: any) => date.set(value.$d)
+  const handleChange = (value: any) => setDate(value.$d)
 
   return (
     <S.LeftSide>
@@ -25,7 +25,7 @@ export const LeftSide = () => {
       <DateCalendar
         onMonthChange={handleMonthChange}
         onChange={handleChange}
-        value={dayjs(date.current)}
+        value={dayjs(date)}
         showDaysOutsideCurrentMonth
       />
     </S.LeftSide>

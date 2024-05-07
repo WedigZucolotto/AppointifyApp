@@ -5,7 +5,9 @@ import {
   LoginResponse,
   UpdateUserRequest,
   UserData,
+  UserDayWeek,
   useRequest,
+  UserMonth,
   UsersData
 } from '..'
 
@@ -60,12 +62,36 @@ export const useUsers = () => {
       userState: data.id
     })
 
+  const getUserDay = async (id: string, date: string): Promise<UserDayWeek> => {
+    const { data } = await get(`${id}/day?date=${date}`)
+    return data
+  }
+
+  const getUserWeek = async (
+    id: string,
+    date: string
+  ): Promise<UserDayWeek[]> => {
+    const { data } = await get(`${id}/week?date=${date}`)
+    return data
+  }
+
+  const getUserMonth = async (
+    id: string,
+    date: string
+  ): Promise<UserMonth[]> => {
+    const { data } = await get(`${id}/month?date=${date}`)
+    return data
+  }
+
   return {
     login,
     getAllUsers,
     getUserById,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    getUserDay,
+    getUserWeek,
+    getUserMonth
   }
 }
