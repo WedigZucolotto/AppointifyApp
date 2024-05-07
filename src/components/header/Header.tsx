@@ -13,7 +13,7 @@ export const Header = () => {
 
   const handleSelectChange = (event: SelectChangeEvent<string>) => {
     const { value } = event.target
-    navigate(`/${id}/${value}`)
+    navigate(`/calendar/${id}/${value}`)
     setType(value as CalendarType)
   }
 
@@ -33,7 +33,7 @@ export const Header = () => {
       setDate(newDate)
     }
     if (type === 'month') {
-      const result = isNext ? newDate.getDate() + 1 : newDate.getDate() - 1
+      const result = isNext ? newDate.getMonth() + 1 : newDate.getMonth() - 1
       newDate.setMonth(result)
       setDate(newDate)
     }

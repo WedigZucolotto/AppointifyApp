@@ -6,8 +6,6 @@ import * as S from './style'
 export const Day = () => {
   const { day } = useCalendarContext()
 
-  console.log(day)
-
   return (
     <CalendarLayout>
       <S.DayHeader>
@@ -16,16 +14,14 @@ export const Day = () => {
           <span>{day?.day}</span>
         </S.DayHeaderDay>
       </S.DayHeader>
-      <S.DayContent>
-        {Object.keys(day?.events ?? []).map((event, index) => (
-          <S.DayHour key={index}>
-            <span>{event}</span>
-            {day?.events[event].map((event) => (
-              <Event name={event.title} />
-            ))}
-          </S.DayHour>
-        ))}
-      </S.DayContent>
+      {Object.keys(day?.events ?? []).map((hour, index) => (
+        <S.DayHour key={index}>
+          <span>{hour}</span>
+          {day?.events[hour].map((event) => (
+            <Event name={event.title} />
+          ))}
+        </S.DayHour>
+      ))}
     </CalendarLayout>
   )
 }
