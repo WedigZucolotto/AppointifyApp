@@ -24,7 +24,7 @@ export const Login = () => {
 
   const handleLoginSubmit = async (values: FieldValues) => {
     const { data } = await callApi(login(values as LoginRequest))
-    navigate(`/${data?.id}/week`)
+    navigate(`/calendar/${data?.id}/week`)
   }
 
   return (

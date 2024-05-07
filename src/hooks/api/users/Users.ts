@@ -39,3 +39,24 @@ export interface UpdateUserRequest {
   password?: string
   completeName?: string
 }
+
+export interface UserDayWeek {
+  day: string
+  week: string
+  events: UserEvents
+}
+
+type UserEvents = { [K in string]: UserEvent[] }
+
+export interface UserEvent {
+  id: string
+  title: string
+  time: string
+}
+
+export interface UserMonth {
+  day: string
+  week: string
+  events: UserEvent[]
+  more?: number
+}

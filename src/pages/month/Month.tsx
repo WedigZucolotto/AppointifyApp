@@ -1,37 +1,37 @@
-import { useNavigate } from 'react-router-dom'
-import { Event } from '../../components'
-import { useGlobalContext } from '../../hooks'
+import { useNavigate, useParams } from 'react-router-dom'
+import { Event, Visible } from '../../components'
+import { useCalendarContext } from '../../hooks'
 import * as S from './style'
-import { Layout } from '..'
+import { CalendarLayout } from '..'
 
 export const Month = () => {
-  const { date, weekNames } = useGlobalContext()
-  const navigate = useNavigate()
+  const { month } = useCalendarContext()
 
-  const test = [0, 1, 2, 3, 4]
+  const navigate = useNavigate()
+  const { id } = useParams()
 
   return (
-    <Layout>
+    <CalendarLayout>
       <S.Month>
-        {date.getMonthDays().map((day, index) => (
+        {month?.map((calendar, index) => (
           <S.MonthDay>
             <S.MonthDayHeader>
-              <span>{weekNames[index]}</span>
-              <span>{day}</span>
+              <span>{calendar.day}</span>
+              <span>{calendar.week}</span>
             </S.MonthDayHeader>
             <S.MonthDayContent>
-              {test.slice(0, 3).map((test) => (
-                <Event />
+              {calendar.events.map((event) => (
+                <Event name={event.title} />
               ))}
-              {test.length > 3 && (
-                <button onClick={() => navigate('/week')}>
-                  + Mais {test.length - 3}
+              <Visible when={!!calendar.more}>
+                <button onClick={() => navigate(`calendar/${id}/week`)}>
+                  + Mais {calendar.more}
                 </button>
-              )}
+              </Visible>
             </S.MonthDayContent>
           </S.MonthDay>
         ))}
       </S.Month>
-    </Layout>
+    </CalendarLayout>
   )
 }

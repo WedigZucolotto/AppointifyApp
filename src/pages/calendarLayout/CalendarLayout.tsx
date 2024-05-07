@@ -5,10 +5,10 @@ interface AppProps {
   children: React.ReactNode
 }
 
-export const Layout = ({ children }: AppProps) => {
+export const CalendarLayout = ({ children }: AppProps) => {
   return (
     <>
-      <Header companyName="BarberTech" />
+      <Header />
       <S.Calendar>
         <LeftSide />
         <S.RightSide>{children}</S.RightSide>

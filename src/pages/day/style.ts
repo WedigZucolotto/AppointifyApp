@@ -24,13 +24,9 @@ export const DayHeaderDay = styled.div`
   }
 `
 
-export const DayContent = styled.div`
-  overflow-y: scroll;
-  height: calc(100% - 93px);
-`
-
 export const DayHour = styled.div`
   border-bottom: 1px solid rgb(218, 220, 224);
+  border-right: 1px solid rgb(218, 220, 224);
   height: 50px;
   padding: 5px 20px 5px 5px;
   display: flex;

@@ -1,30 +1,27 @@
 import { Event } from '../../components'
-import { useGlobalContext } from '../../hooks'
-import { Layout } from '..'
+import { useCalendarContext } from '../../hooks'
+import { CalendarLayout } from '..'
 import * as S from './style'
 
 export const Day = () => {
-  const { date, weekNames, hourNames } = useGlobalContext()
-
-  const currentDay = date.current.getDay()
-  const currentDate = date.current.getDate()
+  const { day } = useCalendarContext()
 
   return (
-    <Layout>
+    <CalendarLayout>
       <S.DayHeader>
         <S.DayHeaderDay>
-          <span>{weekNames[currentDay]}</span>
-          <span>{currentDate}</span>
+          <span>{day?.week}</span>
+          <span>{day?.day}</span>
         </S.DayHeaderDay>
       </S.DayHeader>
-      <S.DayContent>
-        {Array.from({ length: 24 }, (_, index) => (
-          <S.DayHour key={index}>
-            <span>{hourNames[index]}</span>
-            <Event />
-          </S.DayHour>
-        ))}
-      </S.DayContent>
-    </Layout>
+      {Object.keys(day?.events ?? []).map((hour, index) => (
+        <S.DayHour key={index}>
+          <span>{hour}</span>
+          {day?.events[hour].map((event) => (
+            <Event name={event.title} />
+          ))}
+        </S.DayHour>
+      ))}
+    </CalendarLayout>
   )
 }

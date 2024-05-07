@@ -29,10 +29,10 @@ export const Schedule = () => {
   const [company, setCompany] = useState<CompanyScheduleData>()
   const [timeOptions, setTimeOptions] = useState<AvailableTime[]>()
 
+  const { getCompanySchedule, getAvailableTimes } = useCompanies()
   const { createEvents } = useEvents()
 
-  const { getCompanySchedule, getAvailableTimes } = useCompanies()
-  const { callApi, getAndSet, fetchWithMessage } = useTryCatch()
+  const { callApi, getAndSet } = useTryCatch()
 
   const { control, handleSubmit, watch } = useForm<FormData>({
     resolver: yupResolver(getScheduleSchema(company?.showExtraFields))
@@ -61,7 +61,7 @@ export const Schedule = () => {
       setCompany(data)
       return
     }
-    navigate('/not-found')
+    navigate('/404')
   }
 
   const handleFormSubmit = async (values: FieldValues) => {
@@ -75,17 +75,13 @@ export const Schedule = () => {
       contact,
       date: dateTime,
       serviceId: service,
-      userId: userId
+      userId
     }
 
-    try {
-      await fetchWithMessage(
-        createEvents(eventData),
-        'Evento criado com sucesso'
-      )
+    const { success } = await callApi(createEvents(eventData))
+
+    if (success) {
       navigate('/success')
-    } catch (error) {
-      console.error(error)
     }
   }
 
