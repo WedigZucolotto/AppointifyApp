@@ -59,7 +59,11 @@ export const useUsers = () => {
         token: data.token,
         type: 'Bearer'
       },
-      userState: data.id
+      userState: {
+        id: data.id,
+        completeName: data.completeName,
+        companyId: data.companyId
+      }
     })
 
   const getUserDay = async (id: string, date: string): Promise<UserDayWeek> => {
