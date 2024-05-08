@@ -4,7 +4,8 @@ import {
   useServices,
   ServiceData,
   CreateServiceRequest,
-  UpdateServiceRequest
+  UpdateServiceRequest,
+  ServicesFilter
 } from '../../../hooks'
 import { useEffect, useState } from 'react'
 import { ModalTypes, timeOptions } from '../../../pages/management/util'
@@ -15,9 +16,9 @@ import { getDefaultValues, getSchema } from './schemas'
 interface ServiceModalProps {
   open: boolean
   companyId: string
-  fetchServices: () => Promise<void>
+  fetchServices: (filter: ServicesFilter) => Promise<void>
   changeModal: (type: ModalTypes) => void
-  id?: string
+  id: string
 }
 
 interface FormData {
@@ -58,7 +59,7 @@ export const ServiceModal = ({
       createService({ ...values, companyId } as CreateServiceRequest),
       'Criado com sucesso!'
     )
-    fetchServices()
+    fetchServices({ companyId })
     changeModal('closed')
   }
 
@@ -67,7 +68,7 @@ export const ServiceModal = ({
       updateService(id, values as UpdateServiceRequest),
       'Editado com sucesso!'
     )
-    fetchServices()
+    fetchServices({ companyId })
     changeModal('closed')
   }
 

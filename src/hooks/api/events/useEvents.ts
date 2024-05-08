@@ -1,14 +1,29 @@
 import { useRequest } from '../base/useRequest'
-import { CreateEventRequest } from './events'
+import { CreateEventRequest, EventsData, EventsFilter } from './events'
 
 export const useEvents = () => {
-  const { post } = useRequest('events')
+  const { post, get, del } = useRequest('events')
 
-  const createEvents = async (request: CreateEventRequest): Promise<void> => {
+  const getAllEvents = async (filter: EventsFilter): Promise<EventsData[]> => {
+    const { userId, title, date, serviceName } = filter
+
+    const { data } = await get(
+      `?userId=${userId}&title=${title}&date=${date}&serviceName=${serviceName}`
+    )
+    return data
+  }
+
+  const createEvent = async (request: CreateEventRequest): Promise<void> => {
     await post('', request)
   }
 
+  const deleteEvent = async (id: string): Promise<void> => {
+    await del(id)
+  }
+
   return {
-    createEvents
+    getAllEvents,
+    createEvent,
+    deleteEvent
   }
 }

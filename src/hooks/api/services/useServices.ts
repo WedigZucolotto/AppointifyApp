@@ -3,7 +3,8 @@ import {
   ServiceData,
   ServicesData,
   CreateServiceRequest,
-  UpdateServiceRequest
+  UpdateServiceRequest,
+  ServicesFilter
 } from '..'
 
 export const useServices = () => {
@@ -14,8 +15,11 @@ export const useServices = () => {
     return data
   }
 
-  const getAllServices = async (companyId: string): Promise<ServicesData[]> => {
-    const { data } = await get(`?companyId=${companyId}`)
+  const getAllServices = async (
+    filter: ServicesFilter
+  ): Promise<ServicesData[]> => {
+    const { companyId = '', name = ' ' } = filter
+    const { data } = await get(`?companyId=${companyId}&name=${name}`)
     return data
   }
 

@@ -1,4 +1,4 @@
-import { Navigate, useRoutes } from 'react-router-dom'
+import { Navigate, Outlet, useRoutes } from 'react-router-dom'
 import AuthOutlet from '@auth-kit/react-router/AuthOutlet'
 import { CalendarContextProvider } from './hooks'
 import {
@@ -18,6 +18,7 @@ import {
 
 export const Routes = () => {
   const companyRoutes = [
+    { path: '', element: <Company /> },
     { path: ':id/users', element: <User /> },
     { path: ':id/services', element: <Service /> },
     { path: ':id/events', element: <Event /> }
@@ -25,15 +26,12 @@ export const Routes = () => {
 
   const managementRoutes = [
     { path: '', element: <Navigate to="companies" /> },
+    { path: 'plans', element: <Plan /> },
     {
       path: 'companies',
-      element: <Company />,
+      element: <Outlet />,
       children: companyRoutes
-    },
-    { path: 'events', element: <Event /> },
-    { path: 'plans', element: <Plan /> },
-    { path: 'services', element: <Service /> },
-    { path: 'users', element: <User /> }
+    }
   ]
 
   const calendarRoutes = [

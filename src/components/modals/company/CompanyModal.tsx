@@ -6,7 +6,8 @@ import {
   usePlans,
   useTryCatch,
   Option,
-  CompanyData
+  CompanyData,
+  CompaniesFilter
 } from '../../../hooks'
 import { useEffect, useState } from 'react'
 import { ModalTypes, timeOptions } from '../../../pages/management/util'
@@ -16,8 +17,9 @@ import { getDefaultValues, getSchema } from './schemas'
 
 interface CompanyModalProps {
   open: boolean
-  fetchCompanies: () => Promise<void>
+  fetchCompanies: (filter: CompaniesFilter) => void
   changeModal: (type: ModalTypes) => void
+  plans: Option[]
   id?: string
 }
 
@@ -32,27 +34,22 @@ export const CompanyModal = ({
   open,
   fetchCompanies,
   changeModal,
+  plans,
   id = ''
 }: CompanyModalProps) => {
   const isEdit = !!id
 
-  const [plans, setPlans] = useState<Option[]>([])
   const [company, setCompany] = useState<CompanyData>()
 
   const { getAndSet, fetchWithMessage } = useTryCatch()
-  const { getPlanOptions } = usePlans()
   const { createCompany, updateCompany, getCompanyById } = useCompanies()
 
   useEffect(() => {
     if (isEdit) {
-      fetchCompany()
+      getAndSet(getCompanyById(id), setCompany)
     }
-    fetchPlans()
     return () => reset()
   }, [])
-
-  const fetchPlans = () => getAndSet(getPlanOptions(), setPlans)
-  const fetchCompany = () => getAndSet(getCompanyById(id), setCompany)
 
   const { register, handleSubmit, reset } = useForm<FormData>({
     resolver: yupResolver(getSchema(isEdit)),
@@ -64,7 +61,7 @@ export const CompanyModal = ({
       createCompany(values as CreateCompanyRequest),
       'Criado com sucesso!'
     )
-    fetchCompanies()
+    fetchCompanies({})
     changeModal('closed')
   }
 
@@ -73,7 +70,7 @@ export const CompanyModal = ({
       updateCompany(id, values as UpdateCompanyRequest),
       'Editado com sucesso!'
     )
-    fetchCompanies()
+    fetchCompanies({})
     changeModal('closed')
   }
 

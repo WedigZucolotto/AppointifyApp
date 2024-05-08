@@ -17,6 +17,14 @@ export const header = {
     id: '',
     name: 'Nome',
     interval: 'Intervalo'
+  },
+  events: {
+    id: '',
+    title: 'Título',
+    description: 'Descrição',
+    date: 'Data',
+    userName: 'Usuário',
+    serviceName: 'Serviço'
   }
 }
 
