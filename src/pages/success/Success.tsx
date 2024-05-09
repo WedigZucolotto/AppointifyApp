@@ -18,12 +18,9 @@ export const Success = () => {
           </div>
           <hr />
           <div className="right-side">
-            <p>Obrigado por usar o Appointify.</p>
+            <p>Obrigado por usar o Elite Scheduler.</p>
             <div>
-              <p>Para mais informações entre em contato</p>
-              <p>
-                com o <a href="#">suporte</a>
-              </p>
+              <p>Para mais informações visite a página de <a href="#">suporte</a></p>
             </div>
           </div>
         </div>
@@ -34,7 +31,7 @@ export const Success = () => {
           </p>
           <p>
             divulgue seus dados para fraudadores e impostores que alegam
-            falsamente fazer parte do Appointify,
+            falsamente fazer parte do Elite Scheduler.
           </p>
         </div>
       </div>

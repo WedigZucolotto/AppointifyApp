@@ -70,7 +70,12 @@ export const Header = () => {
     <S.Header>
       <S.Title>Agenda - {user?.completeName}</S.Title>
       <Button onClick={handleToday}>Hoje</Button>
-      <Select onChange={handleSelectChange} value={type}>
+      <Select
+        onChange={handleSelectChange}
+        value={type}
+        size="small"
+        sx={{ fontSize: '0.93rem', color: 'rgb(60, 64, 67)'}}
+      >
         <MenuItem value="month">Mês</MenuItem>
         <MenuItem value="week">Semana</MenuItem>
         <MenuItem value="day">Dia</MenuItem>

@@ -5,7 +5,7 @@ export const TodayBtn = styled.button`
   border-radius: 3px;
   background: transparent;
   color: rgb(60, 64, 67);
-  border: 1px solid rgb(218, 220, 224);
+  border: 1px solid rgba(0, 0, 0, 0.23);
   font-weight: 500;
   font-size: 0.85rem;
 `
@@ -32,7 +32,7 @@ export const ScheduleBtn = styled.button`
   border: none;
   border-radius: 5px;
   color: #ffffff;
-  background-color: #23a6f0;
+  background-color: #0575E6;
   font-weight: 600;
   transition: background-color 0.2s ease;
 

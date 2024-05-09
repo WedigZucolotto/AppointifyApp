@@ -1,6 +1,5 @@
 import { FieldValues, useForm } from 'react-hook-form'
 import { DateInput, SelectInput, TextInput } from '../../inputs'
-import * as S from './style'
 import {
   AvailableTime,
   CompanyScheduleData,
@@ -11,7 +10,7 @@ import {
   useTryCatch
 } from '../../../hooks'
 import dayjs from 'dayjs'
-import { Button, Visible } from '../..'
+import { BaseModal, Button } from '../..'
 import { useEffect, useState } from 'react'
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser'
 
@@ -70,58 +69,53 @@ export const NewEvent = ({ open, onClose }: NewEventProps) => {
   }
 
   return (
-    <Visible when={open}>
-      <S.Modal>
-        <h2>Novo Evento</h2>
-        <TextInput
-          label="Nome *"
-          placeholder="Ex: João"
-          name="name"
-          control={control}
-        />
-        <TextInput
-          label="Sobrenome *"
-          placeholder="Ex: Ribeiro"
-          name="lastname"
-          control={control}
-        />
-        <TextInput
-          label="Contato *"
-          placeholder="Ex: (11) 91234-5678"
-          name="contact"
-          control={control}
-          mask="(99) 99999-9999"
-        />
-        <SelectInput
-          label="Serviço *"
-          options={company?.services ?? []}
-          name="service"
-          control={control}
-        />
-        <DateInput
-          name="date"
-          control={control}
-          label="Data *"
-          minDate={dayjs().format('DD-MM-YYYY')}
-          unavailableDates={company?.unavailableDates ?? []}
-          disabled={!serviceField}
-        />
-        <SelectInput
-          label="Horário *"
-          options={
-            timeOptions?.map((o) => ({ name: o.time, value: o.time })) ?? []
-          }
-          name="hour"
-          control={control}
-          disabled={!dateField}
-        />
-        <Button type="schedule" onClick={handleSubmit(handleFormSubmit)}>
-          Agendar
-        </Button>
-        <Button type="schedule" onClick={onClose}>
-          Fechar
-        </Button>
-      </S.Modal>
-    </Visible>
+    <BaseModal open={open} onClose={onClose}>
+      <h2>Novo Evento</h2>
+      <TextInput
+        label="Nome *"
+        placeholder="Ex: João"
+        name="name"
+        control={control}
+      />
+      <TextInput
+        label="Sobrenome *"
+        placeholder="Ex: Ribeiro"
+        name="lastname"
+        control={control}
+      />
+      <TextInput
+        label="Contato *"
+        placeholder="Ex: (11) 91234-5678"
+        name="contact"
+        control={control}
+        mask="(99) 99999-9999"
+      />
+      <SelectInput
+        label="Serviço *"
+        options={company?.services ?? []}
+        name="service"
+        control={control}
+      />
+      <DateInput
+        name="date"
+        control={control}
+        label="Data *"
+        minDate={dayjs().format('DD-MM-YYYY')}
+        unavailableDates={company?.unavailableDates ?? []}
+        disabled={!serviceField}
+      />
+      <SelectInput
+        label="Horário *"
+        options={
+          timeOptions?.map((o) => ({ name: o.time, value: o.time })) ?? []
+        }
+        name="hour"
+        control={control}
+        disabled={!dateField}
+      />
+      <Button type="schedule" onClick={handleSubmit(handleFormSubmit)}>
+        Agendar
+      </Button>
+    </BaseModal>
   )
 }
