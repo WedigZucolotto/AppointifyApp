@@ -8,6 +8,10 @@ export const Column = styled.div`
   display: flex;
   flex-direction: column;
   width: calc(100% / 7);
+
+  &:first-child {
+    width: calc((100% / 7) + 60px);
+  }
 `
 
 export const Header = styled.div`
