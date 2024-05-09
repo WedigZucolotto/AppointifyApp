@@ -63,12 +63,6 @@ export const Event = () => {
           placeholder="Serviço"
           onChange={handleChange}
         />
-        <button
-          style={{ margin: '20px 0' }}
-          onClick={() => changeModal('edit')}
-        >
-          Novo evento
-        </button>
       </div>
       {eventTable.map((event, index) => (
         <TableItem

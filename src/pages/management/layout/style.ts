@@ -18,5 +18,6 @@ export const Content = styled.main`
     display: flex;
     align-items: center;
     gap: 10px;
+    margin: 20px 0;
   }
 `

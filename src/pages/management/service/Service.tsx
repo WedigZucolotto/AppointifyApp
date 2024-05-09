@@ -51,12 +51,7 @@ export const Service = () => {
           placeholder="Nome"
           onChange={handleChange}
         />
-        <button
-          style={{ margin: '20px 0' }}
-          onClick={() => changeModal('edit')}
-        >
-          Novo Serviço
-        </button>
+        <button onClick={() => changeModal('edit')}>Novo Serviço</button>
       </div>
       {servicesTable.map((service, index) => (
         <TableItem

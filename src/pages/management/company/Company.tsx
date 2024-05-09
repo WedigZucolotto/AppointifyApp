@@ -76,12 +76,7 @@ export const Company = () => {
             </option>
           ))}
         </select>
-        <button
-          style={{ margin: '20px 0' }}
-          onClick={() => changeModal('edit')}
-        >
-          Nova empresa
-        </button>
+        <button onClick={() => changeModal('edit')}>Nova empresa</button>
       </div>
       {companyTable.map((company, index) => (
         <TableItem

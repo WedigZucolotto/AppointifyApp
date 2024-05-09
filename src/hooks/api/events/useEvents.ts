@@ -5,7 +5,7 @@ export const useEvents = () => {
   const { post, get, del } = useRequest('events')
 
   const getAllEvents = async (filter: EventsFilter): Promise<EventsData[]> => {
-    const { userId, title, date, serviceName } = filter
+    const { userId = '', title = '', date = '', serviceName = '' } = filter
 
     const { data } = await get(
       `?userId=${userId}&title=${title}&date=${date}&serviceName=${serviceName}`

@@ -57,14 +57,8 @@ export const UserModal = ({
   })
 
   const handleNewUser = async (values: FieldValues) => {
-    const request = {
-      ...values,
-      isOwner: values.isOwner === 'true',
-      companyId
-    }
-
     await fetchWithMessage(
-      createUser(request as CreateUserRequest),
+      createUser({ ...values, companyId } as CreateUserRequest),
       'Criado com sucesso!'
     )
     fetchUsers({ companyId })
@@ -72,14 +66,8 @@ export const UserModal = ({
   }
 
   const handleUpdateUser = async (values: FieldValues) => {
-    const request = {
-      ...values,
-      isOwner: values.isOwner === 'true',
-      companyId
-    }
-
     await fetchWithMessage(
-      updateUser(id, request as UpdateUserRequest),
+      updateUser(id, { ...values, companyId } as UpdateUserRequest),
       'Editado com sucesso!'
     )
     fetchUsers({ companyId })

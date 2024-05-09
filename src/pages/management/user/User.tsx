@@ -52,7 +52,7 @@ export const User = () => {
         <input
           type="text"
           name="completeName"
-          placeholder="Nome"
+          placeholder="Nome Completo"
           onChange={handleChange}
         />
         <select name="type" onChange={handleChange}>
@@ -60,12 +60,7 @@ export const User = () => {
             <option value={type}>{type}</option>
           ))}
         </select>
-        <button
-          style={{ margin: '20px 0' }}
-          onClick={() => changeModal('edit')}
-        >
-          Novo Usuário
-        </button>
+        <button onClick={() => changeModal('edit')}>Novo Usuário</button>
       </div>
       {usersTable.map((user, index) => (
         <TableItem
