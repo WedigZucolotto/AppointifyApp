@@ -11,17 +11,17 @@ export const getDefaultValues = (company?: CompanyData) => ({
 export const getSchema = (isEdit: boolean) =>
   yup.object().shape(isEdit ? updateSchema : createSchema)
 
-const createSchema = {
+const updateSchema = {
   name: yup.string(),
   open: yup.string(),
   close: yup.string(),
   planId: yup.string()
 }
 
-const updateSchema = {
-  ...createSchema,
-  name: createSchema.name.required(),
-  open: createSchema.open.required(),
-  close: createSchema.close.required(),
-  planId: createSchema.planId.required()
+const createSchema = {
+  ...updateSchema,
+  name: updateSchema.name.required(),
+  open: updateSchema.open.required(),
+  close: updateSchema.close.required(),
+  planId: updateSchema.planId.required()
 }

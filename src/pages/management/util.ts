@@ -25,6 +25,13 @@ export const header = {
     date: 'Data',
     userName: 'Usuário',
     serviceName: 'Serviço'
+  },
+  users: {
+    id: '',
+    name: 'Username',
+    completeName: 'Nome completo',
+    type: 'Tipo',
+    companyName: 'Empresa'
   }
 }
 

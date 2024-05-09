@@ -91,7 +91,7 @@ export const Company = () => {
           showDeleteBtn={index > 0}
           showEditBtn={index > 0}
         >
-          <span style={{ width: '150px' }}>{company.name}</span>
+          <span style={{ width: '200px' }}>{company.name}</span>
           <span style={{ width: '100px' }}>{company.planName}</span>
           <span style={{ width: '80px' }}>{company.open}</span>
           <span style={{ width: '80px' }}>{company.close}</span>

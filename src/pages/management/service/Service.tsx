@@ -66,7 +66,7 @@ export const Service = () => {
           showDeleteBtn={index !== 0}
           showEditBtn={index !== 0}
         >
-          <span style={{ width: '150px' }}>{service.name}</span>
+          <span style={{ width: '200px' }}>{service.name}</span>
           <span style={{ width: '100px' }}>{service.interval}</span>
         </TableItem>
       ))}
