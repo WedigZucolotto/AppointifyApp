@@ -12,6 +12,11 @@ export const Header = styled.header`
     align-items: center;
     justify-content: space-evenly;
   }
+
+  .MuiOutlinedInput-notchedOutline
+    .css-1d3z3hw-MuiOutlinedInput-notchedOutlinet {
+    width: 350px;
+  }
 `
 
 export const Title = styled.h1`

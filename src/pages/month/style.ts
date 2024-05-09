@@ -1,14 +1,18 @@
 import styled from 'styled-components'
 
+interface MonthDayProps {
+  rows: number
+}
+
 export const Month = styled.div`
   height: calc(100vh - 87px);
   display: flex;
   flex-wrap: wrap;
 `
 
-export const MonthDay = styled.div`
+export const MonthDay = styled.div<MonthDayProps>`
   width: calc(100% / 7);
-  height: calc(100% / 5);
+  height: ${({ rows }) => `calc(100% / ${rows})`};
   border-bottom: 1px solid rgb(218, 220, 224);
   border-right: 1px solid rgb(218, 220, 224);
   display: flex;

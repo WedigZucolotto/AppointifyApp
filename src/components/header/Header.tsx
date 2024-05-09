@@ -2,18 +2,19 @@ import { MenuItem, Select, SelectChangeEvent } from '@mui/material'
 import { Button } from '..'
 import * as S from './style'
 import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material'
-import { useNavigate, useParams } from 'react-router-dom'
-import { CalendarType, useCalendarContext } from '../../hooks'
+import { useNavigate } from 'react-router-dom'
+import { CalendarType, LoginResponse, useCalendarContext } from '../../hooks'
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser'
 
 export const Header = () => {
   const navigate = useNavigate()
-  const { id } = useParams()
+  const user = useAuthUser<LoginResponse>()
 
   const { setDate, setType, date, type } = useCalendarContext()
 
   const handleSelectChange = (event: SelectChangeEvent<string>) => {
     const { value } = event.target
-    navigate(`/calendar/${id}/${value}`)
+    navigate(`/calendar/${user?.id}/${value}`)
     setType(value as CalendarType)
   }
 
@@ -67,9 +68,14 @@ export const Header = () => {
 
   return (
     <S.Header>
-      <S.Title>Agenda - Nome da Empresa</S.Title>
+      <S.Title>Agenda - {user?.completeName}</S.Title>
       <Button onClick={handleToday}>Hoje</Button>
-      <Select onChange={handleSelectChange} value={type}>
+      <Select
+        onChange={handleSelectChange}
+        value={type}
+        size="small"
+        sx={{ fontSize: '0.93rem', color: 'rgb(60, 64, 67)'}}
+      >
         <MenuItem value="month">Mês</MenuItem>
         <MenuItem value="week">Semana</MenuItem>
         <MenuItem value="day">Dia</MenuItem>

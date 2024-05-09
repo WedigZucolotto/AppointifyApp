@@ -10,21 +10,25 @@ export const Month = () => {
   const navigate = useNavigate()
   const { id } = useParams()
 
+  const rows = (month?.length ?? 0) / 7
+
   return (
     <CalendarLayout>
       <S.Month>
         {month?.map((calendar, index) => (
-          <S.MonthDay>
+          <S.MonthDay rows={rows}>
             <S.MonthDayHeader>
               <span>{calendar.day}</span>
-              <span>{calendar.week}</span>
+              <Visible when={index < 7}>
+                <span>{calendar.week}</span>
+              </Visible>
             </S.MonthDayHeader>
             <S.MonthDayContent>
               {calendar.events.map((event) => (
                 <Event name={event.title} />
               ))}
               <Visible when={!!calendar.more}>
-                <button onClick={() => navigate(`calendar/${id}/week`)}>
+                <button onClick={() => navigate(`/calendar/${id}/week`)}>
                   + Mais {calendar.more}
                 </button>
               </Visible>
