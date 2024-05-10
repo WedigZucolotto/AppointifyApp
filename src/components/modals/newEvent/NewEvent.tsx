@@ -5,9 +5,11 @@ import {
   CompanyScheduleData,
   CreateEventRequest,
   LoginResponse,
+  useCalendarContext,
   useCompanies,
   useEvents,
-  useTryCatch
+  useTryCatch,
+  useUsers
 } from '../../../hooks'
 import dayjs from 'dayjs'
 import { BaseModal, Button } from '../..'
@@ -24,12 +26,14 @@ export const NewEvent = ({ open, onClose }: NewEventProps) => {
   const [company, setCompany] = useState<CompanyScheduleData>()
 
   const user = useAuthUser<LoginResponse>()
-  const { callApi, getAndSet } = useTryCatch()
+  const { fetchWithMessage, getAndSet } = useTryCatch()
 
   const { getAvailableTimes, getCompanySchedule } = useCompanies()
-  const { createEvents } = useEvents()
+  const { createEvent } = useEvents()
 
-  const { control, handleSubmit, watch } = useForm()
+  const { date, refreshCalendar } = useCalendarContext()
+
+  const { control, handleSubmit, watch, reset } = useForm()
 
   const serviceField = watch('service')
   const dateField = watch('date')
@@ -37,17 +41,18 @@ export const NewEvent = ({ open, onClose }: NewEventProps) => {
   useEffect(() => {
     if (user?.id && open) {
       getAndSet(getCompanySchedule(user?.companyId), setCompany)
+      reset({ date: date.toLocaleDateString() })
     }
   }, [open])
 
   useEffect(() => {
-    if (dateField && user?.id) {
+    if (serviceField && user?.id) {
       getAndSet(
-        getAvailableTimes(user.id, dateField, serviceField),
+        getAvailableTimes(user?.companyId, dateField, serviceField, user?.id),
         setTimeOptions
       )
     }
-  }, [dateField])
+  }, [serviceField])
 
   const handleFormSubmit = async (values: FieldValues) => {
     const { name, contact, date, service, hour } = values
@@ -61,10 +66,14 @@ export const NewEvent = ({ open, onClose }: NewEventProps) => {
       userId: user?.id ?? ''
     }
 
-    const { success } = await callApi(createEvents(eventData))
+    const success = await fetchWithMessage(
+      createEvent(eventData),
+      'Evento criado com sucesso'
+    )
 
     if (success) {
       onClose()
+      refreshCalendar()
     }
   }
 
@@ -100,7 +109,8 @@ export const NewEvent = ({ open, onClose }: NewEventProps) => {
         name="date"
         control={control}
         label="Data *"
-        minDate={dayjs().format('DD-MM-YYYY')}
+        minDate={dayjs().toString()}
+        maxDate={dayjs().add(1, 'year').toString()}
         unavailableDates={company?.unavailableDates ?? []}
         disabled={!serviceField}
       />

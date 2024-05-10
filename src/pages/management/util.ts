@@ -32,6 +32,11 @@ export const header = {
     completeName: 'Nome completo',
     type: 'Tipo',
     companyName: 'Empresa'
+  },
+  plans: {
+    id: '',
+    name: 'Nome',
+    showExtraFields: 'Habilita campos extras?'
   }
 }
 

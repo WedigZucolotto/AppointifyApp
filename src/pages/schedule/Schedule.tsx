@@ -30,7 +30,7 @@ export const Schedule = () => {
   const [timeOptions, setTimeOptions] = useState<AvailableTime[]>()
 
   const { getCompanySchedule, getAvailableTimes } = useCompanies()
-  const { createEvents } = useEvents()
+  const { createEvent } = useEvents()
 
   const { callApi, getAndSet } = useTryCatch()
 
@@ -78,7 +78,7 @@ export const Schedule = () => {
       userId
     }
 
-    const { success } = await callApi(createEvents(eventData))
+    const { success } = await callApi(createEvent(eventData))
 
     if (success) {
       navigate('/success')
