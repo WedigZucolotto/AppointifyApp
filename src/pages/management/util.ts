@@ -36,7 +36,7 @@ export const header = {
   plans: {
     id: '',
     name: 'Nome',
-    showExtraFields: 'Habilita campos extras?'
+    showExtraFields: 'Campos extras?'
   }
 }
 

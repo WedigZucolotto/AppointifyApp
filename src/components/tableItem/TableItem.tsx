@@ -5,21 +5,19 @@ interface TableItemProps {
   children: React.ReactNode
   showEditBtn: boolean
   showDeleteBtn: boolean
-  showBorder: boolean
   handleEdit: () => void
   handleDelete: () => void
 }
 
 export const TableItem = ({
   children,
-  showBorder,
   showEditBtn,
   showDeleteBtn,
   handleDelete,
   handleEdit
 }: TableItemProps) => {
   return (
-    <S.TableItem showBorder={showBorder}>
+    <S.TableItem>
       {children}
       <Visible when={showEditBtn}>
         <button onClick={handleEdit}>Editar</button>

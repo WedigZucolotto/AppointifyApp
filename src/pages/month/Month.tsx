@@ -8,7 +8,7 @@ export const Month = () => {
   const { month } = useCalendarContext()
 
   const navigate = useNavigate()
-  const { id } = useParams()
+  const { userId } = useParams()
 
   const rows = (month?.length ?? 0) / 7
 
@@ -28,7 +28,7 @@ export const Month = () => {
                 <Event name={event.title} />
               ))}
               <Visible when={!!calendar.more}>
-                <button onClick={() => navigate(`/calendar/${id}/week`)}>
+                <button onClick={() => navigate(`/calendar/${userId}/week`)}>
                   + Mais {calendar.more}
                 </button>
               </Visible>

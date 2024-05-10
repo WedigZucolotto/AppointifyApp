@@ -16,6 +16,7 @@ export interface EventsData {
 }
 
 export interface EventsFilter {
+  companyId?: string
   userId?: string
   title?: string
   date?: string

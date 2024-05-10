@@ -41,7 +41,7 @@ export const Schedule = () => {
   const dateField = watch('date')
   const serviceField = watch('service')
 
-  const { id } = useParams()
+  const { companyId = '' } = useParams()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -49,13 +49,16 @@ export const Schedule = () => {
   }, [])
 
   useEffect(() => {
-    if (dateField && id) {
-      getAndSet(getAvailableTimes(id, dateField, serviceField), setTimeOptions)
+    if (dateField && companyId) {
+      getAndSet(
+        getAvailableTimes(companyId, dateField, serviceField),
+        setTimeOptions
+      )
     }
   }, [dateField])
 
   const fetchCompanies = async () => {
-    const { data, success } = await callApi(getCompanySchedule(id ?? ''))
+    const { data, success } = await callApi(getCompanySchedule(companyId))
 
     if (data && success) {
       setCompany(data)

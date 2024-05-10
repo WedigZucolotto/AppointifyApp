@@ -31,7 +31,7 @@ export interface UserData {
   id: string
   name: string
   completeName: string
-  type: UserType
+  isOwner: boolean
   companyId: string
 }
 

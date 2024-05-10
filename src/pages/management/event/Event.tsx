@@ -8,7 +8,7 @@ import {
 } from '../../../hooks'
 import { useParams } from 'react-router-dom'
 import { ModalData, ModalTypes, header } from '../util'
-import { ConfirmationModal, TableItem } from '../../../components'
+import { ConfirmationModal, TableItem, Visible } from '../../../components'
 
 export const Event = () => {
   const [modal, setModal] = useState<ModalData>({ id: '', type: 'closed' })
@@ -17,10 +17,10 @@ export const Event = () => {
   const { getAndSet, fetchWithMessage } = useTryCatch()
   const { getAllEvents, deleteEvent } = useEvents()
 
-  const { id } = useParams()
+  const { companyId = '', userId = '' } = useParams()
 
   useEffect(() => {
-    fetchEvents({ userId: id })
+    fetchEvents({ companyId, userId })
   }, [])
 
   const fetchEvents = (filter: EventsFilter) =>
@@ -28,13 +28,13 @@ export const Event = () => {
 
   const handleDelete = async () => {
     await fetchWithMessage(deleteEvent(modal.id), 'Deletado com sucesso!')
-    fetchEvents({ userId: id })
+    fetchEvents({ companyId, userId })
     changeModal('closed')
   }
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = event.target
-    fetchEvents({ [name]: value })
+    fetchEvents({ [name]: value, companyId, userId })
   }
 
   const changeModal = (type: ModalTypes, id = '') => setModal({ id, type })
@@ -64,22 +64,28 @@ export const Event = () => {
           onChange={handleChange}
         />
       </div>
-      {eventTable.map((event, index) => (
-        <TableItem
-          handleEdit={() => changeModal('edit', event.id)}
-          handleDelete={() => changeModal('delete', event.id)}
-          showBorder={index === events.length}
-          showDeleteBtn={index > 0}
-          showEditBtn={false}
-        >
-          <span style={{ width: '150px' }}>{event.title}</span>
-          <span style={{ width: '250px' }}>
-            {event.description ?? '[nulo]'}
-          </span>
-          <span style={{ width: '120px' }}>{event.date}</span>
-          <span style={{ width: '120px' }}>{event.serviceName}</span>
-        </TableItem>
-      ))}
+      <div className="table">
+        {eventTable.map((event, index) => (
+          <TableItem
+            handleEdit={() => changeModal('edit', event.id)}
+            handleDelete={() => changeModal('delete', event.id)}
+            showDeleteBtn={index > 0}
+            showEditBtn={false}
+          >
+            <span style={{ width: '150px' }}>{event.title}</span>
+            <span
+              style={{ width: '250px', fontSize: index > 0 ? '13px' : '16px' }}
+            >
+              {event.description ?? '[nulo]'}
+            </span>
+            <span style={{ width: '120px' }}>{event.date}</span>
+            <span style={{ width: '120px' }}>{event.serviceName}</span>
+          </TableItem>
+        ))}
+      </div>
+      <Visible when={events.length === 0}>
+        <span className="notFound">Nenhum registro encontrado.</span>
+      </Visible>
       <ConfirmationModal
         open={modal.type === 'delete'}
         handleYes={handleDelete}

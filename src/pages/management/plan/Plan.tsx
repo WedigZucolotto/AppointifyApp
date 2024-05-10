@@ -2,7 +2,12 @@ import { useEffect, useState } from 'react'
 import { ManagementLayout } from '..'
 import { ModalData, ModalTypes, header } from '../util'
 import { PlansData, usePlans, useTryCatch } from '../../../hooks'
-import { ConfirmationModal, PlanModal, TableItem } from '../../../components'
+import {
+  ConfirmationModal,
+  PlanModal,
+  TableItem,
+  Visible
+} from '../../../components'
 
 export const Plan = () => {
   const [modal, setModal] = useState<ModalData>({ id: '', type: 'closed' })
@@ -27,26 +32,37 @@ export const Plan = () => {
 
   const plansTable = [header.plans, ...plans]
 
+  const mapExtraFields = (showExtraFields: boolean | string) => {
+    if (typeof showExtraFields === 'string') {
+      return showExtraFields
+    }
+    return showExtraFields ? 'Sim' : 'Não'
+  }
+
   return (
     <ManagementLayout>
       <h2>Planos</h2>
       <div className="filters">
         <button onClick={() => changeModal('edit')}>Novo Plano</button>
       </div>
-      {plansTable.map((plan, index) => (
-        <TableItem
-          handleEdit={() => changeModal('edit', plan.id)}
-          handleDelete={() => changeModal('delete', plan.id)}
-          showBorder={index === plans.length}
-          showDeleteBtn={index !== 0}
-          showEditBtn={index !== 0}
-        >
-          <span style={{ width: '100px' }}>{plan.name}</span>
-          <span style={{ width: '100px' }}>
-            {plan.showExtraFields ? 'Sim' : 'Não'}
-          </span>
-        </TableItem>
-      ))}
+      <div className="table">
+        {plansTable.map((plan, index) => (
+          <TableItem
+            handleEdit={() => changeModal('edit', plan.id)}
+            handleDelete={() => changeModal('delete', plan.id)}
+            showDeleteBtn={index !== 0}
+            showEditBtn={index !== 0}
+          >
+            <span style={{ width: '100px' }}>{plan.name}</span>
+            <span style={{ width: '150px' }}>
+              {mapExtraFields(plan.showExtraFields)}
+            </span>
+          </TableItem>
+        ))}
+      </div>
+      <Visible when={plans.length === 0}>
+        <span className="notFound">Nenhum registro encontrado.</span>
+      </Visible>
       <PlanModal
         open={modal.type === 'edit'}
         fetchPlans={fetchPlans}

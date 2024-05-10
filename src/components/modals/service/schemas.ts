@@ -11,7 +11,7 @@ export const getSchema = (isEdit: boolean) =>
 
 const updateSchema = {
   name: yup.string(),
-  interval: yup.string()
+  interval: yup.string().matches(/^(0[0-9]|1[0-2]):[0-5][0-9]$/)
 }
 
 const createSchema = {

@@ -1,7 +1,12 @@
 import { ChangeEvent, useEffect, useState } from 'react'
 import { ManagementLayout } from '..'
 import { ModalData, ModalTypes, header } from '../util'
-import { ConfirmationModal, ServiceModal, TableItem } from '../../../components'
+import {
+  ConfirmationModal,
+  ServiceModal,
+  TableItem,
+  Visible
+} from '../../../components'
 import {
   ServicesData,
   ServicesFilter,
@@ -14,13 +19,13 @@ export const Service = () => {
   const [modal, setModal] = useState<ModalData>({ id: '', type: 'closed' })
   const [services, setServices] = useState<ServicesData[]>([])
 
-  const { id = '' } = useParams()
+  const { companyId = '' } = useParams()
 
   const { getAndSet, fetchWithMessage } = useTryCatch()
   const { getAllServices, deleteService } = useServices()
 
   useEffect(() => {
-    fetchServices({ companyId: id })
+    fetchServices({ companyId })
   }, [])
 
   const fetchServices = (filter: ServicesFilter) =>
@@ -28,14 +33,14 @@ export const Service = () => {
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { value, name } = event.target
-    fetchServices({ [name]: value, companyId: id })
+    fetchServices({ [name]: value, companyId })
   }
 
   const changeModal = (type: ModalTypes, id = '') => setModal({ id, type })
 
   const handleDelete = async () => {
     await fetchWithMessage(deleteService(modal.id), 'Deletado com sucesso!')
-    fetchServices({ companyId: id })
+    fetchServices({ companyId })
     changeModal('closed')
   }
 
@@ -53,24 +58,28 @@ export const Service = () => {
         />
         <button onClick={() => changeModal('edit')}>Novo Serviço</button>
       </div>
-      {servicesTable.map((service, index) => (
-        <TableItem
-          handleEdit={() => changeModal('edit', service.id)}
-          handleDelete={() => changeModal('delete', service.id)}
-          showBorder={index === services.length}
-          showDeleteBtn={index !== 0}
-          showEditBtn={index !== 0}
-        >
-          <span style={{ width: '200px' }}>{service.name}</span>
-          <span style={{ width: '100px' }}>{service.interval}</span>
-        </TableItem>
-      ))}
+      <div className="table">
+        {servicesTable.map((service, index) => (
+          <TableItem
+            handleEdit={() => changeModal('edit', service.id)}
+            handleDelete={() => changeModal('delete', service.id)}
+            showDeleteBtn={index !== 0}
+            showEditBtn={index !== 0}
+          >
+            <span style={{ width: '200px' }}>{service.name}</span>
+            <span style={{ width: '100px' }}>{service.interval}</span>
+          </TableItem>
+        ))}
+      </div>
+      <Visible when={services.length === 0}>
+        <span className="notFound">Nenhum registro encontrado.</span>
+      </Visible>
       <ServiceModal
         open={modal.type === 'edit'}
         fetchServices={fetchServices}
         changeModal={changeModal}
         id={modal.id}
-        companyId={id}
+        companyId={companyId}
       />
       <ConfirmationModal
         open={modal.type === 'delete'}

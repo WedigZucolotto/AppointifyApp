@@ -1,12 +1,4 @@
-import { UserData } from '../../../hooks'
 import * as yup from 'yup'
-
-export const getDefaultValues = (user?: UserData) => ({
-  name: user?.name,
-  completeName: user?.completeName,
-  companyId: user?.companyId,
-  isOwner: user?.type === 'Owner'
-})
 
 export const getSchema = (isEdit: boolean) =>
   yup.object().shape(isEdit ? updateSchema : createSchema)
@@ -14,7 +6,7 @@ export const getSchema = (isEdit: boolean) =>
 const updateSchema = {
   name: yup.string(),
   completeName: yup.string(),
-  isOwner: yup.bool(),
+  isOwner: yup.string(),
   password: yup
     .string()
     .min(8, 'Senha deve ter no mínimo 8 caracteres')

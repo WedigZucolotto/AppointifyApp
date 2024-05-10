@@ -11,7 +11,7 @@ export const getSchema = (isEdit: boolean) =>
 
 const updateSchema = {
   name: yup.string(),
-  showExtraFields: yup.boolean()
+  showExtraFields: yup.string()
 }
 
 const createSchema = {

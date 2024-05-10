@@ -78,31 +78,35 @@ export const Company = () => {
         </select>
         <button onClick={() => changeModal('edit')}>Nova empresa</button>
       </div>
-      {companyTable.map((company, index) => (
-        <TableItem
-          handleEdit={() => changeModal('edit', company.id)}
-          handleDelete={() => changeModal('delete', company.id)}
-          showBorder={index === companies.length}
-          showDeleteBtn={index > 0}
-          showEditBtn={index > 0}
-        >
-          <span style={{ width: '200px' }}>{company.name}</span>
-          <span style={{ width: '100px' }}>{company.planName}</span>
-          <span style={{ width: '80px' }}>{company.open}</span>
-          <span style={{ width: '80px' }}>{company.close}</span>
-          <Visible when={index !== 0}>
-            <button onClick={() => handleNavigate(company.id, 'users')}>
-              Usuários
-            </button>
-            <button onClick={() => handleNavigate(company.id, 'services')}>
-              Serviços
-            </button>
-            <button onClick={() => handleNavigate(company.id, 'events')}>
-              Eventos
-            </button>
-          </Visible>
-        </TableItem>
-      ))}
+      <div className="table">
+        {companyTable.map((company, index) => (
+          <TableItem
+            handleEdit={() => changeModal('edit', company.id)}
+            handleDelete={() => changeModal('delete', company.id)}
+            showDeleteBtn={index > 0}
+            showEditBtn={index > 0}
+          >
+            <span style={{ width: '200px' }}>{company.name}</span>
+            <span style={{ width: '100px' }}>{company.planName}</span>
+            <span style={{ width: '80px' }}>{company.open}</span>
+            <span style={{ width: '80px' }}>{company.close}</span>
+            <Visible when={index !== 0}>
+              <button onClick={() => handleNavigate(company.id, 'users')}>
+                Usuários
+              </button>
+              <button onClick={() => handleNavigate(company.id, 'services')}>
+                Serviços
+              </button>
+              <button onClick={() => handleNavigate(company.id, 'events')}>
+                Eventos
+              </button>
+            </Visible>
+          </TableItem>
+        ))}
+      </div>
+      <Visible when={companies.length === 0}>
+        <span className="notFound">Nenhum registro encontrado.</span>
+      </Visible>
       <CompanyModal
         open={modal.type === 'edit'}
         fetchCompanies={fetchCompanies}

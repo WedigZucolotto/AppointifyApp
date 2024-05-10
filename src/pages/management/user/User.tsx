@@ -2,20 +2,26 @@ import { ChangeEvent, useEffect, useState } from 'react'
 import { ManagementLayout } from '..'
 import { ModalData, ModalTypes, header } from '../util'
 import { UsersData, UsersFilter, useTryCatch, useUsers } from '../../../hooks'
-import { useParams } from 'react-router-dom'
-import { ConfirmationModal, TableItem, UserModal } from '../../../components'
+import { useNavigate, useParams } from 'react-router-dom'
+import {
+  ConfirmationModal,
+  TableItem,
+  UserModal,
+  Visible
+} from '../../../components'
 
 export const User = () => {
   const [modal, setModal] = useState<ModalData>({ id: '', type: 'closed' })
   const [users, setUsers] = useState<UsersData[]>([])
 
-  const { id = '' } = useParams()
+  const { companyId = '' } = useParams()
+  const navigate = useNavigate()
 
   const { getAndSet, fetchWithMessage } = useTryCatch()
   const { getAllUsers, deleteUser } = useUsers()
 
   useEffect(() => {
-    fetchUsers({ companyId: id })
+    fetchUsers({ companyId })
   }, [])
 
   const fetchUsers = (filter: UsersFilter) =>
@@ -25,14 +31,14 @@ export const User = () => {
     event: ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { value, name } = event.target
-    fetchUsers({ [name]: value, companyId: id })
+    fetchUsers({ [name]: value, companyId })
   }
 
   const changeModal = (type: ModalTypes, id = '') => setModal({ id, type })
 
   const handleDelete = async () => {
     await fetchWithMessage(deleteUser(modal.id), 'Deletado com sucesso!')
-    fetchUsers({ companyId: id })
+    fetchUsers({ companyId })
     changeModal('closed')
   }
 
@@ -62,26 +68,35 @@ export const User = () => {
         </select>
         <button onClick={() => changeModal('edit')}>Novo Usuário</button>
       </div>
-      {usersTable.map((user, index) => (
-        <TableItem
-          handleEdit={() => changeModal('edit', user.id)}
-          handleDelete={() => changeModal('delete', user.id)}
-          showBorder={index === users.length}
-          showDeleteBtn={index !== 0}
-          showEditBtn={index !== 0}
-        >
-          <span style={{ width: '100px' }}>{user.name}</span>
-          <span style={{ width: '200px' }}>{user.completeName}</span>
-          <span style={{ width: '100px' }}>{user.type}</span>
-          <span style={{ width: '200px' }}>{user.companyName}</span>
-        </TableItem>
-      ))}
+      <div className="table">
+        {usersTable.map((user, index) => (
+          <TableItem
+            handleEdit={() => changeModal('edit', user.id)}
+            handleDelete={() => changeModal('delete', user.id)}
+            showDeleteBtn={index !== 0}
+            showEditBtn={index !== 0}
+          >
+            <span style={{ width: '100px' }}>{user.name}</span>
+            <span style={{ width: '200px' }}>{user.completeName}</span>
+            <span style={{ width: '100px' }}>{user.type}</span>
+            <span style={{ width: '200px' }}>{user.companyName}</span>
+            <Visible when={index !== 0}>
+              <button onClick={() => navigate(`${user.id}/events`)}>
+                Eventos
+              </button>
+            </Visible>
+          </TableItem>
+        ))}
+      </div>
+      <Visible when={users.length === 0}>
+        <span className="notFound">Nenhum registro encontrado.</span>
+      </Visible>
       <UserModal
         open={modal.type === 'edit'}
         fetchUsers={fetchUsers}
         changeModal={changeModal}
         id={modal.id}
-        companyId={id}
+        companyId={companyId}
       />
       <ConfirmationModal
         open={modal.type === 'delete'}

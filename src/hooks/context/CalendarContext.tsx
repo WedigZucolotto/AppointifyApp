@@ -24,7 +24,7 @@ const CalendarContext = createContext({} as CalendarContextProps)
 export const CalendarContextProvider = ({
   children
 }: CalendarContextProviderProps) => {
-  const { id: userId } = useParams()
+  const { userId = '' } = useParams()
 
   const path = window.location.pathname
   const pathParts = path.split('/')
@@ -45,8 +45,6 @@ export const CalendarContextProvider = ({
   }, [date, type])
 
   const fetchCalendar = () => {
-    if (!userId) return
-
     const formatedDate = date.toLocaleDateString('pt-BR').replace(/\//g, '/')
 
     if (type === 'day') {

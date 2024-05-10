@@ -1,22 +1,22 @@
 import { FieldValues, useForm } from 'react-hook-form'
 import {
   useTryCatch,
-  UserData,
   useUsers,
   CreateUserRequest,
   UsersFilter,
-  UpdateUserRequest
+  UpdateUserRequest,
+  UserData
 } from '../../../hooks'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { ModalTypes } from '../../../pages/management/util'
 import { ManagementModal } from '../..'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { getDefaultValues, getSchema } from './schemas'
+import { getSchema } from './schemas'
 
 interface UserModalProps {
   open: boolean
   companyId: string
-  fetchUsers: (filter: UsersFilter) => Promise<void>
+  fetchUsers: (filter: UsersFilter) => void
   changeModal: (type: ModalTypes) => void
   id: string
 }
@@ -25,7 +25,7 @@ interface FormData {
   name?: string
   password?: string
   completeName?: string
-  isOwner?: boolean
+  isOwner?: string
 }
 
 export const UserModal = ({
@@ -37,28 +37,43 @@ export const UserModal = ({
 }: UserModalProps) => {
   const isEdit = !!id
 
-  const [user, setUser] = useState<UserData>()
-
-  const { getAndSet, fetchWithMessage } = useTryCatch()
+  const { callApi, fetchWithMessage } = useTryCatch()
   const { createUser, updateUser, getUserById } = useUsers()
 
   useEffect(() => {
     if (isEdit) {
       fetchUser()
     }
-    return () => reset()
-  }, [])
+    return () => resetFields()
+  }, [open])
 
-  const fetchUser = () => getAndSet(getUserById(id), setUser)
+  const resetFields = (user?: UserData) =>
+    reset({
+      name: user?.name ?? '',
+      completeName: user?.completeName ?? '',
+      password: '',
+      isOwner: user?.isOwner ? 'true' : 'false'
+    })
+
+  const fetchUser = async () => {
+    const { data, success } = await callApi(getUserById(id))
+
+    if (data && success) {
+      resetFields(data)
+    }
+  }
 
   const { register, handleSubmit, reset } = useForm<FormData>({
-    resolver: yupResolver(getSchema(isEdit)),
-    defaultValues: getDefaultValues(user)
+    resolver: yupResolver(getSchema(isEdit))
   })
 
   const handleNewUser = async (values: FieldValues) => {
     await fetchWithMessage(
-      createUser({ ...values, companyId } as CreateUserRequest),
+      createUser({
+        ...values,
+        companyId,
+        isOwner: values.isOwner === 'true'
+      } as CreateUserRequest),
       'Criado com sucesso!'
     )
     fetchUsers({ companyId })
@@ -67,7 +82,11 @@ export const UserModal = ({
 
   const handleUpdateUser = async (values: FieldValues) => {
     await fetchWithMessage(
-      updateUser(id, { ...values, companyId } as UpdateUserRequest),
+      updateUser(id, {
+        ...values,
+        companyId,
+        isOwner: values.isOwner === 'true'
+      } as UpdateUserRequest),
       'Editado com sucesso!'
     )
     fetchUsers({ companyId })

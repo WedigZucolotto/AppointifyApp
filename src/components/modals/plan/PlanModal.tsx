@@ -6,11 +6,11 @@ import {
   CreatePlanRequest,
   UpdatePlanRequest
 } from '../../../hooks'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { ModalTypes } from '../../../pages/management/util'
 import { ManagementModal } from '../..'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { getDefaultValues, getSchema } from './schemas'
+import { getSchema } from './schemas'
 
 interface PlanModalProps {
   open: boolean
@@ -21,7 +21,7 @@ interface PlanModalProps {
 
 interface FormData {
   name?: string
-  showExtraFields?: boolean
+  showExtraFields?: string
 }
 
 export const PlanModal = ({
@@ -32,28 +32,40 @@ export const PlanModal = ({
 }: PlanModalProps) => {
   const isEdit = !!id
 
-  const [plan, setPlan] = useState<PlanData>()
-
-  const { getAndSet, fetchWithMessage } = useTryCatch()
+  const { callApi, fetchWithMessage } = useTryCatch()
   const { createPlan, updatePlan, getPlanById } = usePlans()
 
   useEffect(() => {
     if (isEdit) {
       fetchPlan()
     }
-    return () => reset()
-  }, [])
+    return () => resetFields()
+  }, [open])
 
-  const fetchPlan = () => getAndSet(getPlanById(id), setPlan)
+  const resetFields = (plan?: PlanData) =>
+    reset({
+      name: plan?.name ?? '',
+      showExtraFields: plan?.showExtraFields ? 'true' : 'false'
+    })
+
+  const fetchPlan = async () => {
+    const { data, success } = await callApi(getPlanById(id))
+
+    if (data && success) {
+      resetFields(data)
+    }
+  }
 
   const { register, handleSubmit, reset } = useForm<FormData>({
-    resolver: yupResolver(getSchema(isEdit)),
-    defaultValues: getDefaultValues(plan)
+    resolver: yupResolver(getSchema(isEdit))
   })
 
   const handleNewPlan = async (values: FieldValues) => {
     await fetchWithMessage(
-      createPlan(values as CreatePlanRequest),
+      createPlan({
+        ...values,
+        showExtraFields: values.showExtraFields === 'true'
+      } as CreatePlanRequest),
       'Criado com sucesso!'
     )
     fetchPlans()
@@ -62,7 +74,10 @@ export const PlanModal = ({
 
   const handleUpdatePlan = async (values: FieldValues) => {
     await fetchWithMessage(
-      updatePlan(id, values as UpdatePlanRequest),
+      updatePlan(id, {
+        ...values,
+        showExtraFields: values.showExtraFields === 'true'
+      } as UpdatePlanRequest),
       'Editado com sucesso!'
     )
     fetchPlans()
@@ -74,7 +89,7 @@ export const PlanModal = ({
       <form onSubmit={handleSubmit(isEdit ? handleUpdatePlan : handleNewPlan)}>
         <label>Nome</label>
         <input type="text" placeholder="Nome" {...register('name')} />
-        <label>Mostra campos extras?</label>
+        <label>Campos extras?</label>
         <div style={{ display: 'flex', width: '50%' }}>
           <label>Sim</label>
           <input

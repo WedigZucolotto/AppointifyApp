@@ -17,11 +17,16 @@ import {
 } from './pages'
 
 export const Routes = () => {
+  const userRoutes = [
+    { path: '', element: <User /> },
+    { path: ':userId/events', element: <Event /> }
+  ]
+
   const companyRoutes = [
     { path: '', element: <Company /> },
-    { path: ':id/users', element: <User /> },
-    { path: ':id/services', element: <Service /> },
-    { path: ':id/events', element: <Event /> }
+    { path: ':companyId/users', element: <Outlet />, children: userRoutes },
+    { path: ':companyId/services', element: <Service /> },
+    { path: ':companyId/events', element: <Event /> }
   ]
 
   const managementRoutes = [
@@ -35,15 +40,15 @@ export const Routes = () => {
   ]
 
   const calendarRoutes = [
-    { path: ':id/day', element: <Day /> },
-    { path: ':id/week', element: <Week /> },
-    { path: ':id/month', element: <Month /> }
+    { path: ':userId/day', element: <Day /> },
+    { path: ':userId/week', element: <Week /> },
+    { path: ':userId/month', element: <Month /> }
   ]
 
   const publicRoutes = [
     { path: '/', element: <Navigate to="/login" /> },
     { path: 'login', element: <Login /> },
-    { path: ':id/schedule', element: <Schedule /> },
+    { path: ':companyId/schedule', element: <Schedule /> },
     { path: 'success', element: <Success /> },
     { path: '*', element: <NoPage /> }
   ]
