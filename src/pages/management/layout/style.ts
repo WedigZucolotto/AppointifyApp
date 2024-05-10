@@ -12,4 +12,20 @@ export const Header = styled.header`
 
 export const Content = styled.main`
   padding: 0 50px;
+  width: max-content;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  .filters {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .notFound {
+    font-size: 14px;
+    padding-left: 10px;
+  }
 `

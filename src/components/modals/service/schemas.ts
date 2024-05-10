@@ -9,13 +9,13 @@ export const getDefaultValues = (service?: ServiceData) => ({
 export const getSchema = (isEdit: boolean) =>
   yup.object().shape(isEdit ? updateSchema : createSchema)
 
-const createSchema = {
+const updateSchema = {
   name: yup.string(),
-  interval: yup.string()
+  interval: yup.string().matches(/^(0[0-9]|1[0-2]):[0-5][0-9]$/)
 }
 
-const updateSchema = {
-  ...createSchema,
-  name: createSchema.name.required(),
-  interval: createSchema.interval.required()
+const createSchema = {
+  ...updateSchema,
+  name: updateSchema.name.required(),
+  interval: updateSchema.interval.required()
 }

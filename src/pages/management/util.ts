@@ -17,6 +17,26 @@ export const header = {
     id: '',
     name: 'Nome',
     interval: 'Intervalo'
+  },
+  events: {
+    id: '',
+    title: 'Título',
+    description: 'Descrição',
+    date: 'Data',
+    userName: 'Usuário',
+    serviceName: 'Serviço'
+  },
+  users: {
+    id: '',
+    name: 'Username',
+    completeName: 'Nome completo',
+    type: 'Tipo',
+    companyName: 'Empresa'
+  },
+  plans: {
+    id: '',
+    name: 'Nome',
+    showExtraFields: 'Campos extras?'
   }
 }
 

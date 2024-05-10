@@ -1,4 +1,4 @@
-import { Navigate, useRoutes } from 'react-router-dom'
+import { Navigate, Outlet, useRoutes } from 'react-router-dom'
 import AuthOutlet from '@auth-kit/react-router/AuthOutlet'
 import { CalendarContextProvider } from './hooks'
 import {
@@ -17,35 +17,38 @@ import {
 } from './pages'
 
 export const Routes = () => {
+  const userRoutes = [
+    { path: '', element: <User /> },
+    { path: ':userId/events', element: <Event /> }
+  ]
+
   const companyRoutes = [
-    { path: ':id/users', element: <User /> },
-    { path: ':id/services', element: <Service /> },
-    { path: ':id/events', element: <Event /> }
+    { path: '', element: <Company /> },
+    { path: ':companyId/users', element: <Outlet />, children: userRoutes },
+    { path: ':companyId/services', element: <Service /> },
+    { path: ':companyId/events', element: <Event /> }
   ]
 
   const managementRoutes = [
     { path: '', element: <Navigate to="companies" /> },
+    { path: 'plans', element: <Plan /> },
     {
       path: 'companies',
-      element: <Company />,
+      element: <Outlet />,
       children: companyRoutes
-    },
-    { path: 'events', element: <Event /> },
-    { path: 'plans', element: <Plan /> },
-    { path: 'services', element: <Service /> },
-    { path: 'users', element: <User /> }
+    }
   ]
 
   const calendarRoutes = [
-    { path: ':id/day', element: <Day /> },
-    { path: ':id/week', element: <Week /> },
-    { path: ':id/month', element: <Month /> }
+    { path: ':userId/day', element: <Day /> },
+    { path: ':userId/week', element: <Week /> },
+    { path: ':userId/month', element: <Month /> }
   ]
 
   const publicRoutes = [
     { path: '/', element: <Navigate to="/login" /> },
     { path: 'login', element: <Login /> },
-    { path: ':id/schedule', element: <Schedule /> },
+    { path: ':companyId/schedule', element: <Schedule /> },
     { path: 'success', element: <Success /> },
     { path: '*', element: <NoPage /> }
   ]

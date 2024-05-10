@@ -1,19 +1,12 @@
 import styled from 'styled-components'
 
-interface TableItemProps {
-  mustHaveBorder: boolean
-  isLastItem: boolean
-}
-
-export const TableItem = styled.div<TableItemProps>`
+export const TableItem = styled.div`
   display: flex;
   align-items: center;
-  border: ${(props) => (props.mustHaveBorder ? '1px solid gray' : 'none')};
-  border-bottom: ${(props) => (props.isLastItem ? '1px solid gray' : 'none')};
-  width: max-content;
+  border-bottom: 1px solid lightgray;
 
-  &:last-child() {
-    border-bottom: 1px solid black;
+  &:not(:first-child):last-child {
+    border-bottom: none;
   }
 
   span {

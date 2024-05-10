@@ -3,21 +3,22 @@ import {
   CreateCompanyRequest,
   UpdateCompanyRequest,
   useCompanies,
-  usePlans,
   useTryCatch,
   Option,
+  CompaniesFilter,
   CompanyData
 } from '../../../hooks'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { ModalTypes, timeOptions } from '../../../pages/management/util'
 import { ManagementModal } from '../..'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { getDefaultValues, getSchema } from './schemas'
+import { getSchema } from './schemas'
 
 interface CompanyModalProps {
   open: boolean
-  fetchCompanies: () => Promise<void>
+  fetchCompanies: (filter: CompaniesFilter) => void
   changeModal: (type: ModalTypes) => void
+  plans: Option[]
   id?: string
 }
 
@@ -32,31 +33,39 @@ export const CompanyModal = ({
   open,
   fetchCompanies,
   changeModal,
+  plans,
   id = ''
 }: CompanyModalProps) => {
   const isEdit = !!id
 
-  const [plans, setPlans] = useState<Option[]>([])
-  const [company, setCompany] = useState<CompanyData>()
-
-  const { getAndSet, fetchWithMessage } = useTryCatch()
-  const { getPlanOptions } = usePlans()
+  const { callApi, fetchWithMessage } = useTryCatch()
   const { createCompany, updateCompany, getCompanyById } = useCompanies()
 
   useEffect(() => {
     if (isEdit) {
       fetchCompany()
     }
-    fetchPlans()
-    return () => reset()
-  }, [])
+    return () => resetFields()
+  }, [open])
 
-  const fetchPlans = () => getAndSet(getPlanOptions(), setPlans)
-  const fetchCompany = () => getAndSet(getCompanyById(id), setCompany)
+  const resetFields = (company?: CompanyData) =>
+    reset({
+      name: company?.name ?? '',
+      open: company?.open ?? '',
+      close: company?.close ?? '',
+      planId: company?.planId ?? ''
+    })
+
+  const fetchCompany = async () => {
+    const { data, success } = await callApi(getCompanyById(id))
+
+    if (data && success) {
+      resetFields(data)
+    }
+  }
 
   const { register, handleSubmit, reset } = useForm<FormData>({
-    resolver: yupResolver(getSchema(isEdit)),
-    defaultValues: getDefaultValues(company)
+    resolver: yupResolver(getSchema(isEdit))
   })
 
   const handleNewCompany = async (values: FieldValues) => {
@@ -64,7 +73,7 @@ export const CompanyModal = ({
       createCompany(values as CreateCompanyRequest),
       'Criado com sucesso!'
     )
-    fetchCompanies()
+    fetchCompanies({})
     changeModal('closed')
   }
 
@@ -73,7 +82,7 @@ export const CompanyModal = ({
       updateCompany(id, values as UpdateCompanyRequest),
       'Editado com sucesso!'
     )
-    fetchCompanies()
+    fetchCompanies({})
     changeModal('closed')
   }
 
@@ -99,9 +108,7 @@ export const CompanyModal = ({
         <label>Plano</label>
         <select {...register('planId')}>
           {plans.map((p) => (
-            <option value={'65a84c31-953f-411b-bb03-a5d9a7843421'}>
-              {p.name}
-            </option>
+            <option value={p.value}>{p.name}</option>
           ))}
         </select>
         <div className="btns">

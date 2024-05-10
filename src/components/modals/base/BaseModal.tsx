@@ -17,10 +17,11 @@ export const BaseModal = ({ children, open, onClose }: BaseModalProps) => {
         <div>
           <Draggable handle=".draggable">
             <S.BaseModal>
-              <div className="draggable"></div>
-              <button onClick={onClose} className="closeBtn">
-                <Close />
-              </button>
+              <div className="draggable">
+                <button onClick={onClose} className="closeBtn">
+                  <Close />
+                </button>
+              </div>
               <div className="container">{children}</div>
             </S.BaseModal>
           </Draggable>

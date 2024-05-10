@@ -8,6 +8,11 @@ export interface CompaniesData {
   close: string
 }
 
+export interface CompaniesFilter {
+  name?: string
+  planId?: string
+}
+
 export interface CompanyData {
   id: string
   name: string

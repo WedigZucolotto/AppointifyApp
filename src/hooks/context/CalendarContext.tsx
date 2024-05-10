@@ -12,6 +12,7 @@ interface CalendarContextProps {
   month?: UserMonth[]
   type: CalendarType
   setType: (type: CalendarType) => void
+  refreshCalendar: () => void
 }
 
 interface CalendarContextProviderProps {
@@ -23,7 +24,7 @@ const CalendarContext = createContext({} as CalendarContextProps)
 export const CalendarContextProvider = ({
   children
 }: CalendarContextProviderProps) => {
-  const { id: userId } = useParams()
+  const { userId = '' } = useParams()
 
   const path = window.location.pathname
   const pathParts = path.split('/')
@@ -40,8 +41,10 @@ export const CalendarContextProvider = ({
   const { getAndSet } = useTryCatch()
 
   useEffect(() => {
-    if (!userId) return
+    fetchCalendar()
+  }, [date, type])
 
+  const fetchCalendar = () => {
     const formatedDate = date.toLocaleDateString('pt-BR').replace(/\//g, '/')
 
     if (type === 'day') {
@@ -56,7 +59,9 @@ export const CalendarContextProvider = ({
       getAndSet(getUserMonth(userId, formatedDate), setMonth)
       return
     }
-  }, [date, type])
+  }
+
+  const refreshCalendar = () => fetchCalendar()
 
   return (
     <CalendarContext.Provider
@@ -67,7 +72,8 @@ export const CalendarContextProvider = ({
         week,
         month,
         type,
-        setType
+        setType,
+        refreshCalendar
       }}
     >
       {children}
