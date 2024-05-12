@@ -1,13 +1,26 @@
 import { MenuItem, Select, SelectChangeEvent } from '@mui/material'
-import { Button } from '..'
+import { Visible, Menu, Button } from '..'
 import * as S from './style'
-import { ArrowBackIos, ArrowForwardIos } from '@mui/icons-material'
-import { useNavigate } from 'react-router-dom'
+import {
+  ArrowBackIos,
+  ArrowForwardIos,
+  Person,
+  Apartment,
+  Home,
+  CalendarMonth
+} from '@mui/icons-material'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { CalendarType, LoginResponse, useCalendarContext } from '../../hooks'
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser'
 
-export const Header = () => {
+interface HeaderProps {
+  showCalendarFields?: boolean
+}
+
+export const Header = ({ showCalendarFields = true }: HeaderProps) => {
   const navigate = useNavigate()
+  const { state } = useLocation()
+
   const user = useAuthUser<LoginResponse>()
 
   const { setDate, setType, date, type } = useCalendarContext()
@@ -66,29 +79,83 @@ export const Header = () => {
     return `${month} de ${year}`
   }
 
+  const userOptions = [
+    {
+      name: 'Editar',
+      onClick: () =>
+        navigate(`/calendar/${user?.id}/user`, {
+          state: { tab: 'Editar Cadastro' }
+        })
+    },
+    { name: 'Sair', onClick: () => console.log() }
+  ]
+
+  const companyOptions = [
+    {
+      name: 'Editar',
+      onClick: () =>
+        navigate(`/calendar/${user?.id}/company`, {
+          state: { tab: 'Editar Empresa' }
+        })
+    },
+    {
+      name: 'Serviços',
+      onClick: () =>
+        navigate(`/calendar/${user?.id}/services`, {
+          state: { tab: 'Seus serviços' }
+        })
+    }
+  ]
+
   return (
     <S.Header>
-      <S.Title>Agenda - {user?.completeName}</S.Title>
-      <Button onClick={handleToday}>Hoje</Button>
-      <Select
-        onChange={handleSelectChange}
-        value={type}
-        size="small"
-        sx={{ fontSize: '0.93rem', color: 'rgb(60, 64, 67)'}}
-      >
-        <MenuItem value="month">Mês</MenuItem>
-        <MenuItem value="week">Semana</MenuItem>
-        <MenuItem value="day">Dia</MenuItem>
-      </Select>
-      <div className="arrows">
-        <S.ArrowsButton onClick={() => handleClickArrow(false)}>
-          <ArrowBackIos />
-        </S.ArrowsButton>
-        <S.ArrowsButton onClick={() => handleClickArrow(true)}>
-          <ArrowForwardIos />
-        </S.ArrowsButton>
-      </div>
-      <S.Day>{getTitle()}</S.Day>
+      <S.HomeBtns>
+        <Button type="icon" onClick={() => navigate('/login')}>
+          <Home />
+        </Button>
+        <Visible when={!showCalendarFields}>
+          <Button
+            type="icon"
+            onClick={() => navigate(`/calendar/${user?.id}/week`)}
+          >
+            <CalendarMonth />
+          </Button>
+        </Visible>
+      </S.HomeBtns>
+      <S.Title>{state?.tab ?? 'Calendário'}</S.Title>
+      <Visible when={showCalendarFields}>
+        <Button onClick={handleToday}>Hoje</Button>
+        <Select
+          onChange={handleSelectChange}
+          value={type}
+          size="small"
+          sx={{ fontSize: '0.93rem', color: 'rgb(60, 64, 67)' }}
+        >
+          <MenuItem value="month">Mês</MenuItem>
+          <MenuItem value="week">Semana</MenuItem>
+          <MenuItem value="day">Dia</MenuItem>
+        </Select>
+        <S.Arrows>
+          <Button type="icon" onClick={() => handleClickArrow(false)}>
+            <ArrowBackIos fontSize="small" />
+          </Button>
+          <Button type="icon" onClick={() => handleClickArrow(false)}>
+            <ArrowForwardIos fontSize="small" />
+          </Button>
+        </S.Arrows>
+        <S.Day>{getTitle()}</S.Day>
+      </Visible>
+      <S.Menus>
+        <span>{user?.completeName}</span>
+        <Visible when={true}>
+          <Menu options={companyOptions}>
+            <Apartment />
+          </Menu>
+        </Visible>
+        <Menu options={userOptions}>
+          <Person />
+        </Menu>
+      </S.Menus>
     </S.Header>
   )
 }

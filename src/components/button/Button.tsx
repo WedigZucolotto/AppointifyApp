@@ -1,11 +1,13 @@
+import { MouseEventHandler } from 'react'
 import * as S from './style'
+import { Button as MuiButton } from '@mui/material'
 
-type ButtonType = 'today' | 'newEvent' | 'schedule' | 'login'
+type ButtonType = 'today' | 'newEvent' | 'schedule' | 'login' | 'icon'
 
 interface ButtonProps {
   type?: ButtonType
   children: React.ReactNode
-  onClick: () => void
+  onClick: MouseEventHandler<HTMLButtonElement>
 }
 
 export const Button = ({ type = 'today', children, onClick }: ButtonProps) => {
@@ -17,6 +19,12 @@ export const Button = ({ type = 'today', children, onClick }: ButtonProps) => {
     case 'schedule':
       return <S.ScheduleBtn onClick={onClick}>{children}</S.ScheduleBtn>
     case 'login':
-      return <S.loginBtn onClick={onClick}>{children}</S.loginBtn>
+      return <S.LoginBtn onClick={onClick}>{children}</S.LoginBtn>
+    case 'icon':
+      return (
+        <MuiButton onClick={onClick} sx={S.IconBtn}>
+          {children}
+        </MuiButton>
+      )
   }
 }

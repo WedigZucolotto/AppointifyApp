@@ -13,7 +13,8 @@ import {
   Week,
   Month,
   NoPage,
-  Company
+  Company,
+  Services
 } from './pages'
 
 export const Routes = () => {
@@ -42,7 +43,10 @@ export const Routes = () => {
   const calendarRoutes = [
     { path: ':userId/day', element: <Day /> },
     { path: ':userId/week', element: <Week /> },
-    { path: ':userId/month', element: <Month /> }
+    { path: ':userId/month', element: <Month /> },
+    { path: ':userId/services', element: <Services /> },
+    { path: ':userId/company', element: <Services /> },
+    { path: ':userId/user', element: <Services /> },
   ]
 
   const publicRoutes = [
