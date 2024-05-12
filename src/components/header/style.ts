@@ -4,19 +4,15 @@ export const Header = styled.header`
   display: flex;
   align-items: center;
   gap: 25px;
-  padding: 15px 20px;
+  padding: 0 15px;
+  height: 70px;
   border-bottom: 1px solid rgb(218, 220, 224);
+`
 
-  .arrows {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-  }
-
-  .MuiOutlinedInput-notchedOutline
-    .css-1d3z3hw-MuiOutlinedInput-notchedOutlinet {
-    width: 350px;
-  }
+export const Arrows = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
 `
 
 export const Title = styled.h1`
@@ -25,18 +21,28 @@ export const Title = styled.h1`
   color: rgb(60, 64, 67);
 `
 
-export const ArrowsButton = styled.button`
-  border: none;
-  background-color: transparent;
-  color: rgb(60, 64, 67);
-
-  > svg {
-    font-size: 0.95rem;
-  }
-`
-
 export const Day = styled.h2`
   font-size: 1.3rem;
   font-weight: 400;
   color: rgb(60, 64, 67);
+`
+
+export const Menus = styled.div`
+  border-radius: 3px;
+  margin-left: auto;
+  border: 1px solid rgba(0, 0, 0, 0.23);
+  display: flex;
+  align-items: center;
+
+  span {
+    margin: 0 10px;
+  }
+`
+
+export const HomeBtns = styled.div``
+
+export const IconButton = styled.button`
+  background-color: transparent;
+  border-radius: 100%;
+  border: none;
 `

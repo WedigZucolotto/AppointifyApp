@@ -32,7 +32,7 @@ export const ScheduleBtn = styled.button`
   border: none;
   border-radius: 5px;
   color: #ffffff;
-  background-color: #0575E6;
+  background-color: #0575e6;
   font-weight: 600;
   transition: background-color 0.2s ease;
 
@@ -41,14 +41,14 @@ export const ScheduleBtn = styled.button`
   }
 `
 
-export const loginBtn = styled.button`
+export const LoginBtn = styled.button`
   padding: 14px;
   width: 270px;
   height: 54px;
   border: none;
   border-radius: 25px;
   color: #ffffff;
-  background-color: #0575E6;
+  background-color: #0575e6;
   font-weight: 600;
   transition: background-color 0.2s ease;
 
@@ -56,3 +56,9 @@ export const loginBtn = styled.button`
     background-color: #0072b1;
   }
 `
+
+export const IconBtn = {
+  color: 'rgb(60, 64, 67)',
+  borderRadius: '100%',
+  minWidth: 'max-content'
+}
