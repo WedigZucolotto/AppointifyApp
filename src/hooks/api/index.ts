@@ -10,5 +10,4 @@ export * from './plans/Plans'
 export * from './users/Users'
 export * from './users/useUsers'
 export * from './events/useEvents'
-export * from './events/Events'
-
+export * from './events/events'

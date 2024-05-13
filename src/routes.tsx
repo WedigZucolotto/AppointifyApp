@@ -13,8 +13,9 @@ import {
   Week,
   Month,
   NoPage,
-  Company,
-  Services
+  CompanyManagement,
+  Services,
+  Company
 } from './pages'
 
 export const Routes = () => {
@@ -24,7 +25,7 @@ export const Routes = () => {
   ]
 
   const companyRoutes = [
-    { path: '', element: <Company /> },
+    { path: '', element: <CompanyManagement /> },
     { path: ':companyId/users', element: <Outlet />, children: userRoutes },
     { path: ':companyId/services', element: <Service /> },
     { path: ':companyId/events', element: <Event /> }
@@ -45,8 +46,8 @@ export const Routes = () => {
     { path: ':userId/week', element: <Week /> },
     { path: ':userId/month', element: <Month /> },
     { path: ':userId/services', element: <Services /> },
-    { path: ':userId/company', element: <Services /> },
     { path: ':userId/user', element: <User /> },
+    { path: ':userId/company', element: <Company /> }
   ]
 
   const publicRoutes = [
