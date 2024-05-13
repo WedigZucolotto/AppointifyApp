@@ -10,7 +10,7 @@ import {
   Visible
 } from '../../../components'
 
-export const User = () => {
+export const UserManagement = () => {
   const [modal, setModal] = useState<ModalData>({ id: '', type: 'closed' })
   const [users, setUsers] = useState<UsersData[]>([])
 

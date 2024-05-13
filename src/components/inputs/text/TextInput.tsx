@@ -5,7 +5,7 @@ import { InputError } from '../error/InputError'
 import InputMask from 'react-input-mask'
 import { Person, Lock } from '@mui/icons-material'
 
-type TextType = 'schedule' | 'userName' | 'password'
+type TextType = 'schedule' | 'userName' | 'password' | 'passwordEdit'
 
 interface TextProps<TFieldValues extends FieldValues> {
   label?: string
@@ -58,8 +58,8 @@ export function TextInput<TFieldValues extends FieldValues = FieldValues>({
       return (
         <S.LoginInput>
           <div className={fieldState.error ? 'box error' : 'box'}>
-            <Person className='icon'/>
-            <input {...props} className="" />
+            <Person className="icon" />
+            <input {...props} />
           </div>
           <InputError message={fieldState.error?.message} />
         </S.LoginInput>
@@ -68,11 +68,19 @@ export function TextInput<TFieldValues extends FieldValues = FieldValues>({
       return (
         <S.LoginInput>
           <div className={fieldState.error ? 'box error' : 'box'}>
-            <Lock className='icon'/>
-            <input {...props} type="password" className="" />
+            <Lock className="icon" />
+            <input {...props} type="password" />
           </div>
           <InputError message={fieldState.error?.message} />
         </S.LoginInput>
+      )
+    case 'passwordEdit':
+      return (
+        <S.ScheduleInput>
+          <label>{label}</label>
+          <input {...props} type="password" />
+          <InputError message={fieldState.error?.message} />
+        </S.ScheduleInput>
       )
   }
 }
