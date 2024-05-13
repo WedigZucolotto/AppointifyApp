@@ -32,7 +32,7 @@ export const ScheduleBtn = styled.button`
   border: none;
   border-radius: 5px;
   color: #ffffff;
-  background-color: #0575E6;
+  background-color: #0575e6;
   font-weight: 600;
   transition: background-color 0.2s ease;
 
@@ -48,11 +48,34 @@ export const loginBtn = styled.button`
   border: none;
   border-radius: 25px;
   color: #ffffff;
-  background-color: #0575E6;
+  background-color: #0575e6;
   font-weight: 600;
   transition: background-color 0.2s ease;
 
   &:hover {
     background-color: #0072b1;
+  }
+`
+
+export const NoPage = styled.button`
+  height: 71px;
+  width: 367px;
+  font-size: 23px;
+  font-weight: bold;
+  font-family: 'Lato', sans-serif;
+  color: #ffffff;
+  background-color: #0575e6;
+  border: none;
+  border-radius: 20px;
+  box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14),
+    0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #0072b1;
+  }
+
+  &:active {
+    background-color: #005c91;
   }
 `
