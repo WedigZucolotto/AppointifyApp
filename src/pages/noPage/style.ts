@@ -1,29 +1,43 @@
 import styled from 'styled-components'
 
 export const NoPage = styled.div`
-  .logo {
-    padding: 20px;
-    color: var(--blue);
-  }
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
 
   .container {
     display: flex;
-    justify-content: center;
     align-items: center;
-    margin-top: 50px;
+    margin-top: 70px;
+    margin-left: 50px;
   }
 
   .container > div {
-    margin-right: 550px;
+    margin-right: 50px;
   }
 
-  .page-not-found{
-    font-weight: 500;
-    margin-top: 25px;
+  .regua {
+    display: block;
+    padding: 0;
+    margin: 10px 0;
+    width: 4px;
+    height: 371px;
+    background-color: #ddd;
   }
 
-  .centeredTxt{
-    margin-top: 25px;
-    color: #4B4B4B;
+  .centeredTxt {
+    margin-top: 50px;
+    margin-bottom: 70px;
+    color: #4b4b4b;
+    font-size: 20px;
+  }
+
+  p {
+    margin-top: 5px;
+  }
+
+  button {
+    margin-bottom: 100px;
   }
 `

@@ -2,7 +2,13 @@ import { MouseEventHandler } from 'react'
 import * as S from './style'
 import { Button as MuiButton } from '@mui/material'
 
-type ButtonType = 'today' | 'newEvent' | 'schedule' | 'login' | 'icon'
+type ButtonType =
+  | 'today'
+  | 'newEvent'
+  | 'schedule'
+  | 'login'
+  | 'noPage'
+  | 'icon'
 
 interface ButtonProps {
   type?: ButtonType
@@ -20,6 +26,8 @@ export const Button = ({ type = 'today', children, onClick }: ButtonProps) => {
       return <S.ScheduleBtn onClick={onClick}>{children}</S.ScheduleBtn>
     case 'login':
       return <S.LoginBtn onClick={onClick}>{children}</S.LoginBtn>
+    case 'noPage':
+      return <S.NoPage onClick={onClick}>{children}</S.NoPage>
     case 'icon':
       return (
         <MuiButton onClick={onClick} sx={S.IconBtn}>
