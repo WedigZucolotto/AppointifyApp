@@ -19,6 +19,7 @@ export const useTryCatch = () => {
     const { data, success } = await callApi(get)
     if (data && success) {
       set(data)
+      return { data, success }
     }
   }
 
@@ -26,6 +27,7 @@ export const useTryCatch = () => {
     const { success } = await callApi(promise)
     if (success) {
       showSuccessSnackbar(message)
+      return { success }
     }
   }
 

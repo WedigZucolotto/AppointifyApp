@@ -4,20 +4,21 @@ import {
   useServices,
   ServiceData,
   CreateServiceRequest,
-  UpdateServiceRequest
+  UpdateServiceRequest,
+  ServicesFilter
 } from '../../../hooks'
-import { useEffect, useState } from 'react'
-import { ModalTypes, timeOptions } from '../../../pages/management/util'
+import { useEffect } from 'react'
+import { ModalTypes } from '../../../pages/management/util'
 import { ManagementModal } from '../..'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { getDefaultValues, getSchema } from './schemas'
+import { getSchema } from './schemas'
 
 interface ServiceModalProps {
   open: boolean
   companyId: string
-  fetchServices: () => Promise<void>
+  fetchServices: (filter: ServicesFilter) => void
   changeModal: (type: ModalTypes) => void
-  id?: string
+  id: string
 }
 
 interface FormData {
@@ -34,23 +35,33 @@ export const ServiceModal = ({
 }: ServiceModalProps) => {
   const isEdit = !!id
 
-  const [service, setService] = useState<ServiceData>()
-
-  const { getAndSet, fetchWithMessage } = useTryCatch()
+  const { callApi, fetchWithMessage } = useTryCatch()
   const { createService, updateService, getServiceById } = useServices()
 
   useEffect(() => {
     if (isEdit) {
       fetchService()
     }
-    return () => reset()
-  }, [])
+    return () => resetFields()
+  }, [open])
 
-  const fetchService = () => getAndSet(getServiceById(id), setService)
+  const resetFields = (service?: ServiceData) => {
+    reset({
+      name: service?.name ?? '',
+      interval: service?.interval ?? ''
+    })
+  }
+
+  const fetchService = async () => {
+    const { data, success } = await callApi(getServiceById(id))
+
+    if (data && success) {
+      resetFields(data)
+    }
+  }
 
   const { register, handleSubmit, reset } = useForm<FormData>({
-    resolver: yupResolver(getSchema(isEdit)),
-    defaultValues: getDefaultValues(service)
+    resolver: yupResolver(getSchema(isEdit))
   })
 
   const handleNewService = async (values: FieldValues) => {
@@ -58,7 +69,7 @@ export const ServiceModal = ({
       createService({ ...values, companyId } as CreateServiceRequest),
       'Criado com sucesso!'
     )
-    fetchServices()
+    fetchServices({ companyId })
     changeModal('closed')
   }
 
@@ -67,7 +78,7 @@ export const ServiceModal = ({
       updateService(id, values as UpdateServiceRequest),
       'Editado com sucesso!'
     )
-    fetchServices()
+    fetchServices({ companyId })
     changeModal('closed')
   }
 
@@ -79,11 +90,7 @@ export const ServiceModal = ({
         <label>Nome</label>
         <input type="text" placeholder="Nome" {...register('name')} />
         <label>Intervalo</label>
-        <select {...register('interval')}>
-          {timeOptions.map((time) => (
-            <option value={time}>{time}</option>
-          ))}
-        </select>
+        <input type="text" placeholder="Nome" {...register('interval')} />
         <div className="btns">
           <button onClick={() => changeModal('closed')}>Cancelar</button>
           <button>Enviar</button>

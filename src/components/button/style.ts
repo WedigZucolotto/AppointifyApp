@@ -41,7 +41,7 @@ export const ScheduleBtn = styled.button`
   }
 `
 
-export const loginBtn = styled.button`
+export const LoginBtn = styled.button`
   padding: 14px;
   width: 270px;
   height: 54px;
@@ -79,3 +79,8 @@ export const NoPage = styled.button`
     background-color: #005c91;
   }
 `
+export const IconBtn = {
+  color: 'rgb(60, 64, 67)',
+  borderRadius: '100%',
+  minWidth: 'max-content'
+}

@@ -5,14 +5,18 @@ import {
   CompaniesData,
   UpdateCompanyRequest,
   CompanyScheduleData,
-  AvailableTime
+  AvailableTime,
+  CompaniesFilter
 } from '..'
 
 export const useCompanies = () => {
   const { get, post, put, del } = useRequest('companies')
 
-  const getAllCompanies = async (): Promise<CompaniesData[]> => {
-    const { data } = await get()
+  const getAllCompanies = async (
+    filter: CompaniesFilter
+  ): Promise<CompaniesData[]> => {
+    const { name = '', planId = '' } = filter
+    const { data } = await get(`?name=${name}&planId=${planId}`)
     return data
   }
 

@@ -8,7 +8,8 @@ import {
   UserDayWeek,
   useRequest,
   UserMonth,
-  UsersData
+  UsersData,
+  UsersFilter
 } from '..'
 
 export const useUsers = () => {
@@ -21,12 +22,8 @@ export const useUsers = () => {
     return data
   }
 
-  const getAllUsers = async (
-    name = '',
-    completeName = '',
-    type = '',
-    companyId = ''
-  ): Promise<UsersData[]> => {
+  const getAllUsers = async (filter: UsersFilter): Promise<UsersData[]> => {
+    const { name = '', completeName = '', type = '', companyId = '' } = filter
     const { data } = await get(
       `?name=${name}&completeName=${completeName}&type=${type}&companyId=${companyId}`
     )

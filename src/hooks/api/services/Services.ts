@@ -4,6 +4,11 @@ export interface ServicesData {
   interval: string
 }
 
+export interface ServicesFilter {
+  companyId?: string
+  name?: string
+}
+
 export interface ServiceData {
   id: string
   name: string
