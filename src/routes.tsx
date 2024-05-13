@@ -46,7 +46,7 @@ export const Routes = () => {
     { path: ':userId/month', element: <Month /> },
     { path: ':userId/services', element: <Services /> },
     { path: ':userId/company', element: <Services /> },
-    { path: ':userId/user', element: <Services /> },
+    { path: ':userId/user', element: <User /> },
   ]
 
   const publicRoutes = [
