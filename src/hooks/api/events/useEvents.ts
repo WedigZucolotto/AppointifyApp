@@ -1,5 +1,5 @@
 import { useRequest } from '../base/useRequest'
-import { CreateEventRequest, EventsData, EventsFilter } from './Events'
+import { CreateEventRequest, EventsData, EventsFilter } from './events'
 
 export const useEvents = () => {
   const { post, get, del } = useRequest('events')

@@ -19,7 +19,7 @@ import { ModalData, ModalTypes, header } from '../util'
 
 type Pages = 'users' | 'services' | 'events'
 
-export const Company = () => {
+export const CompanyManagement = () => {
   const [modal, setModal] = useState<ModalData>({ id: '', type: 'closed' })
   const [companies, setCompanies] = useState<CompaniesData[]>([])
   const [plans, setPlans] = useState<Option[]>([])
