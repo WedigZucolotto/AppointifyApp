@@ -94,7 +94,7 @@ export const Header = ({ showCalendarFields = true }: HeaderProps) => {
     {
       name: 'Editar',
       onClick: () =>
-        navigate(`/calendar/${user?.id}/company`, {
+        navigate(`/calendar/${user?.companyId}/company`, {
           state: { tab: 'Editar Empresa' }
         })
     },
