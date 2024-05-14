@@ -12,6 +12,7 @@ import {
 import { useNavigate } from 'react-router-dom'
 import { CalendarType, LoginResponse, useCalendarContext } from '../../hooks'
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser'
+import useSignOut from 'react-auth-kit/hooks/useSignOut'
 
 interface HeaderProps {
   isCalendar?: boolean
@@ -21,14 +22,14 @@ export const Header = ({ isCalendar = true }: HeaderProps) => {
   const navigate = useNavigate()
 
   const user = useAuthUser<LoginResponse>()
+  const signOut = useSignOut()
 
-  const { setDate, setType, date, type, getCalendarTitle } =
+  const { setDate, date, type, getCalendarTitle, changeTab } =
     useCalendarContext()
 
   const handleSelectChange = (event: SelectChangeEvent<string>) => {
     const { value } = event.target
-    navigate(`/calendar/${user?.id}/${value}`)
-    setType(value as CalendarType)
+    changeTab(value as CalendarType, user?.id ?? '')
   }
 
   const handleToday = () => setDate(new Date())
@@ -53,12 +54,17 @@ export const Header = ({ isCalendar = true }: HeaderProps) => {
     }
   }
 
+  const logout = () => {
+    signOut()
+    navigate('/')
+  }
+
   const userOptions = [
     {
       name: 'Editar',
       onClick: () => navigate(`/calendar/${user?.id}/user`)
     },
-    { name: 'Sair', onClick: () => console.log() }
+    { name: 'Sair', onClick: logout }
   ]
 
   const companyOptions = [
@@ -72,11 +78,6 @@ export const Header = ({ isCalendar = true }: HeaderProps) => {
     }
   ]
 
-  const onCalendarClick = () => {
-    setType('week')
-    navigate(`/calendar/${user?.id}/week`)
-  }
-
   return (
     <S.Header>
       <S.HomeBtns>
@@ -84,7 +85,7 @@ export const Header = ({ isCalendar = true }: HeaderProps) => {
           <Home />
         </Button>
         <Visible when={!isCalendar}>
-          <Button type="icon" onClick={onCalendarClick}>
+          <Button type="icon" onClick={() => changeTab('week', user?.id ?? '')}>
             <CalendarMonth />
           </Button>
         </Visible>

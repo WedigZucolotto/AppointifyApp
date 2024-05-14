@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { UserDayWeek, UserMonth, useTryCatch, useUsers } from '../api'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 
 export type CalendarType = 'day' | 'week' | 'month'
 
@@ -14,6 +14,7 @@ interface CalendarContextProps {
   setType: (type: CalendarType) => void
   refreshCalendar: () => void
   getCalendarTitle: () => string
+  changeTab: (type: CalendarType, userId: string, day?: string) => void
 }
 
 interface CalendarContextProviderProps {
@@ -26,6 +27,7 @@ export const CalendarContextProvider = ({
   children
 }: CalendarContextProviderProps) => {
   const { userId = '' } = useParams()
+  const navigate = useNavigate()
 
   const path = window.location.pathname
   const pathParts = path.split('/')
@@ -90,6 +92,16 @@ export const CalendarContextProvider = ({
     return `${month} de ${year}`
   }
 
+  const changeTab = (type: CalendarType, userId: string, day?: string) => {
+    if (day) {
+      const newDate = new Date(date)
+      newDate.setDate(parseInt(day))
+      setDate(newDate)
+    }
+    setType(type)
+    navigate(`/calendar/${userId}/${type}`)
+  }
+
   return (
     <CalendarContext.Provider
       value={{
@@ -101,7 +113,8 @@ export const CalendarContextProvider = ({
         type,
         setType,
         refreshCalendar,
-        getCalendarTitle
+        getCalendarTitle,
+        changeTab
       }}
     >
       {children}

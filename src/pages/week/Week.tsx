@@ -3,9 +3,14 @@ import { useCalendarContext } from '../../hooks'
 import { CalendarLayout } from '..'
 import * as S from './style'
 import CircularProgress from '@mui/material/CircularProgress'
+import { useParams } from 'react-router-dom'
 
 export const Week = () => {
-  const { week } = useCalendarContext()
+  const { week, changeTab } = useCalendarContext()
+  const { userId = '' } = useParams()
+
+  const newDate = new Date()
+  const today = newDate.getDate().toString()
 
   return (
     <CalendarLayout>
@@ -14,9 +19,11 @@ export const Week = () => {
       </Visible>
       {week?.map((calendar, calendarIndex) => (
         <S.Column key={calendarIndex}>
-          <S.Header>
+          <S.Header $isToday={calendar.day === today}>
             <span>{calendar.week}</span>
-            <span>{calendar.day}</span>
+            <button onClick={() => changeTab('day', userId, calendar.day)}>
+              {calendar.day}
+            </button>
           </S.Header>
           {Object.keys(calendar.events ?? []).map((hour, dayIndex) => (
             <S.Day key={dayIndex}>

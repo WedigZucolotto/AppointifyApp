@@ -4,6 +4,10 @@ interface MonthDayProps {
   rows: number
 }
 
+interface DayProps {
+  $isToday: boolean
+}
+
 export const MonthDay = styled.div<MonthDayProps>`
   width: calc(100% / 7);
   height: ${({ rows }) => `calc(100% / ${rows})`};
@@ -20,8 +24,26 @@ export const MonthDayHeader = styled.div`
   flex-direction: column;
   align-items: center;
 
-  > span {
+  span {
     font-size: 0.8rem;
+  }
+`
+
+export const Day = styled.button<DayProps>`
+  font-size: 0.8rem;
+  background-color: ${(props) =>
+    props.$isToday ? 'rgb(26,115,232)' : 'transparent'};
+  border: none;
+  border-radius: 50%;
+  color: ${(props) => (props.$isToday ? 'white' : 'black')};
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+
+  &:hover {
+    background-color: ${(props) =>
+      props.$isToday ? 'rgb(26,115,232)' : 'rgb(218, 220, 224)'};
   }
 `
 

@@ -1,4 +1,4 @@
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { Event, Visible } from '../../components'
 import { useCalendarContext } from '../../hooks'
 import * as S from './style'
@@ -6,19 +6,13 @@ import { CalendarLayout } from '..'
 import CircularProgress from '@mui/material/CircularProgress'
 
 export const Month = () => {
-  const { month, setDate, date } = useCalendarContext()
+  const { month, changeTab } = useCalendarContext()
+  const { userId = '' } = useParams()
 
-  const navigate = useNavigate()
-  const { userId } = useParams()
+  const newDate = new Date()
+  const today = newDate.getDate().toString()
 
   const rows = (month?.length ?? 0) / 7
-
-  const handleMoreClick = (day: string) => {
-    const newDate = new Date(date)
-    newDate.setDate(parseInt(day))
-    setDate(newDate)
-    navigate(`/calendar/${userId}/week`)
-  }
 
   return (
     <CalendarLayout type="month">
@@ -28,7 +22,12 @@ export const Month = () => {
       {month?.map((calendar, dayIndex) => (
         <S.MonthDay key={dayIndex} rows={rows}>
           <S.MonthDayHeader>
-            <span>{calendar.day}</span>
+            <S.Day
+              onClick={() => changeTab('day', userId, calendar.day)}
+              $isToday={calendar.day === today}
+            >
+              {calendar.day}
+            </S.Day>
             <Visible when={dayIndex < 7}>
               <span>{calendar.week}</span>
             </Visible>
@@ -43,7 +42,7 @@ export const Month = () => {
               />
             ))}
             <Visible when={!!calendar.more}>
-              <S.More onClick={() => handleMoreClick(calendar.day)}>
+              <S.More onClick={() => changeTab('week', userId, calendar.day)}>
                 + Mais {calendar.more}
               </S.More>
             </Visible>

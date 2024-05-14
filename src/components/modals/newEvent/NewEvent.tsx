@@ -127,7 +127,7 @@ export const NewEvent = ({ open, onClose }: NewEventProps) => {
           }
           name="hour"
           control={control}
-          disabled={!dateField}
+          disabled={!dateField || timeOptions.length === 0}
         />
         <Button type="schedule" onClick={handleSubmit(handleFormSubmit)}>
           Agendar

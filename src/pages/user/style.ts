@@ -5,7 +5,6 @@ export const Content = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  width: 25%;
 `
 
 export const Title = styled.h2`
