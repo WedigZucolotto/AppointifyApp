@@ -11,7 +11,7 @@ export const TodayBtn = styled.button`
 `
 
 export const NewEventBtn = styled.button`
-  width: 150px;
+  width: 170px;
   box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3),
     0 1px 3px 1px rgba(60, 64, 67, 0.15);
   border: none;
@@ -19,7 +19,7 @@ export const NewEventBtn = styled.button`
   border-radius: 25px;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-evenly;
   padding: 10px;
   color: rgb(60, 64, 67);
   font-weight: 500;
@@ -28,7 +28,7 @@ export const NewEventBtn = styled.button`
 
 export const ScheduleBtn = styled.button`
   padding: 12px;
-  width: 210px;
+  width: 240px;
   border: none;
   border-radius: 5px;
   color: #ffffff;
@@ -51,6 +51,13 @@ export const LoginBtn = styled.button`
   background-color: #0575e6;
   font-weight: 600;
   transition: background-color 0.2s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .MuiCircularProgress-root {
+    color: white;
+  }
 
   &:hover {
     background-color: #0072b1;
@@ -79,6 +86,7 @@ export const NoPage = styled.button`
     background-color: #005c91;
   }
 `
+
 export const IconBtn = {
   color: 'rgb(60, 64, 67)',
   borderRadius: '100%',

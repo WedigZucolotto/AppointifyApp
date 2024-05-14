@@ -12,7 +12,7 @@ export const Company = () => {
 
   return (
     <>
-      <Header showCalendarFields={false} />
+      <Header isCalendar={false} />
       <S.Company>
         <S.Title>Douglax e Gaybriel</S.Title>
         <TextInput

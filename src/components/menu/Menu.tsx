@@ -32,8 +32,10 @@ export const Menu = ({ children, options }: MenuProps) => {
         open={openMenu}
         onClose={() => setOpenMenu(false)}
       >
-        {options.map((o) => (
-          <MenuItem onClick={o.onClick}>{o.name}</MenuItem>
+        {options.map((o, index) => (
+          <MenuItem key={index} onClick={o.onClick}>
+            {o.name}
+          </MenuItem>
         ))}
       </MuiMenu>
     </>

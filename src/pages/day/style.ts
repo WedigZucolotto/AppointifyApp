@@ -3,7 +3,7 @@ import styled from 'styled-components'
 export const DayHeader = styled.div`
   display: flex;
   padding: 20px 0;
-  border-bottom: 1px solid rgb(218, 220, 224);
+  width: 100%;
 `
 
 export const DayHeaderDay = styled.div`
@@ -25,12 +25,13 @@ export const DayHeaderDay = styled.div`
 `
 
 export const DayHour = styled.div`
-  border-bottom: 1px solid rgb(218, 220, 224);
+  border-top: 1px solid rgb(218, 220, 224);
   border-right: 1px solid rgb(218, 220, 224);
   height: 50px;
   padding: 5px 20px 5px 5px;
   display: flex;
   align-items: center;
+  width: 100%;
 
   > span {
     color: rgb(60, 64, 67);

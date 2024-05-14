@@ -15,6 +15,14 @@ export interface EventsData {
   serviceName: string
 }
 
+export interface EventData {
+  id: string
+  title: string
+  description?: string
+  date: string
+  serviceName: string
+}
+
 export interface EventsFilter {
   companyId?: string
   userId?: string

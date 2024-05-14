@@ -13,6 +13,7 @@ interface CalendarContextProps {
   type: CalendarType
   setType: (type: CalendarType) => void
   refreshCalendar: () => void
+  getCalendarTitle: () => string
 }
 
 interface CalendarContextProviderProps {
@@ -63,6 +64,32 @@ export const CalendarContextProvider = ({
 
   const refreshCalendar = () => fetchCalendar()
 
+  const getCalendarTitle = () => {
+    const months = [
+      'Janeiro',
+      'Fevereiro',
+      'Março',
+      'Abril',
+      'Maio',
+      'Junho',
+      'Julho',
+      'Agosto',
+      'Setembro',
+      'Outubro',
+      'Novembro',
+      'Dezembro'
+    ]
+
+    const month = months[date.getMonth()]
+    const year = date.getFullYear()
+
+    if (type === 'day') {
+      const day = date.getDate()
+      return `${day} de ${month} de ${year}`
+    }
+    return `${month} de ${year}`
+  }
+
   return (
     <CalendarContext.Provider
       value={{
@@ -73,7 +100,8 @@ export const CalendarContextProvider = ({
         month,
         type,
         setType,
-        refreshCalendar
+        refreshCalendar,
+        getCalendarTitle
       }}
     >
       {children}

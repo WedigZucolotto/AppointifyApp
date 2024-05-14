@@ -2,15 +2,19 @@ import * as S from './style'
 import * as yup from 'yup'
 import line from '../../img/lines-vector.svg'
 import { Button, TextInput } from '../../components'
-import { FieldValues,  useForm } from 'react-hook-form'
+import { FieldValues, useForm } from 'react-hook-form'
 import { LoginRequest, useTryCatch, useUsers } from '../../hooks'
 import { useNavigate } from 'react-router-dom'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useState } from 'react'
+import CircularProgress from '@mui/material/CircularProgress'
 
 export const Login = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false)
+
   const schema = yup.object().shape({
-    name: yup.string().required(),
-    password: yup.string().required()
+    name: yup.string().required('Obrigatório'),
+    password: yup.string().required('Obrigatório')
   })
 
   const { control, handleSubmit } = useForm({
@@ -23,8 +27,14 @@ export const Login = () => {
   const navigate = useNavigate()
 
   const handleLoginSubmit = async (values: FieldValues) => {
-    const { data } = await callApi(login(values as LoginRequest))
-    navigate(`/calendar/${data?.id}/week`)
+    setIsLoading(true)
+
+    const { data, success } = await callApi(login(values as LoginRequest))
+
+    if (data && success) {
+      navigate(`/calendar/${data?.id}/week`)
+    }
+    setIsLoading(false)
   }
 
   return (
@@ -36,7 +46,6 @@ export const Login = () => {
         </div>
         <img src={line} alt="" />
       </section>
-
       <form className="right-side">
         <div className="title">
           <p className="welcome">Bem vindo!</p>
@@ -48,6 +57,7 @@ export const Login = () => {
             name="name"
             placeholder="Nome de Usuário"
             control={control}
+            size={270}
           />
         </div>
         <div className="txtinput">
@@ -56,10 +66,11 @@ export const Login = () => {
             name="password"
             placeholder="Senha"
             control={control}
+            size={270}
           />
         </div>
         <Button onClick={handleSubmit(handleLoginSubmit)} type="login">
-          Entrar
+          {isLoading ? <CircularProgress size={20} /> : 'Entrar'}
         </Button>
       </form>
     </S.Login>

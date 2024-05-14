@@ -11,12 +11,12 @@ type ButtonType =
   | 'icon'
 
 interface ButtonProps {
-  type?: ButtonType
   children: React.ReactNode
   onClick: MouseEventHandler<HTMLButtonElement>
+  type?: ButtonType
 }
 
-export const Button = ({ type = 'today', children, onClick }: ButtonProps) => {
+export const Button = ({ children, onClick, type = 'today' }: ButtonProps) => {
   switch (type) {
     case 'today':
       return <S.TodayBtn onClick={onClick}>{children}</S.TodayBtn>

@@ -8,13 +8,12 @@ import {
   useCalendarContext,
   useCompanies,
   useEvents,
-  useTryCatch,
-  useUsers
+  useTryCatch
 } from '../../../hooks'
-import dayjs from 'dayjs'
 import { BaseModal, Button } from '../..'
 import { useEffect, useState } from 'react'
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser'
+import * as S from './style'
 
 interface NewEventProps {
   open: boolean
@@ -33,7 +32,7 @@ export const NewEvent = ({ open, onClose }: NewEventProps) => {
 
   const { date, refreshCalendar } = useCalendarContext()
 
-  const { control, handleSubmit, watch, reset } = useForm()
+  const { control, handleSubmit, watch, reset, resetField } = useForm()
 
   const serviceField = watch('service')
   const dateField = watch('date')
@@ -45,14 +44,18 @@ export const NewEvent = ({ open, onClose }: NewEventProps) => {
     }
   }, [open])
 
-  useEffect(() => {
-    if (serviceField && user?.id) {
-      getAndSet(
-        getAvailableTimes(user?.companyId, dateField, serviceField, user?.id),
-        setTimeOptions
-      )
-    }
-  }, [serviceField])
+  const fetchTimes = (value: string) => {
+    resetField('hour')
+    getAndSet(
+      getAvailableTimes(user?.companyId ?? '', value, serviceField, user?.id),
+      setTimeOptions
+    )
+  }
+
+  const onServiceChange = () => {
+    resetField('hour')
+    resetField('date')
+  }
 
   const handleFormSubmit = async (values: FieldValues) => {
     const { name, contact, date, service, hour } = values
@@ -79,53 +82,57 @@ export const NewEvent = ({ open, onClose }: NewEventProps) => {
 
   return (
     <BaseModal open={open} onClose={onClose}>
-      <h2>Novo Evento</h2>
-      <TextInput
-        label="Nome *"
-        placeholder="Ex: João"
-        name="name"
-        control={control}
-      />
-      <TextInput
-        label="Sobrenome *"
-        placeholder="Ex: Ribeiro"
-        name="lastname"
-        control={control}
-      />
-      <TextInput
-        label="Contato *"
-        placeholder="Ex: (11) 91234-5678"
-        name="contact"
-        control={control}
-        mask="(99) 99999-9999"
-      />
-      <SelectInput
-        label="Serviço *"
-        options={company?.services ?? []}
-        name="service"
-        control={control}
-      />
-      <DateInput
-        name="date"
-        control={control}
-        label="Data *"
-        minDate={dayjs().toString()}
-        maxDate={dayjs().add(1, 'year').toString()}
-        unavailableDates={company?.unavailableDates ?? []}
-        disabled={!serviceField}
-      />
-      <SelectInput
-        label="Horário *"
-        options={
-          timeOptions?.map((o) => ({ name: o.time, value: o.time })) ?? []
-        }
-        name="hour"
-        control={control}
-        disabled={!dateField}
-      />
-      <Button type="schedule" onClick={handleSubmit(handleFormSubmit)}>
-        Agendar
-      </Button>
+      <S.Container>
+        <h2>Novo Evento</h2>
+        <TextInput
+          label="Nome *"
+          placeholder="Ex: João"
+          name="name"
+          control={control}
+        />
+        <TextInput
+          label="Sobrenome *"
+          placeholder="Ex: Ribeiro"
+          name="lastname"
+          control={control}
+        />
+        <TextInput
+          label="Contato *"
+          placeholder="Ex: (11) 91234-5678"
+          name="contact"
+          control={control}
+          mask="(99) 99999-9999"
+        />
+        <SelectInput
+          label="Serviço *"
+          options={company?.services ?? []}
+          name="service"
+          control={control}
+          onChange={onServiceChange}
+        />
+        <DateInput
+          name="date"
+          control={control}
+          label="Data *"
+          minDate={company?.minDate ?? ''}
+          maxDate={company?.maxDate ?? ''}
+          unavailableDates={company?.unavailableDates ?? []}
+          disabled={!serviceField}
+          onChange={fetchTimes}
+        />
+        <SelectInput
+          label="Horário *"
+          options={
+            timeOptions?.map((o) => ({ name: o.time, value: o.time })) ?? []
+          }
+          name="hour"
+          control={control}
+          disabled={!dateField}
+        />
+        <Button type="schedule" onClick={handleSubmit(handleFormSubmit)}>
+          Agendar
+        </Button>
+      </S.Container>
     </BaseModal>
   )
 }

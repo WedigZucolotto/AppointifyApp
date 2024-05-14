@@ -4,12 +4,6 @@ interface MonthDayProps {
   rows: number
 }
 
-export const Month = styled.div`
-  height: calc(100vh - 87px);
-  display: flex;
-  flex-wrap: wrap;
-`
-
 export const MonthDay = styled.div<MonthDayProps>`
   width: calc(100% / 7);
   height: ${({ rows }) => `calc(100% / ${rows})`};
@@ -41,14 +35,15 @@ export const MonthDayContent = styled.div`
   align-items: center;
   gap: 5px;
 
-  > div {
+  div,
+  button {
     max-height: 25px;
   }
+`
 
-  > button {
-    color: rgb(60, 64, 67);
-    font-size: 0.8rem;
-    border: none;
-    background-color: transparent;
-  }
+export const More = styled.button`
+  color: rgb(60, 64, 67);
+  font-size: 0.8rem;
+  border: none;
+  background-color: transparent;
 `
