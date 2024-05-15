@@ -12,21 +12,6 @@ export interface LoginResponse {
   id: string
 }
 
-export interface UsersData {
-  id: string
-  name: string
-  completeName: string
-  type: UserType
-  companyName: string
-}
-
-export interface UsersFilter {
-  name?: string
-  completeName?: string
-  type?: UserType
-  companyId?: string
-}
-
 export interface UserData {
   id: string
   name: string

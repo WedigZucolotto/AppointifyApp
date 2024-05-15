@@ -1,14 +1,3 @@
-export interface ServicesData {
-  id: string
-  name: string
-  interval: string
-}
-
-export interface ServicesFilter {
-  companyId?: string
-  name?: string
-}
-
 export interface ServiceData {
   id: string
   name: string
