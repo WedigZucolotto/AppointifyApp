@@ -1,6 +1,8 @@
 import styled from 'styled-components'
 
 export const BaseModal = styled.div`
+  z-index: 5;
+
   .box {
     position: fixed;
     top: 0;

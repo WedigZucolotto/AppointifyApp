@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { BaseModal } from '../..'
 import { EventData, useEvents, useTryCatch } from '../../../hooks'
+import * as S from './style'
 
 interface EventDetailProps {
   id: string
@@ -18,21 +19,19 @@ export const EventDetailModal = ({ id, open, onClose }: EventDetailProps) => {
     if (open) {
       getAndSet(getEventById(id), setEvent)
     }
+    return () => setEvent({} as EventData)
   }, [open])
 
   return (
     <BaseModal open={open} onClose={onClose}>
-      <h2>{event?.title}</h2>
-      <span>Descrição</span>
-      <p>{event?.description}</p>
-      <div>
-        <span>Data: </span>
-        <p>{event?.date}</p>
-      </div>
-      <div>
-        <span>Serviço</span>
-        <p>{event?.serviceName}</p>
-      </div>
+      <S.Container>
+        <h2>{event?.title}</h2>
+        <S.Item>{event?.description}</S.Item>
+        <S.Box>
+          <S.Item>{event?.date}</S.Item>
+          <S.Item>{event?.serviceName}</S.Item>
+        </S.Box>
+      </S.Container>
     </BaseModal>
   )
 }

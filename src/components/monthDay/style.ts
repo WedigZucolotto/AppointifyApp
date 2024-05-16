@@ -16,6 +16,7 @@ export const MonthDay = styled.div<MonthDayProps>`
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 `
 
 export const MonthDayHeader = styled.div`

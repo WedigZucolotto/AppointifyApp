@@ -92,3 +92,23 @@ export const IconBtn = {
   borderRadius: '100%',
   minWidth: 'max-content'
 }
+
+export const NewEventButton = styled.button`
+  background-color: rgb(3, 155, 229);
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 100%;
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 1px 2px 0 rgba(60, 64, 67, 0.3),
+    0 1px 3px 1px rgba(60, 64, 67, 0.15);
+
+  svg {
+    color: white;
+  }
+`

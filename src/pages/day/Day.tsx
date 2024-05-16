@@ -1,4 +1,4 @@
-import { Event, Visible } from '../../components'
+import { Visible, Day as DayBox } from '../../components'
 import { useCalendarContext } from '../../hooks'
 import { CalendarLayout } from '..'
 import * as S from './style'
@@ -19,12 +19,12 @@ export const Day = () => {
         </S.DayHeaderDay>
       </S.DayHeader>
       {Object.keys(day?.events ?? []).map((hour, dayIndex) => (
-        <S.DayHour key={dayIndex}>
-          <span>{hour}</span>
-          {day?.events[hour].map((event, eventIndex) => (
-            <Event key={eventIndex} name={event.title} id={event.id} />
-          ))}
-        </S.DayHour>
+        <DayBox
+          key={dayIndex}
+          day={day?.day ?? ''}
+          events={day?.events[hour] ?? []}
+          hour={hour}
+        />
       ))}
     </CalendarLayout>
   )

@@ -10,7 +10,7 @@ import {
   useEvents,
   useTryCatch
 } from '../../../hooks'
-import { BaseModal, Button } from '../..'
+import { BaseModal, Button, Visible } from '../..'
 import { useEffect, useState } from 'react'
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser'
 import * as S from './style'
@@ -18,9 +18,10 @@ import * as S from './style'
 interface NewEventProps {
   open: boolean
   onClose: () => void
+  defaultDay?: string
 }
 
-export const NewEvent = ({ open, onClose }: NewEventProps) => {
+export const NewEventModal = ({ open, onClose, defaultDay }: NewEventProps) => {
   const [timeOptions, setTimeOptions] = useState<AvailableTime[]>([])
   const [company, setCompany] = useState<CompanyScheduleData>()
 
@@ -37,11 +38,21 @@ export const NewEvent = ({ open, onClose }: NewEventProps) => {
   const serviceField = watch('service')
   const dateField = watch('date')
 
+  const getDefaultDate = () => {
+    if (defaultDay) {
+      const newDate = new Date()
+      newDate.setDate(parseInt(defaultDay))
+      return newDate.toLocaleDateString()
+    }
+    return date.toLocaleDateString()
+  }
+
   useEffect(() => {
     if (user?.id && open) {
       getAndSet(getCompanySchedule(user?.companyId), setCompany)
-      reset({ date: date.toLocaleDateString() })
+      reset({ date: getDefaultDate() })
     }
+    return () => reset()
   }, [open])
 
   const fetchTimes = (value: string) => {
@@ -82,7 +93,7 @@ export const NewEvent = ({ open, onClose }: NewEventProps) => {
 
   return (
     <BaseModal open={open} onClose={onClose}>
-      <S.Container>
+      <S.Form>
         <h2>Novo Evento</h2>
         <TextInput
           label="Nome *"
@@ -110,16 +121,18 @@ export const NewEvent = ({ open, onClose }: NewEventProps) => {
           control={control}
           onChange={onServiceChange}
         />
-        <DateInput
-          name="date"
-          control={control}
-          label="Data *"
-          minDate={company?.minDate ?? ''}
-          maxDate={company?.maxDate ?? ''}
-          unavailableDates={company?.unavailableDates ?? []}
-          disabled={!serviceField}
-          onChange={fetchTimes}
-        />
+        <Visible when={!defaultDay}>
+          <DateInput
+            name="date"
+            control={control}
+            label="Data *"
+            minDate={company?.minDate ?? ''}
+            maxDate={company?.maxDate ?? ''}
+            unavailableDates={company?.unavailableDates ?? []}
+            disabled={!serviceField}
+            onChange={fetchTimes}
+          />
+        </Visible>
         <SelectInput
           label="Horário *"
           options={
@@ -127,12 +140,12 @@ export const NewEvent = ({ open, onClose }: NewEventProps) => {
           }
           name="hour"
           control={control}
-          disabled={!dateField || timeOptions.length === 0}
+          disabled={!serviceField}
         />
         <Button type="schedule" onClick={handleSubmit(handleFormSubmit)}>
           Agendar
         </Button>
-      </S.Container>
+      </S.Form>
     </BaseModal>
   )
 }

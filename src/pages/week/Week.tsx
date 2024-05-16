@@ -1,4 +1,4 @@
-import { Event, Visible } from '../../components'
+import { Visible, WeekDay } from '../../components'
 import { useCalendarContext } from '../../hooks'
 import { CalendarLayout } from '..'
 import * as S from './style'
@@ -26,14 +26,13 @@ export const Week = () => {
             </button>
           </S.Header>
           {Object.keys(calendar.events ?? []).map((hour, dayIndex) => (
-            <S.Day key={dayIndex}>
-              <Visible when={calendarIndex === 0}>
-                <S.Hour>{hour}</S.Hour>
-              </Visible>
-              {week[calendarIndex]?.events[hour].map((event, eventIndex) => (
-                <Event key={eventIndex} name={event.title} id={event.id} />
-              ))}
-            </S.Day>
+            <WeekDay
+              key={dayIndex}
+              showHour={calendarIndex === 0}
+              hour={hour}
+              events={week[calendarIndex]?.events[hour]}
+              day={calendar.day}
+            />
           ))}
         </S.Column>
       ))}

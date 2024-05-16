@@ -1,6 +1,6 @@
 import { Add } from '@mui/icons-material'
 import { DateCalendar } from '@mui/x-date-pickers/DateCalendar'
-import { Button, NewEvent } from '..'
+import { Button, NewEventModal } from '..'
 import * as S from './style'
 import dayjs, { Dayjs } from 'dayjs'
 import { useCalendarContext } from '../../hooks'
@@ -31,7 +31,7 @@ export const LeftSide = () => {
         value={dayjs(date)}
         showDaysOutsideCurrentMonth
       />
-      <NewEvent open={openModal} onClose={() => setOpenModal(false)} />
+      <NewEventModal open={openModal} onClose={() => setOpenModal(false)} />
     </S.LeftSide>
   )
 }

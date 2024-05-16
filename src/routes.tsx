@@ -1,6 +1,7 @@
 import { Navigate, useRoutes } from 'react-router-dom'
 import AuthOutlet from '@auth-kit/react-router/AuthOutlet'
-import { CalendarContextProvider } from './hooks'
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser'
+import { CalendarContextProvider, LoginResponse } from './hooks'
 import {
   Login,
   Schedule,
@@ -15,6 +16,8 @@ import {
 } from './pages'
 
 export const Routes = () => {
+  const user = useAuthUser<LoginResponse>()
+
   const calendarRoutes = [
     { path: ':userId/day', element: <Day /> },
     { path: ':userId/week', element: <Week /> },
@@ -26,7 +29,10 @@ export const Routes = () => {
 
   const routes = [
     { path: '/', element: <Navigate to="/login" /> },
-    { path: 'login', element: <Login /> },
+    {
+      path: 'login',
+      element: user ? <Navigate to={`/calendar/${user?.id}/week`} /> : <Login />
+    },
     { path: ':companyId/schedule', element: <Schedule /> },
     { path: 'success', element: <Success /> },
     {
