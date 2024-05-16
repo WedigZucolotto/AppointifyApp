@@ -8,12 +8,7 @@ export interface CompanyData {
   close: string
 }
 
-export interface UpdateCompanyRequest {
-  name?: string
-  open?: string
-  close?: string
-  planId?: string
-}
+export type UpdateCompanyRequest = Partial<Omit<CompanyData, 'id'>>
 
 export interface CompanyScheduleData {
   minDate: string

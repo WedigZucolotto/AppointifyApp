@@ -10,22 +10,13 @@ export interface LoginResponse {
   completeName: string
   companyId: string
   id: string
+  isOwner: boolean
 }
 
 export interface UserData {
   id: string
   name: string
   completeName: string
-  isOwner: boolean
-  companyId: string
-}
-
-export interface CreateUserRequest {
-  name: string
-  password: string
-  completeName: string
-  companyId: string
-  isOwner: boolean
 }
 
 export interface UpdateUserRequest {

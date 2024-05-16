@@ -9,7 +9,7 @@ export interface CreateEventRequest {
 export interface EventData {
   id: string
   title: string
-  description?: string
+  description: string
   date: string
   serviceName: string
 }

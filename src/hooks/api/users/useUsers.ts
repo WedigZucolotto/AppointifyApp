@@ -1,6 +1,5 @@
 import useSignIn from 'react-auth-kit/hooks/useSignIn'
 import {
-  CreateUserRequest,
   LoginRequest,
   LoginResponse,
   UpdateUserRequest,
@@ -11,7 +10,7 @@ import {
 } from '..'
 
 export const useUsers = () => {
-  const { get, post, put, del } = useRequest('users')
+  const { get, post, put } = useRequest('users')
   const signIn = useSignIn()
 
   const login = async (request: LoginRequest): Promise<LoginResponse> => {
@@ -25,19 +24,11 @@ export const useUsers = () => {
     return data
   }
 
-  const createUser = async (request: CreateUserRequest): Promise<void> => {
-    await post('', request)
-  }
-
   const updateUser = async (
     id: string,
     request: UpdateUserRequest
   ): Promise<void> => {
     await put(id, request)
-  }
-
-  const deleteUser = async (id: string): Promise<void> => {
-    await del(id)
   }
 
   const signInUser = (data: LoginResponse) =>
@@ -77,9 +68,7 @@ export const useUsers = () => {
   return {
     login,
     getUserById,
-    createUser,
     updateUser,
-    deleteUser,
     getUserDay,
     getUserWeek,
     getUserMonth

@@ -9,18 +9,6 @@ import {
 export const useCompanies = () => {
   const { get, put } = useRequest('companies')
 
-  const getAvailableTimes = async (
-    id: string,
-    date: string,
-    serviceId: string,
-    userId = ''
-  ): Promise<AvailableTime[]> => {
-    const { data } = await get(
-      `${id}/available-times?Date=${date}&ServiceId=${serviceId}&UserId=${userId}`
-    )
-    return data
-  }
-
   const getCompanyById = async (id: string): Promise<CompanyData> => {
     const { data } = await get(id)
     return data
@@ -31,6 +19,18 @@ export const useCompanies = () => {
     request: UpdateCompanyRequest
   ): Promise<void> => {
     await put(id, request)
+  }
+
+  const getAvailableTimes = async (
+    id: string,
+    date: string,
+    serviceId: string,
+    userId = ''
+  ): Promise<AvailableTime[]> => {
+    const { data } = await get(
+      `${id}/available-times?Date=${date}&ServiceId=${serviceId}&UserId=${userId}`
+    )
+    return data
   }
 
   const getCompanySchedule = async (
