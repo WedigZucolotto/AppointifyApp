@@ -52,6 +52,9 @@ export const NewEventModal = ({ open, onClose, defaultDay }: NewEventProps) => {
       getAndSet(getCompanySchedule(user?.companyId), setCompany)
       reset({ date: getDefaultDate() })
     }
+    if (defaultDay && open) {
+      fetchTimes(getDefaultDate())
+    }
     return () => reset()
   }, [open])
 
@@ -140,7 +143,7 @@ export const NewEventModal = ({ open, onClose, defaultDay }: NewEventProps) => {
           }
           name="hour"
           control={control}
-          disabled={!serviceField}
+          disabled={!defaultDay && (!serviceField || !dateField)}
         />
         <Button type="schedule" onClick={handleSubmit(handleFormSubmit)}>
           Agendar
