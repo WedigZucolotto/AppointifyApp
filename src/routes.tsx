@@ -24,7 +24,6 @@ export const Routes = () => {
     { path: ':userId/month', element: <Month /> },
     { path: ':companyId/services', element: <Services /> },
     { path: ':userId/user', element: <User /> },
-    { path: ':companyId/services', element: <Services /> },
     { path: ':companyId/company', element: <Company /> }
   ]
 

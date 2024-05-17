@@ -70,7 +70,7 @@ export const Header = ({ isCalendar = true }: HeaderProps) => {
   const companyOptions = [
     {
       name: 'Editar',
-      onClick: () => navigate(`/calendar/${user?.id}/company`)
+      onClick: () => navigate(`/calendar/${user?.companyId}/company`)
     },
     {
       name: 'Serviços',
