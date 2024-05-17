@@ -4,7 +4,13 @@ export const NoPage = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
   gap: 50px;
+
+  .main-container {
+    display: flex;
+    flex-direction: row;
+  }
 
   .container {
     display: flex;

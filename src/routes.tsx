@@ -45,7 +45,7 @@ export const Routes = () => {
     { path: ':userId/day', element: <Day /> },
     { path: ':userId/week', element: <Week /> },
     { path: ':userId/month', element: <Month /> },
-    { path: ':userId/services', element: <Services /> },
+    { path: ':companyId/services', element: <Services /> },
     { path: ':userId/user', element: <User /> },
     { path: ':companyId/company', element: <Company /> }
   ]

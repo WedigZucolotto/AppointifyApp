@@ -8,8 +8,7 @@ import {
   useCalendarContext,
   useCompanies,
   useEvents,
-  useTryCatch,
-  useUsers
+  useTryCatch
 } from '../../../hooks'
 import dayjs from 'dayjs'
 import { BaseModal, Button } from '../..'

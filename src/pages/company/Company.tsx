@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { Button, Header, TextInput, TimeInput } from '../../components'
 import * as S from './style'
 import { FieldValues, useForm } from 'react-hook-form'
@@ -28,7 +28,7 @@ export const Company = () => {
 
     if (data && success) {
       reset({
-        name: data.name,
+        name: data.name
         // open: data.open,
         // close: data.close
       })
@@ -46,8 +46,15 @@ export const Company = () => {
   })
 
   const handleFormSubmit = async (values: FieldValues) => {
+    const request = {
+      ...values,
+      open: values.open.toLocaleString(),
+      close: values.close.toLocaleString()
+    }
+
+    console.log(request)
     await fetchWithMessage(
-      updateCompany(companyId, values as UpdateCompanyRequest),
+      updateCompany(companyId, request as UpdateCompanyRequest),
       'Editado com sucesso!'
     )
     fetchCompany()

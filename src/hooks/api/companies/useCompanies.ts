@@ -6,7 +6,8 @@ import {
   UpdateCompanyRequest,
   CompanyScheduleData,
   AvailableTime,
-  CompaniesFilter
+  CompaniesFilter,
+  ServiceData
 } from '..'
 
 export const useCompanies = () => {
@@ -34,6 +35,11 @@ export const useCompanies = () => {
 
   const getCompanyById = async (id: string): Promise<CompanyData> => {
     const { data } = await get(id)
+    return data
+  }
+
+  const getCompanyServices = async (id: string): Promise<ServiceData[]> => {
+    const { data } = await get(`${id}/services`)
     return data
   }
 
@@ -65,6 +71,7 @@ export const useCompanies = () => {
     getCompanyById,
     getCompanySchedule,
     getAllCompanies,
+    getCompanyServices,
     createCompany,
     deleteCompany,
     updateCompany,

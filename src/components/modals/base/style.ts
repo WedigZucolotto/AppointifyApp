@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 
 export const BaseModal = styled.div`
+  z-index: 5;
   position: fixed;
   top: 10%;
   left: 20%;
