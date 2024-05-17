@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { Button, Header, TextInput } from '../../components'
 import { UpdateUserRequest, useTryCatch, useUsers } from '../../hooks'
 import { useParams } from 'react-router-dom'

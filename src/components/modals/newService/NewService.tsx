@@ -12,8 +12,8 @@ import {
 } from '../../../hooks'
 import { useEffect } from 'react'
 import { getSchema } from './schema'
-import { ModalTypes } from '../../../pages/management/util'
 import { useParams } from 'react-router-dom'
+import { ModalTypes } from '../../../pages'
 
 interface newServiceProps {
   open: boolean

@@ -12,7 +12,7 @@ import {
 } from '../../hooks'
 import { useParams } from 'react-router-dom'
 
-type ModalTypes = 'edit' | 'delete' | 'closed'
+export type ModalTypes = 'edit' | 'delete' | 'closed'
 
 interface ModalData {
   id: string

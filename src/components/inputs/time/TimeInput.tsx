@@ -7,7 +7,7 @@ interface TimeInputProps<TFieldValues extends FieldValues> {
   name: Path<TFieldValues>
   control: Control<TFieldValues>
   label: string
-  onChange?: (value: string) => void
+  //onChange?: (value: string) => void
   disabled?: boolean
 }
 
@@ -15,7 +15,7 @@ export function TimeInput<TFieldValues extends FieldValues = FieldValues>({
   name,
   control,
   label,
-  onChange,
+  //onChange,
   disabled
 }: TimeInputProps<TFieldValues>) {
   const { fieldState, field } = useController({ name, control })
