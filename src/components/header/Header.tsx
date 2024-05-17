@@ -74,7 +74,7 @@ export const Header = ({ isCalendar = true }: HeaderProps) => {
     },
     {
       name: 'Serviços',
-      onClick: () => navigate(`/calendar/${user?.id}/services`)
+      onClick: () => navigate(`/calendar/${user?.companyId}/services`)
     }
   ]
 

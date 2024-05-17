@@ -3,7 +3,8 @@ import {
   CompanyData,
   UpdateCompanyRequest,
   CompanyScheduleData,
-  AvailableTime
+  AvailableTime,
+  ServiceData
 } from '..'
 
 export const useCompanies = () => {
@@ -33,6 +34,11 @@ export const useCompanies = () => {
     return data
   }
 
+  const getCompanyServices = async (id: string): Promise<ServiceData[]> => {
+    const { data } = await get(`${id}/services`)
+    return data
+  }
+
   const getCompanySchedule = async (
     id: string
   ): Promise<CompanyScheduleData> => {
@@ -44,6 +50,7 @@ export const useCompanies = () => {
     getCompanyById,
     getCompanySchedule,
     updateCompany,
-    getAvailableTimes
+    getAvailableTimes,
+    getCompanyServices
   }
 }

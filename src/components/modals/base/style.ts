@@ -5,8 +5,6 @@ export const BaseModal = styled.div`
 
   .box {
     position: fixed;
-    top: 0;
-    left: 0;
     top: 10%;
     left: 20%;
     background-color: #fff;
