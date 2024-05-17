@@ -15,6 +15,7 @@ interface TextProps<TFieldValues extends FieldValues> {
   onChange?: (value: string) => void
   mask?: string
   type?: TextType
+  size?: number
 }
 
 export function TextInput<TFieldValues extends FieldValues = FieldValues>({
@@ -24,7 +25,8 @@ export function TextInput<TFieldValues extends FieldValues = FieldValues>({
   control,
   onChange,
   mask,
-  type = 'schedule'
+  type = 'schedule',
+  size = 240
 }: TextProps<TFieldValues>) {
   const { fieldState, field } = useController({ name, control })
 
@@ -40,7 +42,7 @@ export function TextInput<TFieldValues extends FieldValues = FieldValues>({
     type: type,
     placeholder: placeholder,
     name: field.name,
-    value: field.value,
+    value: field.value ?? '',
     className: fieldState.error ? 'error' : '',
     onChange: changeEventHandler
   }
@@ -48,7 +50,7 @@ export function TextInput<TFieldValues extends FieldValues = FieldValues>({
   switch (type) {
     case 'schedule':
       return (
-        <S.ScheduleInput>
+        <S.ScheduleInput size={size}>
           <label>{label}</label>
           <InputMask mask={mask ?? ''} {...props} />
           <InputError message={fieldState.error?.message} />
@@ -56,27 +58,27 @@ export function TextInput<TFieldValues extends FieldValues = FieldValues>({
       )
     case 'userName':
       return (
-        <S.LoginInput>
+        <S.LoginInput size={size}>
           <div className={fieldState.error ? 'box error' : 'box'}>
             <Person className="icon" />
-            <input {...props} />
+            <input {...props} className="" />
           </div>
           <InputError message={fieldState.error?.message} />
         </S.LoginInput>
       )
     case 'password':
       return (
-        <S.LoginInput>
+        <S.LoginInput size={size}>
           <div className={fieldState.error ? 'box error' : 'box'}>
             <Lock className="icon" />
-            <input {...props} type="password" />
+            <input {...props} type="password" className="" />
           </div>
           <InputError message={fieldState.error?.message} />
         </S.LoginInput>
       )
     case 'passwordEdit':
       return (
-        <S.ScheduleInput>
+        <S.ScheduleInput size={size}>
           <label>{label}</label>
           <input {...props} type="password" />
           <InputError message={fieldState.error?.message} />

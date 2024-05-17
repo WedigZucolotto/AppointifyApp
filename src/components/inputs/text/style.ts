@@ -1,10 +1,14 @@
 import styled from 'styled-components'
 
-export const ScheduleInput = styled.div`
+interface TextInputProps {
+  size: number
+}
+
+export const ScheduleInput = styled.div<TextInputProps>`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-bottom: 25px;
+  width: ${(props) => `${props.size}px`};
 
   label {
     color: var(--blue);
@@ -16,7 +20,6 @@ export const ScheduleInput = styled.div`
     border-radius: 5px;
     border: 1px solid #bdbdbd;
     padding: 12px;
-    width: 210px;
     background-color: #f9f9f9;
   }
 
@@ -35,11 +38,13 @@ export const ScheduleInput = styled.div`
   }
 `
 
-export const LoginInput = styled.div`
+export const LoginInput = styled.div<TextInputProps>`
+  width: ${(props) => `${props.size}px`};
+
   .box {
     display: flex;
     padding: 14px;
-    width: 270px;
+    width: 100%;
     border: 1px solid lightgray;
     border-radius: 25px;
   }
@@ -63,5 +68,6 @@ export const LoginInput = styled.div`
 
   .icon {
     color: lightgray;
+    margin-right: 10px;
   }
 `

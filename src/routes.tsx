@@ -1,45 +1,22 @@
-import { Navigate, Outlet, useRoutes } from 'react-router-dom'
+import { Navigate, useRoutes } from 'react-router-dom'
 import AuthOutlet from '@auth-kit/react-router/AuthOutlet'
-import { CalendarContextProvider } from './hooks'
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser'
+import { CalendarContextProvider, LoginResponse } from './hooks'
 import {
   Login,
   Schedule,
-  Service,
   Success,
   User,
-  Event,
-  Plan,
   Day,
   Week,
   Month,
   NoPage,
-  CompanyManagement,
   Services,
   Company
 } from './pages'
 
 export const Routes = () => {
-  const userRoutes = [
-    { path: '', element: <User /> },
-    { path: ':userId/events', element: <Event /> }
-  ]
-
-  const companyRoutes = [
-    { path: '', element: <CompanyManagement /> },
-    { path: ':companyId/users', element: <Outlet />, children: userRoutes },
-    { path: ':companyId/services', element: <Service /> },
-    { path: ':companyId/events', element: <Event /> }
-  ]
-
-  const managementRoutes = [
-    { path: '', element: <Navigate to="companies" /> },
-    { path: 'plans', element: <Plan /> },
-    {
-      path: 'companies',
-      element: <Outlet />,
-      children: companyRoutes
-    }
-  ]
+  const user = useAuthUser<LoginResponse>()
 
   const calendarRoutes = [
     { path: ':userId/day', element: <Day /> },
@@ -50,20 +27,14 @@ export const Routes = () => {
     { path: ':companyId/company', element: <Company /> }
   ]
 
-  const publicRoutes = [
+  const routes = [
     { path: '/', element: <Navigate to="/login" /> },
-    { path: 'login', element: <Login /> },
+    {
+      path: 'login',
+      element: user ? <Navigate to={`/calendar/${user?.id}/week`} /> : <Login />
+    },
     { path: ':companyId/schedule', element: <Schedule /> },
     { path: 'success', element: <Success /> },
-    { path: '*', element: <NoPage /> }
-  ]
-
-  const privateRoutes = [
-    {
-      path: 'management',
-      children: managementRoutes,
-      element: <AuthOutlet fallbackPath="/login" />
-    },
     {
       path: 'calendar',
       children: calendarRoutes,
@@ -72,8 +43,9 @@ export const Routes = () => {
           <AuthOutlet fallbackPath="/login" />
         </CalendarContextProvider>
       )
-    }
+    },
+    { path: '*', element: <NoPage /> }
   ]
 
-  return useRoutes([...publicRoutes, ...privateRoutes])
+  return useRoutes(routes)
 }

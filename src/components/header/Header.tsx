@@ -9,26 +9,27 @@ import {
   Home,
   CalendarMonth
 } from '@mui/icons-material'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { CalendarType, LoginResponse, useCalendarContext } from '../../hooks'
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser'
+import useSignOut from 'react-auth-kit/hooks/useSignOut'
 
 interface HeaderProps {
-  showCalendarFields?: boolean
+  isCalendar?: boolean
 }
 
-export const Header = ({ showCalendarFields = true }: HeaderProps) => {
+export const Header = ({ isCalendar = true }: HeaderProps) => {
   const navigate = useNavigate()
-  const { state } = useLocation()
 
   const user = useAuthUser<LoginResponse>()
+  const signOut = useSignOut()
 
-  const { setDate, setType, date, type } = useCalendarContext()
+  const { setDate, date, type, getCalendarTitle, changeTab } =
+    useCalendarContext()
 
   const handleSelectChange = (event: SelectChangeEvent<string>) => {
     const { value } = event.target
-    navigate(`/calendar/${user?.id}/${value}`)
-    setType(value as CalendarType)
+    changeTab(value as CalendarType, user?.id ?? '')
   }
 
   const handleToday = () => setDate(new Date())
@@ -53,57 +54,27 @@ export const Header = ({ showCalendarFields = true }: HeaderProps) => {
     }
   }
 
-  const getTitle = () => {
-    const months = [
-      'Janeiro',
-      'Fevereiro',
-      'Março',
-      'Abril',
-      'Maio',
-      'Junho',
-      'Julho',
-      'Agosto',
-      'Setembro',
-      'Outubro',
-      'Novembro',
-      'Dezembro'
-    ]
-
-    const month = months[date.getMonth()]
-    const year = date.getFullYear()
-
-    if (type === 'day') {
-      const day = date.getDate()
-      return `${day} de ${month} de ${year}`
-    }
-    return `${month} de ${year}`
+  const logout = () => {
+    signOut()
+    navigate('/')
   }
 
   const userOptions = [
     {
       name: 'Editar',
-      onClick: () =>
-        navigate(`/calendar/${user?.id}/user`, {
-          state: { tab: 'Editar Cadastro' }
-        })
+      onClick: () => navigate(`/calendar/${user?.id}/user`)
     },
-    { name: 'Sair', onClick: () => console.log() }
+    { name: 'Sair', onClick: logout }
   ]
 
   const companyOptions = [
     {
       name: 'Editar',
-      onClick: () =>
-        navigate(`/calendar/${user?.companyId}/company`, {
-          state: { tab: 'Editar Empresa' }
-        })
+      onClick: () => navigate(`/calendar/${user?.companyId}/company`)
     },
     {
       name: 'Serviços',
-      onClick: () =>
-        navigate(`/calendar/${user?.companyId}/services`, {
-          state: { tab: 'Seus serviços' }
-        })
+      onClick: () => navigate(`/calendar/${user?.companyId}/services`)
     }
   ]
 
@@ -113,17 +84,14 @@ export const Header = ({ showCalendarFields = true }: HeaderProps) => {
         <Button type="icon" onClick={() => navigate('/login')}>
           <Home />
         </Button>
-        <Visible when={!showCalendarFields}>
-          <Button
-            type="icon"
-            onClick={() => navigate(`/calendar/${user?.id}/week`)}
-          >
+        <Visible when={!isCalendar}>
+          <Button type="icon" onClick={() => changeTab('week', user?.id ?? '')}>
             <CalendarMonth />
           </Button>
         </Visible>
       </S.HomeBtns>
-      <S.Title>{state?.tab ?? 'Calendário'}</S.Title>
-      <Visible when={showCalendarFields}>
+      <S.Title>{isCalendar ? 'Calendário' : 'Menu'}</S.Title>
+      <Visible when={isCalendar}>
         <Button onClick={handleToday}>Hoje</Button>
         <Select
           onChange={handleSelectChange}
@@ -139,11 +107,11 @@ export const Header = ({ showCalendarFields = true }: HeaderProps) => {
           <Button type="icon" onClick={() => handleClickArrow(false)}>
             <ArrowBackIos fontSize="small" />
           </Button>
-          <Button type="icon" onClick={() => handleClickArrow(false)}>
+          <Button type="icon" onClick={() => handleClickArrow(true)}>
             <ArrowForwardIos fontSize="small" />
           </Button>
         </S.Arrows>
-        <S.Day>{getTitle()}</S.Day>
+        <S.Day>{getCalendarTitle()}</S.Day>
       </Visible>
       <S.Menus>
         <span>{user?.completeName}</span>

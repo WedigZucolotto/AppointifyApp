@@ -13,6 +13,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { useNavigate, useParams } from 'react-router-dom'
 import { getScheduleSchema } from './schema'
 import * as S from './style'
+import CircularProgress from '@mui/material/CircularProgress'
 
 interface FormData {
   name: string
@@ -20,12 +21,13 @@ interface FormData {
   contact: string
   service: string
   date: string
-  local?: string
-  employee?: string
+  // local?: string
+  // employee?: string
   hour: string
 }
 
 export const Schedule = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(true)
   const [company, setCompany] = useState<CompanyScheduleData>()
   const [timeOptions, setTimeOptions] = useState<AvailableTime[]>()
 
@@ -34,7 +36,7 @@ export const Schedule = () => {
 
   const { callApi, getAndSet } = useTryCatch()
 
-  const { control, handleSubmit, watch } = useForm<FormData>({
+  const { control, handleSubmit, watch, resetField } = useForm<FormData>({
     resolver: yupResolver(getScheduleSchema(company?.showExtraFields))
   })
 
@@ -48,30 +50,28 @@ export const Schedule = () => {
     fetchCompanies()
   }, [])
 
-  useEffect(() => {
-    if (dateField && companyId) {
-      getAndSet(
-        getAvailableTimes(companyId, dateField, serviceField),
-        setTimeOptions
-      )
-    }
-  }, [dateField])
-
   const fetchCompanies = async () => {
     const { data, success } = await callApi(getCompanySchedule(companyId))
 
     if (data && success) {
       setCompany(data)
+      setIsLoading(false)
       return
     }
     navigate('/404')
+  }
+
+  const fetchTimes = (value: string) => {
+    resetField('hour')
+    getAndSet(getAvailableTimes(companyId, value, serviceField), setTimeOptions)
   }
 
   const handleFormSubmit = async (values: FieldValues) => {
     const { name, contact, date, service, hour } = values
     const dateTime = `${date} ${hour}`
 
-    const userId = timeOptions?.find((t) => t.time === hour)?.userId ?? ''
+    const time = timeOptions?.find((t) => t.time === hour)
+    const userId = time?.userId ?? ''
 
     const eventData: CreateEventRequest = {
       name,
@@ -88,77 +88,85 @@ export const Schedule = () => {
     }
   }
 
+  const onServiceChange = () => {
+    resetField('hour')
+    resetField('date')
+  }
+
   return (
     <S.Schedule onSubmit={handleSubmit(handleFormSubmit)}>
       <h2>Appointify</h2>
-      <div className="container">
-        <div className="title">
-          <p>Faça seu</p>
-          <p>Agendamento</p>
-        </div>
-        <TextInput
-          label="Nome *"
-          placeholder="Ex: João"
-          name="name"
-          control={control}
-        />
-        <TextInput
-          label="Sobrenome *"
-          placeholder="Ex: Ribeiro"
-          name="lastname"
-          control={control}
-        />
-        <TextInput
-          label="Contato *"
-          placeholder="Ex: (11) 91234-5678"
-          name="contact"
-          control={control}
-          mask="(99) 99999-9999"
-        />
-        {company?.showExtraFields && (
-          <SelectInput
-            label="Local *"
-            options={[]}
-            name="local"
+      {!isLoading ? (
+        <S.ScheduleForm>
+          <S.Title>Faça seu Agendamento</S.Title>
+          <TextInput
+            label="Nome *"
+            placeholder="Ex: João"
+            name="name"
             control={control}
           />
-        )}
-        {company?.showExtraFields && (
-          <SelectInput
-            label="Funcionário *"
-            options={[]}
-            name="employee"
+          <TextInput
+            label="Sobrenome *"
+            placeholder="Ex: Ribeiro"
+            name="lastname"
             control={control}
           />
-        )}
-        <SelectInput
-          label="Serviço *"
-          options={company?.services ?? []}
-          name="service"
-          control={control}
-        />
-        <DateInput
-          name="date"
-          control={control}
-          label="Data *"
-          minDate={company?.minDate ?? ''}
-          maxDate={company?.maxDate ?? ''}
-          unavailableDates={company?.unavailableDates ?? []}
-          disabled={!serviceField}
-        />
-        <SelectInput
-          label="Horário *"
-          options={
-            timeOptions?.map((o) => ({ name: o.time, value: o.time })) ?? []
-          }
-          name="hour"
-          control={control}
-          disabled={!dateField}
-        />
-        <Button type="schedule" onClick={handleSubmit(handleFormSubmit)}>
-          Agendar
-        </Button>
-      </div>
+          <TextInput
+            label="Contato *"
+            placeholder="Ex: (11) 91234-5678"
+            name="contact"
+            control={control}
+            mask="(99) 99999-9999"
+          />
+          {/* {company?.showExtraFields && (
+            <SelectInput
+              label="Local *"
+              options={[]}
+              name="local"
+              control={control}
+            />
+          )}
+          {company?.showExtraFields && (
+            <SelectInput
+              label="Funcionário *"
+              options={[]}
+              name="employee"
+              control={control}
+            />
+          )} */}
+          <SelectInput
+            label="Serviço *"
+            options={company?.services ?? []}
+            name="service"
+            control={control}
+            onChange={onServiceChange}
+          />
+          <DateInput
+            name="date"
+            control={control}
+            label="Data *"
+            minDate={company?.minDate ?? ''}
+            maxDate={company?.maxDate ?? ''}
+            unavailableDates={company?.unavailableDates ?? []}
+            disabled={!serviceField}
+            onChange={fetchTimes}
+          />
+          <SelectInput
+            label="Horário *"
+            options={
+              timeOptions?.map((o) => ({ name: o.time, value: o.time })) ?? []
+            }
+            name="hour"
+            control={control}
+            disabled={!dateField}
+          />
+          <Button type="schedule" onClick={handleSubmit(handleFormSubmit)}>
+            Agendar
+          </Button>
+        </S.ScheduleForm>
+      ) : (
+        <CircularProgress />
+      )}
     </S.Schedule>
   )
 }

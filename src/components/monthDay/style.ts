@@ -4,11 +4,9 @@ interface MonthDayProps {
   rows: number
 }
 
-export const Month = styled.div`
-  height: calc(100vh - 87px);
-  display: flex;
-  flex-wrap: wrap;
-`
+interface DayProps {
+  $isToday: boolean
+}
 
 export const MonthDay = styled.div<MonthDayProps>`
   width: calc(100% / 7);
@@ -18,6 +16,7 @@ export const MonthDay = styled.div<MonthDayProps>`
   display: flex;
   flex-direction: column;
   align-items: center;
+  position: relative;
 `
 
 export const MonthDayHeader = styled.div`
@@ -26,8 +25,26 @@ export const MonthDayHeader = styled.div`
   flex-direction: column;
   align-items: center;
 
-  > span {
+  span {
     font-size: 0.8rem;
+  }
+`
+
+export const Day = styled.button<DayProps>`
+  font-size: 0.8rem;
+  background-color: ${(props) =>
+    props.$isToday ? 'rgb(26,115,232)' : 'transparent'};
+  border: none;
+  border-radius: 50%;
+  color: ${(props) => (props.$isToday ? 'white' : 'black')};
+  padding: 0;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+
+  &:hover {
+    background-color: ${(props) =>
+      props.$isToday ? 'rgb(26,115,232)' : 'rgb(218, 220, 224)'};
   }
 `
 
@@ -41,14 +58,15 @@ export const MonthDayContent = styled.div`
   align-items: center;
   gap: 5px;
 
-  > div {
+  div,
+  button {
     max-height: 25px;
   }
+`
 
-  > button {
-    color: rgb(60, 64, 67);
-    font-size: 0.8rem;
-    border: none;
-    background-color: transparent;
-  }
+export const More = styled.button`
+  color: rgb(60, 64, 67);
+  font-size: 0.8rem;
+  border: none;
+  background-color: transparent;
 `

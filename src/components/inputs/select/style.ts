@@ -1,10 +1,14 @@
 import styled from 'styled-components'
 
-export const SelectInput = styled.div`
+interface SelectInputProps {
+  size: number
+}
+
+export const SelectInput = styled.div<SelectInputProps>`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-bottom: 25px;
+  width: ${(props) => `${props.size}px`};
 
   label {
     color: var(--blue);
@@ -16,7 +20,6 @@ export const SelectInput = styled.div`
     border-radius: 5px;
     border: 1px solid #bdbdbd;
     padding: 12px;
-    width: 210px;
     background-color: #f9f9f9;
   }
 

@@ -1,19 +1,16 @@
 import useSignIn from 'react-auth-kit/hooks/useSignIn'
 import {
-  CreateUserRequest,
   LoginRequest,
   LoginResponse,
   UpdateUserRequest,
   UserData,
   UserDayWeek,
   useRequest,
-  UserMonth,
-  UsersData,
-  UsersFilter
+  UserMonth
 } from '..'
 
 export const useUsers = () => {
-  const { get, post, put, del } = useRequest('users')
+  const { get, post, put } = useRequest('users')
   const signIn = useSignIn()
 
   const login = async (request: LoginRequest): Promise<LoginResponse> => {
@@ -22,21 +19,9 @@ export const useUsers = () => {
     return data
   }
 
-  const getAllUsers = async (filter: UsersFilter): Promise<UsersData[]> => {
-    const { name = '', completeName = '', type = '', companyId = '' } = filter
-    const { data } = await get(
-      `?name=${name}&completeName=${completeName}&type=${type}&companyId=${companyId}`
-    )
-    return data
-  }
-
   const getUserById = async (id: string): Promise<UserData> => {
     const { data } = await get(id)
     return data
-  }
-
-  const createUser = async (request: CreateUserRequest): Promise<void> => {
-    await post('', request)
   }
 
   const updateUser = async (
@@ -44,10 +29,6 @@ export const useUsers = () => {
     request: UpdateUserRequest
   ): Promise<void> => {
     await put(id, request)
-  }
-
-  const deleteUser = async (id: string): Promise<void> => {
-    await del(id)
   }
 
   const signInUser = (data: LoginResponse) =>
@@ -86,11 +67,8 @@ export const useUsers = () => {
 
   return {
     login,
-    getAllUsers,
     getUserById,
-    createUser,
     updateUser,
-    deleteUser,
     getUserDay,
     getUserWeek,
     getUserMonth

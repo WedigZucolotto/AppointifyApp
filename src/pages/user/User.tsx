@@ -15,8 +15,6 @@ interface FormData {
 }
 
 export const User = () => {
-  const [title, setTitle] = useState<string>('')
-
   const { callApi, fetchWithMessage } = useTryCatch()
   const { getUserById, updateUser } = useUsers()
 
@@ -30,7 +28,6 @@ export const User = () => {
     const { data, success } = await callApi(getUserById(userId))
 
     if (data && success) {
-      setTitle(data.completeName)
       reset({
         name: data.name,
         completeName: data.completeName
@@ -52,9 +49,9 @@ export const User = () => {
 
   return (
     <>
-      <Header showCalendarFields={false} />
+      <Header isCalendar={false} />
       <S.Content>
-        <S.Title>{title}</S.Title>
+        <S.Title>Editar cadastro</S.Title>
         <TextInput
           control={control}
           name="name"

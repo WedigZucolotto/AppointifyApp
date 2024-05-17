@@ -1,18 +1,5 @@
 import { Option } from '..'
 
-export interface CompaniesData {
-  id: string
-  name: string
-  planName: string
-  open: string
-  close: string
-}
-
-export interface CompaniesFilter {
-  name?: string
-  planId?: string
-}
-
 export interface CompanyData {
   id: string
   name: string
@@ -21,19 +8,7 @@ export interface CompanyData {
   close: string
 }
 
-export interface CreateCompanyRequest {
-  name: string
-  open: string
-  close: string
-  planId: string
-}
-
-export interface UpdateCompanyRequest {
-  name?: string
-  open?: string
-  close?: string
-  planId?: string
-}
+export type UpdateCompanyRequest = Partial<Omit<CompanyData, 'id'>>
 
 export interface CompanyScheduleData {
   minDate: string

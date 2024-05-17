@@ -62,7 +62,7 @@ export const Company = () => {
 
   return (
     <>
-      <Header showCalendarFields={false} />
+      <Header isCalendar={false} />
       <S.Company>
         <S.Title>Editar empresa</S.Title>
         <TextInput

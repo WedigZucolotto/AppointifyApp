@@ -2,6 +2,10 @@ import styled from 'styled-components'
 
 export const Company = styled.div`
   padding: 50px 100px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 25%;
 `
 
 export const Title = styled.h2`

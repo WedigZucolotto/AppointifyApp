@@ -1,41 +1,29 @@
-import { useNavigate, useParams } from 'react-router-dom'
-import { Event, Visible } from '../../components'
+import { useParams } from 'react-router-dom'
+import { MonthDay, Visible } from '../../components'
 import { useCalendarContext } from '../../hooks'
-import * as S from './style'
 import { CalendarLayout } from '..'
+import CircularProgress from '@mui/material/CircularProgress'
 
 export const Month = () => {
   const { month } = useCalendarContext()
-
-  const navigate = useNavigate()
-  const { userId } = useParams()
+  const { userId = '' } = useParams()
 
   const rows = (month?.length ?? 0) / 7
 
   return (
-    <CalendarLayout>
-      <S.Month>
-        {month?.map((calendar, index) => (
-          <S.MonthDay rows={rows}>
-            <S.MonthDayHeader>
-              <span>{calendar.day}</span>
-              <Visible when={index < 7}>
-                <span>{calendar.week}</span>
-              </Visible>
-            </S.MonthDayHeader>
-            <S.MonthDayContent>
-              {calendar.events.map((event) => (
-                <Event name={event.title} />
-              ))}
-              <Visible when={!!calendar.more}>
-                <button onClick={() => navigate(`/calendar/${userId}/week`)}>
-                  + Mais {calendar.more}
-                </button>
-              </Visible>
-            </S.MonthDayContent>
-          </S.MonthDay>
-        ))}
-      </S.Month>
+    <CalendarLayout type="month">
+      <Visible when={!month}>
+        <CircularProgress />
+      </Visible>
+      {month?.map((calendar, dayIndex) => (
+        <MonthDay
+          key={dayIndex}
+          dayIndex={dayIndex}
+          calendar={calendar}
+          userId={userId}
+          rows={rows}
+        />
+      ))}
     </CalendarLayout>
   )
 }

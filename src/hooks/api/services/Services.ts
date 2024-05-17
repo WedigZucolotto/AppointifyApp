@@ -1,14 +1,3 @@
-export interface ServicesData {
-  id: string
-  name: string
-  interval: string
-}
-
-export interface ServicesFilter {
-  companyId?: string
-  name?: string
-}
-
 export interface ServiceData {
   id: string
   name: string
@@ -21,7 +10,4 @@ export interface CreateServiceRequest {
   companyId: string
 }
 
-export interface UpdateServiceRequest {
-  name?: string
-  interval?: string
-}
+export type UpdateServiceRequest = Partial<Omit<ServiceData, 'id'>>

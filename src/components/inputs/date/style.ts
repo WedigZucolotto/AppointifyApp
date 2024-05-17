@@ -1,10 +1,14 @@
 import styled from 'styled-components'
 
-export const DateInput = styled.div`
+interface DateInputProps {
+  size: number
+}
+
+export const DateInput = styled.div<DateInputProps>`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin-bottom: 25px;
+  width: ${(props) => `${props.size}px`};
 
   label {
     color: var(--blue);
@@ -17,19 +21,13 @@ export const DateInput = styled.div`
     margin-bottom: 0;
     border-radius: 6px;
   }
-`
 
-export const DatePickerSx = {
-  '.MuiInputBase-root': {
-    backgroundColor: '#f9f9f9',
-    color: 'black',
-    height: '42px',
-    width: '210px'
-  },
-
-  '.css-nxo287-MuiInputBase-input-MuiOutlinedInput-input': {
-    fontWeight: '500',
-    fontFamily: "'Montserrat', sans-serif",
-    fontSize: '13px'
+  .MuiInputBase-root {
+    background-color: #f9f9f9;
+    color: black;
+    height: 42px;
+    font-weight: 500;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 13px;
   }
-}
+`
