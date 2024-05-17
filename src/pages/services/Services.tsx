@@ -31,7 +31,6 @@ export const Services = () => {
 
   useEffect(() => {
     fetchServices(companyId)
-    //getAndSet(getCompanyServices(companyId), setServices)
   }, [])
 
   const fetchServices = (companyId: string) =>
