@@ -8,7 +8,7 @@ interface TimeInputProps<TFieldValues extends FieldValues> {
   name: Path<TFieldValues>
   control: Control<TFieldValues>
   label: string
-  onChange?: (value: Dayjs | null) => void
+  onChange?: (value: string) => void
   disabled?: boolean
 }
 
@@ -22,11 +22,21 @@ export function TimeInput<TFieldValues extends FieldValues = FieldValues>({
   const { fieldState, field } = useController({ name, control })
 
   const changeEventHandler = (date: Dayjs | null) => {
+    const formatedDate = date?.format('HH:mm') ?? ''
+
     try {
-      onChange?.call(null, date)
+      onChange?.call(null, formatedDate)
     } finally {
-      field.onChange(date)
+      field.onChange(formatedDate)
     }
+  }
+
+  const getValue = (time: string) => {
+    const times = time?.split(':').map(Number) ?? []
+    const hour = times[0] ?? 0
+    const minute = times[1] ?? 0
+
+    return dayjs().hour(hour).minute(minute)
   }
 
   return (
@@ -38,7 +48,7 @@ export function TimeInput<TFieldValues extends FieldValues = FieldValues>({
         ampm={false}
         disabled={disabled}
         onChange={changeEventHandler}
-        value={field.value ?? dayjs().startOf('day')}
+        value={getValue(field.value)}
       />
       <InputError message={fieldState.error?.message} />
     </S.TimeInput>
