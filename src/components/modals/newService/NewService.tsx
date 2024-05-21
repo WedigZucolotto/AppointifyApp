@@ -14,6 +14,7 @@ import { useEffect } from 'react'
 import { getSchema } from './schema'
 import { useParams } from 'react-router-dom'
 import { ModalTypes } from '../../../pages'
+import * as S from './style'
 
 interface newServiceProps {
   open: boolean
@@ -43,22 +44,27 @@ export const NewService = ({
   const { companyId = '' } = useParams()
 
   useEffect(() => {
-    if (isEdit) {
+    const resetFields = (service?: ServiceData) =>
+      reset({
+        name: service?.name ?? '',
+        interval: service?.interval ?? ''
+      })
+
+    if (open && isEdit) {
       fetchService()
+    } else if (!open) {
+      resetFields()
     }
   }, [open])
-
-  const resetFields = (service?: ServiceData) =>
-    reset({
-      name: service?.name ?? '',
-      interval: service?.interval ?? ''
-    })
 
   const fetchService = async () => {
     const { data, success } = await callApi(getServiceById(id))
 
     if (data && success) {
-      resetFields(data)
+      reset({
+        name: data.name,
+        interval: data.interval
+      })
     }
   }
 
@@ -91,27 +97,30 @@ export const NewService = ({
 
   return (
     <BaseModal open={open} onClose={onClose}>
-      <h2>{isEdit ? 'Editar Serviço' : 'Novo Serviço'}</h2>
-      <TextInput
-        label="Nome *"
-        placeholder="ex: Corte de Cabelo"
-        control={control}
-        name="name"
-      />
-      <TextInput
-        label="Intervalo"
-        control={control}
-        placeholder="ex: HH:MM"
-        name="interval"
-      />
-      <Button
-        type="schedule"
-        onClick={handleSubmit(
-          isEdit ? handleUpdateService : handleCreateService
-        )}
-      >
-        Criar
-      </Button>
+      <S.Service>
+        <h2>{isEdit ? 'Editar Serviço' : 'Novo Serviço'}</h2>
+        <TextInput
+          label="Nome *"
+          placeholder="ex: Corte de Cabelo"
+          control={control}
+          name="name"
+        />
+        <TextInput
+          label="Intervalo *"
+          control={control}
+          placeholder="ex: HH:MM"
+          name="interval"
+          mask="99:99"
+        />
+        <Button
+          type="schedule"
+          onClick={handleSubmit(
+            isEdit ? handleUpdateService : handleCreateService
+          )}
+        >
+          Criar
+        </Button>
+      </S.Service>
     </BaseModal>
   )
 }
