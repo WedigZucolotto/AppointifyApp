@@ -47,6 +47,7 @@ export const Login = () => {
         <img src={line} alt="" />
       </section>
       <form className="right-side">
+        <h2>Appointify</h2>
         <div className="title">
           <p className="welcome">Bem vindo!</p>
           <p>Faça login para começar</p>
