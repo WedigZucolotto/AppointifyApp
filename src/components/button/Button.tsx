@@ -9,6 +9,8 @@ type ButtonType =
   | 'login'
   | 'noPage'
   | 'icon'
+  | 'confirmation'
+  | 'cancel' 
 
 interface ButtonProps {
   children: React.ReactNode
@@ -34,5 +36,9 @@ export const Button = ({ children, onClick, type = 'today' }: ButtonProps) => {
           {children}
         </MuiButton>
       )
+    case 'confirmation':
+      return <S.Confirmation onClick={onClick}>{children}</S.Confirmation>
+    case 'cancel':
+      return <S.Cancel onClick={onClick}>{children}</S.Cancel>
   }
 }

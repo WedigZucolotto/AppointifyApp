@@ -1,4 +1,6 @@
 import { BaseModal } from '..'
+import { Button } from '../../button/Button'
+import * as S from './style'
 
 interface ConfirmationModalProps {
   open: boolean
@@ -13,11 +15,14 @@ export const ConfirmationModal = ({
 }: ConfirmationModalProps) => {
   return (
     <BaseModal open={open} onClose={handleNot}>
-      <span>Você tem certeza?</span>
-      <div className="btns">
-        <button onClick={handleYes}>Sim</button>
-        <button onClick={handleNot}>Não</button>
-      </div>
+      <S.Confirmation>
+        <span>Tem certeza que deseja deletar?</span>
+        <p>Você não poderá desfazer esta ação.</p>
+        <div className="btns">
+          <Button onClick={handleNot} type='cancel'>Cancelar</Button>
+          <Button onClick={handleYes} type='confirmation'>Confirmar</Button>
+        </div>
+      </S.Confirmation>
     </BaseModal>
   )
 }
