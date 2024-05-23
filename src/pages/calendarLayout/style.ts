@@ -21,7 +21,7 @@ export const RightSide = styled.div<RightSideProps>`
   flex-wrap: ${(props) => (props.type === 'month' ? 'wrap' : 'no-wrap')};
   min-width: 1050px;
 
-  @media (max-width: 600px) {
+  @media (max-width: 700px) {
     min-width: 100%;
   }
 `

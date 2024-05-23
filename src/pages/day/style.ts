@@ -10,7 +10,11 @@ export const DayHeader = styled.div`
   .MuiDateCalendar-root,
   .MuiPickersCalendarHeader-root {
     margin: 0;
-    height: max-content;
+    width: max-content;
+  }
+
+  @media (max-width: 700px) {
+    padding: 21.5px 20px 0 21.5px;
   }
 `
 
@@ -33,5 +37,6 @@ export const DayHeaderDay = styled.div`
   a {
     width: 150px;
     font-size: 15px;
+    margin-bottom: 21.5px;
   }
 `
