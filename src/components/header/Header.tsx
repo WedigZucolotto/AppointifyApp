@@ -1,5 +1,5 @@
 import { MenuItem, Select, SelectChangeEvent } from '@mui/material'
-import { Visible, Menu, Button } from '..'
+import { Visible, Menu, Button, Hamburguer } from '..'
 import * as S from './style'
 import {
   ArrowBackIos,
@@ -10,7 +10,12 @@ import {
   CalendarMonth
 } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
-import { CalendarType, LoginResponse, useCalendarContext } from '../../hooks'
+import {
+  CalendarType,
+  LoginResponse,
+  useCalendarContext,
+  useWindowWidth
+} from '../../hooks'
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser'
 import useSignOut from 'react-auth-kit/hooks/useSignOut'
 
@@ -20,6 +25,7 @@ interface HeaderProps {
 
 export const Header = ({ isCalendar = true }: HeaderProps) => {
   const navigate = useNavigate()
+  const { isDesktop } = useWindowWidth()
 
   const user = useAuthUser<LoginResponse>()
   const signOut = useSignOut()
@@ -80,50 +86,62 @@ export const Header = ({ isCalendar = true }: HeaderProps) => {
 
   return (
     <S.Header>
-      <S.HomeBtns>
-        <Button type="icon" onClick={() => navigate('/login')}>
-          <Home />
-        </Button>
-        <Visible when={!isCalendar}>
-          <Button type="icon" onClick={() => changeTab('week', user?.id ?? '')}>
-            <CalendarMonth />
+      <Visible when={!isDesktop}>
+        <Hamburguer />
+      </Visible>
+      <Visible when={isDesktop}>
+        <div>
+          <Button type="icon" onClick={() => navigate('/login')}>
+            <Home />
           </Button>
-        </Visible>
-      </S.HomeBtns>
-      <S.Title>{isCalendar ? 'Calendário' : 'Menu'}</S.Title>
+          <Visible when={!isCalendar}>
+            <Button
+              type="icon"
+              onClick={() => changeTab('week', user?.id ?? '')}
+            >
+              <CalendarMonth />
+            </Button>
+          </Visible>
+        </div>
+        <S.Title>{isCalendar ? 'Calendário' : 'Menu'}</S.Title>
+      </Visible>
       <Visible when={isCalendar}>
-        <Button onClick={handleToday}>Hoje</Button>
-        <Select
-          onChange={handleSelectChange}
-          value={type}
-          size="small"
-          sx={{ fontSize: '0.93rem', color: 'rgb(60, 64, 67)' }}
-        >
-          <MenuItem value="month">Mês</MenuItem>
-          <MenuItem value="week">Semana</MenuItem>
-          <MenuItem value="day">Dia</MenuItem>
-        </Select>
+        <Visible when={isDesktop}>
+          <Button onClick={handleToday}>Hoje</Button>
+          <Select
+            onChange={handleSelectChange}
+            value={type}
+            size="small"
+            sx={{ fontSize: '0.93rem', color: 'rgb(60, 64, 67)' }}
+          >
+            <MenuItem value="month">Mês</MenuItem>
+            <MenuItem value="week">Semana</MenuItem>
+            <MenuItem value="day">Dia</MenuItem>
+          </Select>
+        </Visible>
         <S.Arrows>
           <Button type="icon" onClick={() => handleClickArrow(false)}>
             <ArrowBackIos fontSize="small" />
           </Button>
+          <S.Day>{getCalendarTitle()}</S.Day>
           <Button type="icon" onClick={() => handleClickArrow(true)}>
             <ArrowForwardIos fontSize="small" />
           </Button>
         </S.Arrows>
-        <S.Day>{getCalendarTitle()}</S.Day>
       </Visible>
-      <S.Menus>
-        <span>{user?.completeName}</span>
-        <Visible when={true}>
-          <Menu options={companyOptions}>
-            <Apartment />
+      <Visible when={isDesktop}>
+        <S.Menus>
+          <span>{user?.completeName}</span>
+          <Visible when={true}>
+            <Menu options={companyOptions}>
+              <Apartment />
+            </Menu>
+          </Visible>
+          <Menu options={userOptions}>
+            <Person />
           </Menu>
-        </Visible>
-        <Menu options={userOptions}>
-          <Person />
-        </Menu>
-      </S.Menus>
+        </S.Menus>
+      </Visible>
     </S.Header>
   )
 }
