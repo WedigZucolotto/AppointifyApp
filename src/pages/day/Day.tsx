@@ -48,7 +48,7 @@ export const Day = () => {
                   opacity: 0,
                   height: 0
                 }}
-                animate={{ opacity: 1, height: 310 }}
+                animate={{ opacity: 1, height: 'max-content' }}
                 exit={{
                   opacity: 0,
                   height: 0,

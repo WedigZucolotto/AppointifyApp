@@ -18,6 +18,7 @@ import {
 } from '../../hooks'
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser'
 import useSignOut from 'react-auth-kit/hooks/useSignOut'
+import { useEffect } from 'react'
 
 interface HeaderProps {
   isCalendar?: boolean
@@ -27,10 +28,16 @@ export const Header = ({ isCalendar = true }: HeaderProps) => {
   const navigate = useNavigate()
   const { isDesktop } = useWindowWidth()
 
+  useEffect(() => {
+    if (!isDesktop) {
+      setType('day')
+    }
+  }, [isDesktop])
+
   const user = useAuthUser<LoginResponse>()
   const signOut = useSignOut()
 
-  const { setDate, date, type, getCalendarTitle, changeTab } =
+  const { setDate, date, type, getCalendarTitle, changeTab, setType } =
     useCalendarContext()
 
   const handleSelectChange = (event: SelectChangeEvent<string>) => {

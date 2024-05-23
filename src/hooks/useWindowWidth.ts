@@ -12,7 +12,7 @@ export const useWindowWidth = () => {
   }, [])
 
   const handleResize = () => setWindowWidth(window.innerWidth)
-  const isDesktop = windowWidth > 600
+  const isDesktop = windowWidth > 700
 
   return { isDesktop }
 }

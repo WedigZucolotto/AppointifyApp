@@ -9,7 +9,7 @@ export const LeftSide = styled.div`
   gap: 20px;
   border-right: 1px solid rgb(218, 220, 224);
 
-  @media (max-width: 600px) {
+  @media (max-width: 700px) {
     display: none;
   }
 `
