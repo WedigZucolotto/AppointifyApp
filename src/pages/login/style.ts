@@ -68,6 +68,11 @@ export const Login = styled.div`
       display: none;
     }
 
+    .right-side {
+      height: calc(100vh - 29px);
+      width: 100%;
+    }
+
     .right-side > h2 {
       display: inline;
       position: absolute;
