@@ -1,10 +1,13 @@
 import styled from 'styled-components'
 
-export const TimeInput = styled.div`
+interface TimeInputProps {
+  size: number
+}
+
+export const TimeInput = styled.div<TimeInputProps>`
   display: flex;
   flex-direction: column;
-  width: 210px;
-  margin-bottom: 25px;
+  width: ${(props) => `${props.size}px`};
 
   label {
     color: var(--blue);

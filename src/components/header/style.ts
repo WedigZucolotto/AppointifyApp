@@ -6,7 +6,14 @@ export const Header = styled.header`
   gap: 25px;
   padding: 0 15px;
   height: 70px;
+  min-width: 1411px;
   border-bottom: 1px solid rgb(218, 220, 224);
+
+  @media (max-width: 700px) {
+    min-width: 100%;
+    justify-content: end;
+    gap: 5px;
+  }
 `
 
 export const Arrows = styled.div`
@@ -38,8 +45,6 @@ export const Menus = styled.div`
     margin: 0 10px;
   }
 `
-
-export const HomeBtns = styled.div``
 
 export const IconButton = styled.button`
   background-color: transparent;

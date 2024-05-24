@@ -36,6 +36,10 @@ export const ScheduleBtn = styled.button`
   font-weight: 600;
   transition: background-color 0.2s ease;
 
+  .MuiCircularProgress-root {
+    color: white;
+  }
+
   &:hover {
     background-color: #0072b1;
   }
@@ -92,6 +96,48 @@ export const IconBtn = {
   borderRadius: '100%',
   minWidth: 'max-content'
 }
+
+export const Confirmation = styled.button`
+  width: 162px;
+  height: 43px;
+  border: none;
+  border-radius: 6px;
+  background-color: #0575e6;
+  color: white;
+  font-weight: 600;
+  font-size: 16px;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: #0072b1;
+  }
+
+  &:active {
+    background-color: #005c91;
+  }
+`
+
+export const Cancel = styled.button`
+  width: 162px;
+  height: 43px;
+  border-radius: 6px;
+  border: 1px solid #0575e6;
+  background-color: white;
+  color: #0575e6;
+  font-weight: 600;
+  font-size: 16px;
+  transition: background-color 0.2s ease, color 0.2s ease;
+
+  &:hover {
+    background-color: #0575e6;
+    color: white;
+  }
+
+  &:active {
+    background-color: #005c91;
+    color: white;
+  }
+`
 
 export const NewEventButton = styled.button`
   background-color: rgb(3, 155, 229);

@@ -52,23 +52,26 @@ export const NewEventModal = ({ open, onClose, defaultDay }: NewEventProps) => {
       getAndSet(getCompanySchedule(user?.companyId), setCompany)
       reset({ date: getDefaultDate() })
     }
-    if (defaultDay && open) {
-      fetchTimes(getDefaultDate())
-    }
     return () => reset()
   }, [open])
 
-  const fetchTimes = (value: string) => {
+  const fetchTimes = (value: string, serviceId?: string) => {
     resetField('hour')
     getAndSet(
-      getAvailableTimes(user?.companyId ?? '', value, serviceField, user?.id),
+      getAvailableTimes(
+        user?.companyId ?? '',
+        value,
+        serviceId ?? serviceField,
+        user?.id
+      ),
       setTimeOptions
     )
   }
 
-  const onServiceChange = () => {
+  const onServiceChange = (serviceId: string) => {
     resetField('hour')
     resetField('date')
+    fetchTimes(getDefaultDate(), serviceId)
   }
 
   const handleFormSubmit = async (values: FieldValues) => {
@@ -129,7 +132,6 @@ export const NewEventModal = ({ open, onClose, defaultDay }: NewEventProps) => {
             name="date"
             control={control}
             label="Data *"
-            minDate={company?.minDate ?? ''}
             maxDate={company?.maxDate ?? ''}
             unavailableDates={company?.unavailableDates ?? []}
             disabled={!serviceField}

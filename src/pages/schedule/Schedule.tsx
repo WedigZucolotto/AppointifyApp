@@ -6,6 +6,7 @@ import {
   CreateEventRequest,
   useCompanies,
   useEvents,
+  useLocalStorage,
   useTryCatch
 } from '../../hooks'
 import { FieldValues, useForm } from 'react-hook-form'
@@ -27,7 +28,7 @@ interface FormData {
 }
 
 export const Schedule = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [loading, setLoading] = useState({ page: true, btn: false })
   const [company, setCompany] = useState<CompanyScheduleData>()
   const [timeOptions, setTimeOptions] = useState<AvailableTime[]>()
 
@@ -35,6 +36,7 @@ export const Schedule = () => {
   const { createEvent } = useEvents()
 
   const { callApi, getAndSet } = useTryCatch()
+  const { setStorage } = useLocalStorage({})
 
   const { control, handleSubmit, watch, resetField } = useForm<FormData>({
     resolver: yupResolver(getScheduleSchema(company?.showExtraFields))
@@ -47,18 +49,16 @@ export const Schedule = () => {
   const navigate = useNavigate()
 
   useEffect(() => {
-    fetchCompanies()
+    fetchCompany()
   }, [])
 
-  const fetchCompanies = async () => {
+  const fetchCompany = async () => {
     const { data, success } = await callApi(getCompanySchedule(companyId))
 
     if (data && success) {
       setCompany(data)
-      setIsLoading(false)
-      return
+      setLoading((loading) => ({ ...loading, page: false }))
     }
-    navigate('/404')
   }
 
   const fetchTimes = (value: string) => {
@@ -67,6 +67,8 @@ export const Schedule = () => {
   }
 
   const handleFormSubmit = async (values: FieldValues) => {
+    setLoading((loading) => ({ ...loading, btn: true }))
+
     const { name, contact, date, service, hour } = values
     const dateTime = `${date} ${hour}`
 
@@ -85,7 +87,9 @@ export const Schedule = () => {
 
     if (success) {
       navigate('/success')
+      setStorage('scheduled', true)
     }
+    setLoading((loading) => ({ ...loading, btn: false }))
   }
 
   const onServiceChange = () => {
@@ -96,7 +100,7 @@ export const Schedule = () => {
   return (
     <S.Schedule onSubmit={handleSubmit(handleFormSubmit)}>
       <h2>Appointify</h2>
-      {!isLoading ? (
+      {!loading.page ? (
         <S.ScheduleForm>
           <S.Title>Faça seu Agendamento</S.Title>
           <TextInput
@@ -145,7 +149,6 @@ export const Schedule = () => {
             name="date"
             control={control}
             label="Data *"
-            minDate={company?.minDate ?? ''}
             maxDate={company?.maxDate ?? ''}
             unavailableDates={company?.unavailableDates ?? []}
             disabled={!serviceField}
@@ -161,7 +164,7 @@ export const Schedule = () => {
             disabled={!dateField}
           />
           <Button type="schedule" onClick={handleSubmit(handleFormSubmit)}>
-            Agendar
+            {loading.btn ? <CircularProgress size={20} /> : 'Agendar'}
           </Button>
         </S.ScheduleForm>
       ) : (
