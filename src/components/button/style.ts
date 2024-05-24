@@ -36,6 +36,10 @@ export const ScheduleBtn = styled.button`
   font-weight: 600;
   transition: background-color 0.2s ease;
 
+  .MuiCircularProgress-root {
+    color: white;
+  }
+
   &:hover {
     background-color: #0072b1;
   }

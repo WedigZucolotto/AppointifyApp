@@ -29,7 +29,7 @@ export const Header = ({ isCalendar = true }: HeaderProps) => {
   const { isDesktop } = useWindowWidth()
 
   useEffect(() => {
-    if (!isDesktop) {
+    if (!isDesktop && isCalendar) {
       setType('day')
     }
   }, [isDesktop])
@@ -115,12 +115,7 @@ export const Header = ({ isCalendar = true }: HeaderProps) => {
       <Visible when={isCalendar}>
         <Visible when={isDesktop}>
           <Button onClick={handleToday}>Hoje</Button>
-          <Select
-            onChange={handleSelectChange}
-            value={type}
-            size="small"
-            sx={{ fontSize: '0.93rem', color: 'rgb(60, 64, 67)' }}
-          >
+          <Select onChange={handleSelectChange} value={type} size="small">
             <MenuItem value="month">Mês</MenuItem>
             <MenuItem value="week">Semana</MenuItem>
             <MenuItem value="day">Dia</MenuItem>

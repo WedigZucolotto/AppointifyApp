@@ -1,7 +1,12 @@
 import { Navigate, useRoutes } from 'react-router-dom'
 import AuthOutlet from '@auth-kit/react-router/AuthOutlet'
 import useAuthUser from 'react-auth-kit/hooks/useAuthUser'
-import { CalendarContextProvider, LoginResponse, useWindowWidth } from './hooks'
+import {
+  CalendarContextProvider,
+  LoginResponse,
+  useLocalStorage,
+  useWindowWidth
+} from './hooks'
 import {
   Login,
   Schedule,
@@ -18,6 +23,7 @@ import {
 export const Routes = () => {
   const user = useAuthUser<LoginResponse>()
   const { isDesktop } = useWindowWidth()
+  const { hasKey } = useLocalStorage({ key: 'scheduled' })
 
   const calendarRoutes = [
     { path: ':userId/day', element: <Day /> },
@@ -48,7 +54,10 @@ export const Routes = () => {
       path: 'login',
       element: user ? <Navigate to={`/calendar/${user?.id}/day`} /> : <Login />
     },
-    { path: ':companyId/schedule', element: <Schedule /> },
+    {
+      path: ':companyId/schedule',
+      element: hasKey ? <Navigate to="/success" /> : <Schedule />
+    },
     { path: 'success', element: <Success /> },
     {
       path: 'calendar',
