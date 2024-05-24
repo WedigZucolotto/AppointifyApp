@@ -11,7 +11,6 @@ export interface CompanyData {
 export type UpdateCompanyRequest = Partial<Omit<CompanyData, 'id'>>
 
 export interface CompanyScheduleData {
-  minDate: string
   maxDate: string
   unavailableDates: string[]
   showExtraFields: boolean

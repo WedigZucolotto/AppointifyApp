@@ -8,7 +8,6 @@ interface DateInputProps<TFieldValues extends FieldValues> {
   name: Path<TFieldValues>
   control: Control<TFieldValues>
   label: string
-  minDate: string
   unavailableDates: string[]
   maxDate?: string
   onChange?: (value: string) => void
@@ -20,7 +19,6 @@ export function DateInput<TFieldValues extends FieldValues = FieldValues>({
   name,
   control,
   label,
-  minDate,
   maxDate,
   unavailableDates,
   onChange,
@@ -48,7 +46,7 @@ export function DateInput<TFieldValues extends FieldValues = FieldValues>({
         format={field.value}
         onChange={changeEventHandler}
         slotProps={{ textField: { placeholder: 'Selecione' } }}
-        minDate={dayjs(minDate)}
+        minDate={dayjs()}
         maxDate={dayjs(maxDate) ?? null}
         shouldDisableDate={(date) =>
           unavailableDates.some((d) => date.isSame(d))
