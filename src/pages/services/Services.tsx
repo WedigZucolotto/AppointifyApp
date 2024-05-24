@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { Button, ConfirmationModal, Header } from '../../components'
+import { Button, ConfirmationModal, Header, Visible } from '../../components'
 import * as S from './style'
 import { NewService } from '../../components/modals/newService/NewService'
 import { Row } from '../../components/row/Row'
@@ -11,6 +11,7 @@ import {
   useTryCatch
 } from '../../hooks'
 import { useParams } from 'react-router-dom'
+import { CircularProgress } from '@mui/material'
 
 export type ModalTypes = 'edit' | 'delete' | 'closed'
 
@@ -53,15 +54,20 @@ export const Services = () => {
           <Add fontSize="large" />
           <span>Novo serviço</span>
         </Button>
-        {services.map((service) => (
-          <Row
-            key={service.id}
-            name={service.name}
-            interval={service.interval}
-            handleEdit={() => changeModal('edit', service.id)}
-            handleDelete={() => changeModal('delete', service.id)}
-          />
-        ))}
+        <S.Content $isLoading={!services.length}>
+          <Visible when={!services.length}>
+            <CircularProgress />
+          </Visible>
+          {services.map((service) => (
+            <Row
+              key={service.id}
+              name={service.name}
+              interval={service.interval}
+              handleEdit={() => changeModal('edit', service.id)}
+              handleDelete={() => changeModal('delete', service.id)}
+            />
+          ))}
+        </S.Content>
       </S.Services>
       <NewService
         open={modal.type === 'edit'}

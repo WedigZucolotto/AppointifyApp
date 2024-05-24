@@ -9,6 +9,7 @@ interface TimeInputProps<TFieldValues extends FieldValues> {
   label: string
   //onChange?: (value: string) => void
   disabled?: boolean
+  size?: number
 }
 
 export function TimeInput<TFieldValues extends FieldValues = FieldValues>({
@@ -16,7 +17,8 @@ export function TimeInput<TFieldValues extends FieldValues = FieldValues>({
   control,
   label,
   //onChange,
-  disabled
+  disabled,
+  size = 240
 }: TimeInputProps<TFieldValues>) {
   const { fieldState, field } = useController({ name, control })
 
@@ -29,7 +31,7 @@ export function TimeInput<TFieldValues extends FieldValues = FieldValues>({
   //   }
 
   return (
-    <S.TimeInput>
+    <S.TimeInput size={size}>
       <label>{label}</label>
       <TimePicker
         className={fieldState.error ? 'error' : ''}
