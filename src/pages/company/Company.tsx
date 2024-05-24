@@ -28,9 +28,9 @@ export const Company = () => {
 
     if (data && success) {
       reset({
-        name: data.name
-        // open: data.open,
-        // close: data.close
+        name: data.name,
+        open: data.open,
+        close: data.close
       })
     }
   }
@@ -46,15 +46,8 @@ export const Company = () => {
   })
 
   const handleFormSubmit = async (values: FieldValues) => {
-    const request = {
-      ...values,
-      open: values.open.toLocaleString(),
-      close: values.close.toLocaleString()
-    }
-
-    console.log(request)
     await fetchWithMessage(
-      updateCompany(companyId, request as UpdateCompanyRequest),
+      updateCompany(companyId, values as UpdateCompanyRequest),
       'Editado com sucesso!'
     )
     fetchCompany()
