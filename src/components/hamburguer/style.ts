@@ -12,6 +12,14 @@ export const Hamburguer = styled.div`
     box-shadow: 0 24px 38px 3px rgba(0, 0, 0, 0.14),
       0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2);
   }
+
+  p {
+    font-size: 14px;
+    text-align: center;
+    position: absolute;
+    bottom: 50px;
+    left: 47.64px;
+  }
 `
 
 export const HamburguerBtn = styled.button`
@@ -19,4 +27,12 @@ export const HamburguerBtn = styled.button`
   background: transparent;
   padding-left: 20px;
   padding-top: 23.5px;
+`
+
+export const Menu = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  margin-top: 50px;
 `

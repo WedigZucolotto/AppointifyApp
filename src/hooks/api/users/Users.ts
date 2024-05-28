@@ -29,6 +29,7 @@ export interface UserDayWeek {
   day: string
   week: string
   events: UserEvents
+  isPastDate: boolean
 }
 
 type UserEvents = { [K in string]: UserEvent[] }
@@ -43,5 +44,6 @@ export interface UserMonth {
   day: string
   week: string
   events: UserEvent[]
+  isPastDate: boolean
   more?: number
 }

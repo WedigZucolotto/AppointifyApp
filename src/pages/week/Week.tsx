@@ -32,6 +32,7 @@ export const Week = () => {
               hour={hour}
               events={week[calendarIndex]?.events[hour]}
               day={calendar.day}
+              isPastDate={calendar.isPastDate}
             />
           ))}
         </S.Column>

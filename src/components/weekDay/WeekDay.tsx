@@ -8,9 +8,16 @@ interface WeekDayProps {
   hour: string
   events: UserEvent[]
   day: string
+  isPastDate: boolean
 }
 
-export const WeekDay = ({ showHour, hour, events, day }: WeekDayProps) => {
+export const WeekDay = ({
+  showHour,
+  hour,
+  events,
+  day,
+  isPastDate
+}: WeekDayProps) => {
   const [showButton, setShowButton] = useState<boolean>(false)
 
   return (
@@ -25,7 +32,7 @@ export const WeekDay = ({ showHour, hour, events, day }: WeekDayProps) => {
         <Event key={eventIndex} name={event.title} id={event.id} />
       ))}
       <NewEventButton
-        open={showButton}
+        open={showButton && !isPastDate}
         onClose={() => setShowButton(false)}
         day={day}
       />

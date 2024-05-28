@@ -46,6 +46,7 @@ export const MonthDay = ({
             name={event.title}
             id={event.id}
             time={event.time}
+            onClick={() => changeTab('day', userId, calendar.day)}
           />
         ))}
         <Visible when={!!calendar.more}>
@@ -55,7 +56,7 @@ export const MonthDay = ({
         </Visible>
       </S.MonthDayContent>
       <NewEventButton
-        open={showButton}
+        open={showButton && !calendar.isPastDate}
         onClose={() => setShowButton(false)}
         day={calendar.day}
       />

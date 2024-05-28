@@ -72,6 +72,7 @@ export const Day = () => {
           day={day?.day ?? ''}
           events={day?.events[hour] ?? []}
           hour={hour}
+          isPastDate={day?.isPastDate ?? false}
         />
       ))}
     </CalendarLayout>

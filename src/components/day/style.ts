@@ -6,6 +6,7 @@ export const Day = styled.div`
   height: 50px;
   padding: 5px 20px 5px 5px;
   display: flex;
+  gap: 5px;
   align-items: center;
   width: 100%;
   position: relative;

@@ -9,7 +9,7 @@ import {
   Home,
   CalendarMonth
 } from '@mui/icons-material'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import {
   CalendarType,
   LoginResponse,
@@ -26,6 +26,7 @@ interface HeaderProps {
 
 export const Header = ({ isCalendar = true }: HeaderProps) => {
   const navigate = useNavigate()
+  const location = useLocation()
   const { isDesktop } = useWindowWidth()
 
   useEffect(() => {
@@ -33,6 +34,13 @@ export const Header = ({ isCalendar = true }: HeaderProps) => {
       setType('day')
     }
   }, [isDesktop])
+
+  useEffect(() => {
+    const routes = location.pathname.split('/')
+    const lastRoute = routes[routes.length - 1]
+    
+    setType(lastRoute as CalendarType)
+  }, [location])
 
   const user = useAuthUser<LoginResponse>()
   const signOut = useSignOut()
@@ -134,7 +142,7 @@ export const Header = ({ isCalendar = true }: HeaderProps) => {
       <Visible when={isDesktop}>
         <S.Menus>
           <span>{user?.completeName}</span>
-          <Visible when={true}>
+          <Visible when={!!user?.isOwner}>
             <Menu options={companyOptions}>
               <Apartment />
             </Menu>
