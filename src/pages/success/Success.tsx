@@ -4,7 +4,7 @@ import check from '../../img/check.png'
 export const Success = () => {
   return (
     <S.Success>
-      <h2>Appointify</h2>
+      <h2>AppointTrack</h2>
       <div className="main">
         <div className="container">
           <div className="left-side">
@@ -18,20 +18,20 @@ export const Success = () => {
           </div>
           <hr />
           <div className="right-side">
-            <p>Obrigado por usar o Elite Scheduler.</p>
+            <p>Obrigado por usar o AppointTrack.</p>
             <div>
-              <p>Para mais informações visite a página de <a href="#">suporte</a></p>
+              <p>
+                Para mais informações visite a página de <a href="#">suporte</a>
+              </p>
             </div>
           </div>
         </div>
         <div className="note">
           <p>
             Nota: Não solicitamos seus dados bancários e de cartão de crédito
-            verbalmente ou por telefone. Por favor, não
-          </p>
-          <p>
-            divulgue seus dados para fraudadores e impostores que alegam
-            falsamente fazer parte do Elite Scheduler.
+            verbalmente ou por telefone. Por favor, não <br /> divulgue seus
+            dados para fraudadores e impostores que alegam falsamente fazer
+            parte do AppointTrack.
           </p>
         </div>
       </div>

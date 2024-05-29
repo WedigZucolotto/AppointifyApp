@@ -7,8 +7,9 @@ export const Success = styled.div`
   }
 
   .main {
-    position: relative;
-    border: 1px solid;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #c0c0c0;
     width: 70%;
     height: 630px;
     margin: auto;
@@ -45,7 +46,7 @@ export const Success = styled.div`
 
   hr {
     height: 270px;
-    background-color: black;
+    color: #ECECEC;
   }
 
   .container {
@@ -59,28 +60,90 @@ export const Success = styled.div`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-top: 100px;
     gap: 80px;
     margin-left: 70px;
   }
 
-  .right-side > div{
+  .right-side > div {
     display: flex;
     flex-direction: column;
     align-items: center;
   }
 
-  .note{
+  .note {
     display: flex;
     flex-direction: column;
+    margin-top: auto;
     align-items: center;
-    position: absolute;
-    bottom: 0;
-    left: 250px;
     margin-bottom: 50px;
   }
 
   .note > p {
     color: #656565;
     font-weight: 500;
+  }
+
+  .processing {
+    display: none;
+  }
+
+  .right-side > div > p {
+    display: none;
+  }
+
+  @media (max-width: 700px) {
+    .main {
+      display: flex;
+      flex-direction: column;
+      margin-top: 70px;
+      width: 321px;
+      height: 446px;
+    }
+
+    .left-side {
+      display: flex;
+      align-items: center;
+      margin-left: 60px;
+      margin-top: -20px;
+    }
+
+    .right-side {
+      margin-top: 50px;
+    }
+
+    .right-side > p {
+      width: 350px;
+      color: #656565;
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .with-success {
+      font-size: 20px;
+      width: 250px;
+    }
+
+    .note {
+      margin-left: 1px;
+      margin-top: 15px;
+      font-size: 10px;
+      text-align: center;
+    }
+
+    hr {
+      display: none;
+    }
+
+    .processing {
+      display: none;
+    }
+
+    .right-side > div > p {
+      display: none;
+    }
   }
 `
