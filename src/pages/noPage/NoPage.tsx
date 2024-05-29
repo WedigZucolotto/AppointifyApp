@@ -10,16 +10,18 @@ export const NoPage = () => {
         <img src={error} alt="" />
         <span className="regua"></span>
         <div className="container">
-          <div>
+          <div className='third-container'>
             <h1>Esta página não foi encontrada</h1>
             <div className="centeredTxt">
-              <p>Esta página não existe ou foi removida!</p>
-              <p>Sugerimos que você tente novamente ou vá para a página</p>
-              <p>inicial.</p>
+              <p>
+                Esta página não existe ou foi removida! <br /> Sugerimos que
+                você tente novamente
+                <span className="break-line">ou vá para a página inicial.</span>
+              </p>
             </div>
-            <Button type="noPage" onClick={() => {}}>
-              VOLTAR À PÁGINA INICIAL
-            </Button>
+              <Button type="noPage" onClick={() => {}}>
+                VOLTAR À PÁGINA INICIAL
+              </Button>
           </div>
         </div>
       </div>
