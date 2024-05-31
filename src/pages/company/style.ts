@@ -5,8 +5,20 @@ export const Company = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
+
+  @media (max-width: 700px) {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 `
 
 export const Title = styled.h2`
   margin-bottom: 20px;
+
+  @media (max-width: 700px) {
+    display: flex;
+    margin-right: 50px;
+    width: 192px;
+  }
 `
