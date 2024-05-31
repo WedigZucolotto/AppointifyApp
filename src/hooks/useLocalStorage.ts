@@ -1,16 +1,8 @@
-import { useEffect, useState } from 'react'
-
 interface LocalStorageProps {
   key?: string
 }
 
 export const useLocalStorage = ({ key = '' }: LocalStorageProps) => {
-  const [hasKey, setHasKey] = useState<boolean>(false)
-
-  useEffect(() => {
-    verifyStorage()
-  }, [])
-
   const getStorage = (key: string) => {
     const item = localStorage.getItem(key)
     return item ? JSON.parse(item) : ''
@@ -26,7 +18,7 @@ export const useLocalStorage = ({ key = '' }: LocalStorageProps) => {
     const item = localStorage.getItem(key)
 
     if (!item) {
-      return
+      return false
     }
 
     const parsedItem = JSON.parse(item)
@@ -35,10 +27,10 @@ export const useLocalStorage = ({ key = '' }: LocalStorageProps) => {
 
     if (now > expirationDate) {
       localStorage.removeItem(key)
-      return
+      return false
     }
-    setHasKey(true)
+    return true
   }
 
-  return { hasKey, getStorage, setStorage }
+  return { verifyStorage, getStorage, setStorage }
 }

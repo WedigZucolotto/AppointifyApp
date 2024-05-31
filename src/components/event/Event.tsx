@@ -7,15 +7,20 @@ interface EventProps {
   name: string
   id: string
   time?: string
+  onClick?: () => void
 }
 
-export const Event = ({ name, id, time = '' }: EventProps) => {
+export const Event = ({ name, id, onClick, time = '' }: EventProps) => {
   const [openModal, setOpenModal] = useState<boolean>(false)
+
+  const handleClick = () => {
+    onClick?.call(null) ?? setOpenModal(true)
+  }
 
   return (
     <>
-      <S.Event onClick={() => setOpenModal(true)}>
-        <span>{name}</span>
+      <S.Event onClick={handleClick}>
+        <span className="name">{name}</span>
         <Visible when={!!time}>
           <span>{time}</span>
         </Visible>

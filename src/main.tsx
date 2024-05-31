@@ -8,6 +8,12 @@ import { BrowserRouter } from 'react-router-dom'
 import AuthProvider from 'react-auth-kit'
 import createStore from 'react-auth-kit/createStore'
 import { Routes } from './routes'
+import 'dayjs/locale/pt-br'
+import customParseFormat from 'dayjs/plugin/customParseFormat'
+import dayjs from 'dayjs'
+
+dayjs.extend(customParseFormat)
+dayjs.locale('pt-br')
 
 const element = document.getElementById('root') as HTMLElement
 const root = ReactDOM.createRoot(element)

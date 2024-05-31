@@ -40,7 +40,8 @@ export const useUsers = () => {
       userState: {
         id: data.id,
         completeName: data.completeName,
-        companyId: data.companyId
+        companyId: data.companyId,
+        isOwner: data.isOwner
       }
     })
 

@@ -23,6 +23,7 @@ export const DateInput = styled.div<DateInputProps>`
   }
 
   .MuiInputBase-root {
+    //TODO: ver para trocar para fff
     background-color: #f9f9f9;
     color: black;
     height: 42px;

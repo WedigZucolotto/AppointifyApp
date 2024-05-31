@@ -2,6 +2,11 @@ import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { MenuToggle } from './MenuToggle'
 import * as S from './style'
+import useAuthUser from 'react-auth-kit/hooks/useAuthUser'
+import useSignOut from 'react-auth-kit/hooks/useSignOut'
+import { Visible } from '..'
+import { LoginResponse } from '../../hooks'
+import { useNavigate } from 'react-router-dom'
 
 const sidebar = {
   open: {
@@ -18,6 +23,15 @@ const sidebar = {
 
 export const Hamburguer = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false)
+
+  const user = useAuthUser<LoginResponse>()
+  const signOut = useSignOut()
+  const navigate = useNavigate()
+
+  const logout = () => {
+    signOut()
+    navigate('/')
+  }
 
   useEffect(() => {
     handleScroll(isOpen ? 'hidden' : '')
@@ -37,6 +51,29 @@ export const Hamburguer = () => {
         variants={sidebar}
       >
         <MenuToggle toggle={() => setIsOpen((open) => !open)} />
+        <S.Menu>
+          <Visible when={!!user?.isOwner}>
+            <a onClick={() => navigate(`/calendar/${user?.companyId}/company`)}>
+              Editar empresa
+            </a>
+            <a
+              onClick={() => navigate(`/calendar/${user?.companyId}/services`)}
+            >
+              Serviços
+            </a>
+          </Visible>
+          <a onClick={() => navigate(`/calendar/${user?.id}/user`)}>
+            Editar usuário
+          </a>
+          <a onClick={() => navigate(`/calendar/${user?.id}/day`)}>
+            Calendário
+          </a>
+          <a onClick={logout}>Sair</a>
+        </S.Menu>
+        <div className='description'>
+          <p>AppointTrack</p>
+          <p>Copyright by 2024 Wedig & Zucolotto, Inc</p>
+        </div>
       </motion.nav>
     </S.Hamburguer>
   )

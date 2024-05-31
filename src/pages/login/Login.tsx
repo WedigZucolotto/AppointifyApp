@@ -41,13 +41,13 @@ export const Login = () => {
     <S.Login>
       <section className="left-side">
         <div>
-          <h1>Appointify</h1>
+          <h1>AppointTrack</h1>
           <p>O melhor serviço de agendamento</p>
         </div>
         <img src={line} alt="" />
       </section>
       <form className="right-side">
-        <h2>Appointify</h2>
+        <h2>AppointTrack</h2>
         <div className="title">
           <p className="welcome">Bem vindo!</p>
           <p>Faça login para começar</p>

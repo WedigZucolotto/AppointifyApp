@@ -1,7 +1,10 @@
 import * as S from './style'
 import check from '../../img/check.png'
+import { useLocalStorage } from '../../hooks'
 
 export const Success = () => {
+  const { getStorage } = useLocalStorage({ key: 'scheduled' })
+  
   return (
     <S.Success>
       <h2>AppointTrack</h2>

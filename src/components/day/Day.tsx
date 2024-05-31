@@ -7,9 +7,10 @@ interface DayProps {
   hour: string
   events: UserEvent[]
   day: string
+  isPastDate: boolean
 }
 
-export const Day = ({ hour, events, day }: DayProps) => {
+export const Day = ({ hour, events, day, isPastDate }: DayProps) => {
   const [showButton, setShowButton] = useState<boolean>(false)
 
   return (
@@ -22,7 +23,7 @@ export const Day = ({ hour, events, day }: DayProps) => {
         <Event key={eventIndex} name={event.title} id={event.id} />
       ))}
       <NewEventButton
-        open={showButton}
+        open={showButton && !isPastDate}
         onClose={() => setShowButton(false)}
         day={day}
       />

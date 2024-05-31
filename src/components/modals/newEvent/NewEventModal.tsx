@@ -42,10 +42,19 @@ export const NewEventModal = ({ open, onClose, defaultDay }: NewEventProps) => {
     if (defaultDay) {
       const newDate = new Date()
       newDate.setDate(parseInt(defaultDay))
+
+      if (isPastDate(newDate)) {
+        return new Date().toLocaleDateString()
+      }
       return newDate.toLocaleDateString()
+    }
+    if (isPastDate(date)) {
+      return new Date().toLocaleDateString()
     }
     return date.toLocaleDateString()
   }
+
+  const isPastDate = (date: Date) => new Date() > date
 
   useEffect(() => {
     if (user?.id && open) {
@@ -145,7 +154,7 @@ export const NewEventModal = ({ open, onClose, defaultDay }: NewEventProps) => {
           }
           name="hour"
           control={control}
-          disabled={!defaultDay && (!serviceField || !dateField)}
+          disabled={!serviceField || !dateField}
         />
         <Button type="schedule" onClick={handleSubmit(handleFormSubmit)}>
           Agendar
