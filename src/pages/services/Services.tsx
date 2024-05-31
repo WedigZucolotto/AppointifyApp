@@ -50,10 +50,12 @@ export const Services = () => {
       <Header isCalendar={false} />
       <S.Services>
         <S.Title>Serviços</S.Title>
-        <Button type="newEvent" onClick={() => changeModal('edit')}>
-          <Add fontSize="large" />
-          <span>Novo serviço</span>
-        </Button>
+        <S.Button>
+          <Button type="newEvent" onClick={() => changeModal('edit')}>
+            <Add fontSize="large" />
+            <span>Novo serviço</span>
+          </Button>
+        </S.Button>
         <S.Content $isLoading={!services.length}>
           <Visible when={!services.length}>
             <CircularProgress />
