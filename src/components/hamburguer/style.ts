@@ -13,12 +13,12 @@ export const Hamburguer = styled.div`
       0 9px 46px 8px rgba(0, 0, 0, 0.12), 0 11px 15px -7px rgba(0, 0, 0, 0.2);
   }
 
-  p {
+  .description {
     font-size: 14px;
     text-align: center;
     position: absolute;
-    bottom: 50px;
-    left: 47.64px;
+    bottom: 0;
+    padding: 50px 25px;
   }
 `
 

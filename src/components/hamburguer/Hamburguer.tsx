@@ -70,7 +70,10 @@ export const Hamburguer = () => {
           </a>
           <a onClick={logout}>Sair</a>
         </S.Menu>
-        <p>Wedig&Zucolotto - Appointify</p>
+        <div className='description'>
+          <p>AppointTrack</p>
+          <p>Copyright by 2024 Wedig & Zucolotto, Inc</p>
+        </div>
       </motion.nav>
     </S.Hamburguer>
   )

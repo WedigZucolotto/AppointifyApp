@@ -69,14 +69,15 @@ export const Schedule = () => {
   const handleFormSubmit = async (values: FieldValues) => {
     setLoading((loading) => ({ ...loading, btn: true }))
 
-    const { name, contact, date, service, hour } = values
+    const { name, lastname, contact, date, service, hour } = values
     const dateTime = `${date} ${hour}`
+    const completeName = `${name} ${lastname}`
 
     const time = timeOptions?.find((t) => t.time === hour)
     const userId = time?.userId ?? ''
 
     const eventData: CreateEventRequest = {
-      name,
+      name: completeName,
       contact,
       date: dateTime,
       serviceId: service,
@@ -86,8 +87,11 @@ export const Schedule = () => {
     const { success } = await callApi(createEvent(eventData))
 
     if (success) {
+      const serviceName = company?.services.find(
+        (s) => s.value === service
+      )?.name
+      setStorage('scheduled', { completeName, date, serviceName: serviceName })
       navigate('/success')
-      setStorage('scheduled', true)
     }
     setLoading((loading) => ({ ...loading, btn: false }))
   }
@@ -99,7 +103,7 @@ export const Schedule = () => {
 
   return (
     <S.Schedule onSubmit={handleSubmit(handleFormSubmit)}>
-      <h2>Appointify</h2>
+      <h2>AppointTrack</h2>
       {!loading.page ? (
         <S.ScheduleForm>
           <S.Title>Faça seu Agendamento</S.Title>

@@ -9,6 +9,7 @@ export const InputErrorBox = styled.div`
   margin-top: 5px;
 
   .message {
+    //TODO: ver esse vermelho
     color: red;
     font-size: 13px;
   }

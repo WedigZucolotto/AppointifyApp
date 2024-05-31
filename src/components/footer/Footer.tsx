@@ -6,7 +6,7 @@ export const Footer = () => {
     <S.Footer>
       <S.Logo>
         <img src={Logo} alt="" />
-        <p className='name'>Appointify</p>
+        <p className='name'>AppointTrack</p>
         <p className='copy'>Copyright by 2024 Wedig & Zucolotto, Inc</p>
       </S.Logo>
       <S.Terms>
