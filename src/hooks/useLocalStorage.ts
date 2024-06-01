@@ -1,8 +1,4 @@
-interface LocalStorageProps {
-  key?: string
-}
-
-export const useLocalStorage = ({ key = '' }: LocalStorageProps) => {
+export const useLocalStorage = () => {
   const getStorage = (key: string) => {
     const item = localStorage.getItem(key)
     return item ? JSON.parse(item) : ''
@@ -14,7 +10,7 @@ export const useLocalStorage = ({ key = '' }: LocalStorageProps) => {
     localStorage.setItem(key, JSON.stringify({ value, expirationDate: now }))
   }
 
-  const verifyStorage = () => {
+  const verifyStorage = (key: string) => {
     const item = localStorage.getItem(key)
 
     if (!item) {

@@ -46,7 +46,7 @@ export const Success = styled.div`
 
   hr {
     height: 270px;
-    color: #ECECEC;
+    color: #ececec;
   }
 
   .container {
@@ -69,6 +69,14 @@ export const Success = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+  }
+
+  .info {
+    margin: auto;
+  }
+
+  .info-name{
+    font-weight: 600;
   }
 
   .note {
@@ -98,7 +106,7 @@ export const Success = styled.div`
       flex-direction: column;
       margin-top: 70px;
       width: 321px;
-      height: 446px;
+      height: 480px;
     }
 
     .left-side {
@@ -109,7 +117,7 @@ export const Success = styled.div`
     }
 
     .right-side {
-      margin-top: 50px;
+      margin-top: 30px;
     }
 
     .right-side > p {
@@ -127,9 +135,15 @@ export const Success = styled.div`
       width: 250px;
     }
 
+    .info{
+      margin-top: -30px;
+      font-size: 14px;
+    }
+
     .note {
       margin-left: 1px;
       margin-top: 15px;
+      margin-bottom: 10px;
       font-size: 10px;
       text-align: center;
     }

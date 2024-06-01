@@ -3,8 +3,9 @@ import check from '../../img/check.png'
 import { useLocalStorage } from '../../hooks'
 
 export const Success = () => {
-  const { getStorage } = useLocalStorage({ key: 'scheduled' })
-  
+  const { getStorage } = useLocalStorage()
+  const schedule = getStorage('scheduled')
+
   return (
     <S.Success>
       <h2>AppointTrack</h2>
@@ -28,6 +29,19 @@ export const Success = () => {
               </p>
             </div>
           </div>
+        </div>
+        <div className="info">
+          <p>
+            <span className="info-name">Nome completo:</span>{' '}
+            {schedule?.value.completeName}
+          </p>
+          <p>
+            <span className="info-name">Data e Hora:</span> {schedule?.value.dateTime}
+          </p>
+          <p>
+            <span className="info-name">Serviço:</span>{' '}
+            {schedule?.value.serviceName}
+          </p>
         </div>
         <div className="note">
           <p>
