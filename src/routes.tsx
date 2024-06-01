@@ -23,7 +23,7 @@ import {
 export const Routes = () => {
   const user = useAuthUser<LoginResponse>()
   const { isDesktop } = useWindowWidth()
-  const { verifyStorage } = useLocalStorage({ key: 'scheduled' })
+  const { verifyStorage } = useLocalStorage()
 
   const calendarRoutes = [
     { path: ':userId/day', element: <Day /> },
@@ -56,11 +56,11 @@ export const Routes = () => {
     },
     {
       path: ':companyId/schedule',
-      element: verifyStorage() ? <Navigate to="/success" /> : <Schedule />
+      element: verifyStorage("scheduled") ? <Navigate to="/success" /> : <Schedule />
     },
     {
       path: 'success',
-      element: verifyStorage() ? <Success /> : <Navigate to="/404" />
+      element: verifyStorage("scheduled") ? <Success /> : <Navigate to="/404" />
     },
     {
       path: 'calendar',

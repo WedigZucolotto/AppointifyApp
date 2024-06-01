@@ -36,7 +36,7 @@ export const Schedule = () => {
   const { createEvent } = useEvents()
 
   const { callApi, getAndSet } = useTryCatch()
-  const { setStorage } = useLocalStorage({})
+  const { setStorage } = useLocalStorage()
 
   const { control, handleSubmit, watch, resetField } = useForm<FormData>({
     resolver: yupResolver(getScheduleSchema(company?.showExtraFields))
@@ -90,7 +90,7 @@ export const Schedule = () => {
       const serviceName = company?.services.find(
         (s) => s.value === service
       )?.name
-      setStorage('scheduled', { completeName, date, serviceName: serviceName })
+      setStorage('scheduled', { completeName, dateTime, serviceName: serviceName })
       navigate('/success')
     }
     setLoading((loading) => ({ ...loading, btn: false }))

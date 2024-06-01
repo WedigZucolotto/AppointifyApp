@@ -1,5 +1,5 @@
 import * as S from './style'
-import Logo from '../../img/logo appoint.svg'
+import Logo from '../../img/logo-appoint.svg'
 
 export const Footer = () => {
   return (
